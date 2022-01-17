@@ -1,0 +1,2 @@
+/home/tzq/codetest/learcmake/CMakeFiles/rebuild_cache.dir
+/home/tzq/codetest/learcmake/CMakeFiles/edit_cache.dir
