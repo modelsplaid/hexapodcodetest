@@ -112,7 +112,7 @@ def make_section_type2(div1, div2):
             html.Div(div2,style={'padding': '10px 10px'}),
 
         ],
-        style={"display": "block"},
+        style={"display": "block"}, # blcok is vertical 
     )
 
 slider_pos_vertical1 = make_section_type2(daq_slider_x0y0 , daq_slider_x1y0 )
@@ -123,7 +123,8 @@ slider_mix = html.Div(
             slider_pos_vertical1,
             slider_pos_vertical2 
         ],
-        style={"display": "flex"},
+        style={"display": "flex"}, # flex is horizontal
+        #style={}, # flex is horizontal
     )
 
 app.layout = html.Div([
