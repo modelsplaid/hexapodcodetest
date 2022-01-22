@@ -59,15 +59,26 @@ print(HEXAPOD_FIGURE["data"][1]['x'])
 app = dash.Dash(__name__)
 app.layout = html.Div(
     children=[  
-            dcc.Interval(id='interval1', interval=1 * 1000, n_intervals=10),
+            dcc.Interval(id='interval1', interval=1 * 1000, n_intervals=10,disabled = True),
             html.H1(id='label1', children=''),
             html.Div(className='eight columns div-for-charts bg-grey',
                     children=[
                     dcc.Graph(id='timeseries_graph', figure=HEXAPOD_FIGURE)
             ]),
-            html.Button(id='submit-button-state', n_clicks=0, children='Submit')                            
+            html.Button(id='submit-button-state', n_clicks=0, children='Submit'),                            
+            html.Button(id='activate_interval', n_clicks=0, children='activate interval')                            
         ]
 )
+
+@app.callback(dash.dependencies.Output('interval1', 'disabled'),[dash.dependencies.Input('activate_interval', 'n_clicks')])
+def activate_interval(n):
+    print(" activate interval -- in clicks: "+str(n))
+    if (n%2==0):
+        return False    
+    else:
+        return True        
+
+
 
 @app.callback(dash.dependencies.Output('timeseries_graph', 'figure'),
     [dash.dependencies.Input('submit-button-state', 'n_clicks'),
