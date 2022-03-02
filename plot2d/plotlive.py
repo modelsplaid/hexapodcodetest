@@ -13,6 +13,9 @@ X.append(1)
   
 Y = deque(maxlen = 10)
 Y.append(1)
+
+Z = deque(maxlen = 10)
+Z.append(1)
   
 app = dash.Dash(__name__)
   
@@ -21,7 +24,7 @@ app.layout = html.Div(
         dcc.Graph(id = 'live-graph', animate = False),
         dcc.Interval(
             id = 'graph-update',
-            interval = 50,
+            interval = 100,
             n_intervals = 100
         ),
     ]
@@ -34,16 +37,24 @@ app.layout = html.Div(
   
 def update_graph_scatter(n):
     X.append(X[-1]+1)
-    Y.append( math.sin(n/10.0))
-  
+    Y.append( math.sin(n/10.0))	  	
+    Z.append( math.cos(n/10.0))	  	
     data = plotly.graph_objs.Scatter(
             x=list(X),
             y=list(Y),
             name='Scatter',
             mode= 'lines+markers'
     )
+
+    data2 = plotly.graph_objs.Scatter(
+            x=list(X),
+            y=list(Z),
+            name='Scatter2',
+            mode= 'lines+markers'
+    )
+
   
-    return {'data': [data],
+    return {'data': [data,data2],
             'layout' : go.Layout(xaxis=dict(range=[min(X),min(X)+10]),yaxis = dict(range = [-2,2]),)}
             
   

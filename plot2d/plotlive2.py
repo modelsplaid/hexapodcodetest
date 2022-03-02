@@ -1,3 +1,4 @@
+#https://community.plotly.com/t/exploring-a-transitions-api-for-dcc-graph/15468
 import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
