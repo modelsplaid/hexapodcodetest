@@ -17,6 +17,9 @@ Y.append(1)
 
 Z = deque(maxlen = 10)
 Z.append(1)
+
+W = deque(maxlen = 10)
+W.append(1)
 data3 = plotly.graph_objs.Scatter(
             x=list(X),
             y=list(Y),
@@ -44,7 +47,7 @@ app.layout = html.Div(
         dcc.Graph(id = 'live-graph', animate = False),
         dcc.Interval(
             id = 'graph-update',
-            interval = 100,
+            interval = 50,
             n_intervals = 100
         ),
     ]
@@ -59,25 +62,32 @@ def update_graph_scatter(n):
     X.append(X[-1]+1)
     Y.append( math.sin(n/10.0))	  	
     Z.append( math.cos(n/10.0))	  	
-    data = plotly.graph_objs.Scatter(
-            x=list(X),
-            y=list(Y),
-            name='Scatter',
-            mode= 'lines+markers'
-    )
+    Z.append( math.cos(n/10.0))	 
+    W.append( math.cos(n/10.0)+1)	 
+    #data = plotly.graph_objs.Scatter(
+    #        x=list(X),
+    #        y=list(Y),
+    #        name='Scatter',
+    #        mode= 'lines+markers'
+    #)   
+    #data2 = plotly.graph_objs.Scatter(
+    #    x=list(X),
+    #    y=list(Z),
+    #    name='Scatter2',
+    #    mode= 'lines+markers'
+    #)
     time1 = time.time()
     for i in range(20):
-        data2 = plotly.graph_objs.Scatter(
-            x=list(X),
-            y=list(Z),
-            name='Scatter2',
-            mode= 'lines+markers'
-        )
 
+        data_3plots[0]['x'] = list(X)
+        data_3plots[0]['y'] = list(Y)
+        data_3plots[1]['x'] = list(X)
+        data_3plots[1]['y'] = list(Z)
+        data_3plots[2]['x'] = list(X)
+        data_3plots[2]['y'] = list(W)
     time2 = time.time()
     print("running time: " +str((time2-time1)*1000) )
-
-    return {'data': [data,data2],
+    return {'data': data_3plots,
             'layout' : go.Layout(xaxis=dict(range=[min(X),min(X)+10]),yaxis = dict(range = [-2,2]),)}
             
   
