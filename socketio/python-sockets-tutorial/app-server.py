@@ -18,6 +18,12 @@ def accept_wrapper(sock):
     sel.register(conn, selectors.EVENT_READ, data=message)
 
 
+    # todo: write a send message function in libserver.py based on this return
+    return message
+
+    
+
+
 if len(sys.argv) != 3:
     print(f"Usage: {sys.argv[0]} <host> <port>")
     sys.exit(1)
@@ -30,16 +36,27 @@ lsock.bind((host, port))
 lsock.listen()
 print(f"Listening on {(host, port)}")
 lsock.setblocking(False)
-sel.register(lsock, selectors.EVENT_READ, data=None)
+
+print("lsock: "+str(lsock) )
+registerkey = sel.register(lsock, selectors.EVENT_READ, data=None)
 
 try:
     while True:
+        #print("in sel.select")
         events = sel.select(timeout=None)
+        #print("out sel.select")
+        #sel.get_key()
         for key, mask in events:
             if key.data is None:
+                print("key.fileobj: "+str(key.fileobj))
+                print("key: "+str(key))
                 accept_wrapper(key.fileobj)
             else:
+                messagekey = registerkey
                 message = key.data
+
+                print("messagekey: "+str(messagekey))
+                print("message: "+str(message))
                 try:
                     message.process_events(mask)
                 except Exception:
