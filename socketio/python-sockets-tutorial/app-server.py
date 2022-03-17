@@ -4,8 +4,8 @@ import sys
 import socket
 import selectors
 import traceback
-
 import libserver
+import time
 
 sel = selectors.DefaultSelector()
 
@@ -16,14 +16,9 @@ def accept_wrapper(sock):
     conn.setblocking(False)
     message = libserver.Message(sel, conn, addr)
     sel.register(conn, selectors.EVENT_READ, data=message)
-
-
-    # todo: write a send message function in libserver.py based on this return
     return message
 
     
-
-
 if len(sys.argv) != 3:
     print(f"Usage: {sys.argv[0]} <host> <port>")
     sys.exit(1)
@@ -40,6 +35,35 @@ lsock.setblocking(False)
 print("lsock: "+str(lsock) )
 registerkey = sel.register(lsock, selectors.EVENT_READ, data=None)
 
+
+messageobjs = []
+try:
+    while True:
+        #print("in sel.select")
+        events = sel.select(timeout=None)
+        #print("out sel.select")
+        for key, mask in events:
+            if key.data is None:
+                print("key.fileobj: "+str(key.fileobj))
+                print("key: "+str(key))
+                messageobj=accept_wrapper(key.fileobj)
+                while(True):
+                    print("sending data ...")
+                    messageobj.send_servo_data()
+                    time.sleep(0.5)
+
+            else:
+                print("key.data is not none")
+
+
+except KeyboardInterrupt:
+    print("Caught keyboard interrupt, exiting")
+finally:
+    sel.close()
+
+
+
+'''
 try:
     while True:
         #print("in sel.select")
@@ -69,3 +93,4 @@ except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
     sel.close()
+'''

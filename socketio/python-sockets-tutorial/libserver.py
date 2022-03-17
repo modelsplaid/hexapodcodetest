@@ -211,3 +211,9 @@ class Message:
         message = self._create_message(**response)
         self.response_created = True
         self._send_buffer += message
+
+    def send_servo_data(self):
+        bytesdata = "sent one data"
+        sent = self.sock.send(bytesdata.encode("utf-8"))
+        print("sent num of bytes: "+str(sent) )
+
