@@ -31,7 +31,8 @@ def start_connection(host, port, request):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)
     sock.connect_ex(addr)
-    events = selectors.EVENT_READ | selectors.EVENT_WRITE
+    #events = selectors.EVENT_READ | selectors.EVENT_WRITE
+    events = selectors.EVENT_READ
     message = libclient.Message(sel, sock, addr, request)
     sel.register(sock, events, data=message)
 

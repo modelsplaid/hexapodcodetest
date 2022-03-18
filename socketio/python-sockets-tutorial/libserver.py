@@ -22,6 +22,7 @@ class Message:
         self.jsonheader = None
         self.request = None
         self.response_created = False
+        self._request_queued = False
 
     def _set_selector_events_mask(self, mode):
         """Set selector to listen for events: mode is 'r', 'w', or 'rw'."""
@@ -62,7 +63,7 @@ class Message:
                 self._send_buffer = self._send_buffer[sent:]
                 # Close when the buffer is drained. The response has been sent.
                 if sent and not self._send_buffer:
-                    self.close()
+                    #self.close()
                     print("-----------done sending it")
 
     def _json_encode(self, obj, encoding):
@@ -119,7 +120,9 @@ class Message:
         if mask & selectors.EVENT_READ:
             self.read()
         if mask & selectors.EVENT_WRITE:
-            self.write()
+            #self.write()
+            self.write_direct()
+            # todo: test it 
 
     def read(self):
         self._read()
@@ -135,12 +138,42 @@ class Message:
             if self.request is None:
                 self.process_request()
 
+
+    def queue_request(self):
+        content = self.request["content"]
+        content_type = self.request["type"]
+        content_encoding = self.request["encoding"]
+        if content_type == "text/json":
+            req = {
+                "content_bytes": self._json_encode(content, content_encoding),
+                "content_type": content_type,
+                "content_encoding": content_encoding,
+            }
+        else:
+            req = {
+                "content_bytes": content,
+                "content_type": content_type,
+                "content_encoding": content_encoding,
+            }
+        message = self._create_message(**req)
+        self._send_buffer += message
+        self._request_queued = True
+
+    def write_direct(self):
+        if not self._request_queued:
+            self.queue_request()
+
     def write(self):
         if self.request:
             if not self.response_created:
                 self.create_response()
 
         self._write()
+        if self._request_queued:
+            if not self._send_buffer:
+                print("Set selector to listen for read events, we're done writing in server")
+                # Set selector to listen for read events, we're done writing.
+                #self._set_selector_events_mask("r")
 
     def close(self):
         print(f"Closing connection to {self.addr}")
