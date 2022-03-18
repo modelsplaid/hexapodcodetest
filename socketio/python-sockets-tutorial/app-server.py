@@ -33,7 +33,7 @@ print(f"Listening on {(host, port)}")
 lsock.setblocking(False)
 
 print("lsock: "+str(lsock) )
-registerkey = sel.register(lsock, selectors.EVENT_READ, data=None)
+registerkey = sel.register(lsock, selectors.EVENT_READ|selectors.EVENT_WRITE, data=None)
 
 
 messageobjs = []
