@@ -4,9 +4,10 @@ import sys
 import socket
 import selectors
 import traceback
-
+import time
 import libserver
-
+import threading
+import logging
 sel = selectors.DefaultSelector()
 
 
@@ -49,23 +50,40 @@ print(f"Listening on {(host, port)}")
 lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
 
-try:
-    while True:
-        events = sel.select(timeout=None)
-        for key, mask in events:
-            if key.data is None:
-                accept_wrapper(key.fileobj)
-            else:
-                message = key.data
-                try:
-                    message.process_events(mask)
-                except Exception:
-                    print(
-                        f"Main: Error: Exception for {message.addr}:\n"
-                        f"{traceback.format_exc()}"
-                    )
-                    message.close()
-except KeyboardInterrupt:
-    print("Caught keyboard interrupt, exiting")
-finally:
-    sel.close()
+
+def test_thread(name):
+    print("name: "+str(name))
+    try:
+        while True:
+            print("sel.select")
+            events = sel.select(timeout=1)
+            print("events:"+str(events))
+            for key, mask in events:
+                if key.data is None:
+                    accept_wrapper(key.fileobj)
+                else:
+                    message = key.data
+                    try:
+                        message.process_events(mask)
+                    except Exception:
+                        print(
+                            f"Main: Error: Exception for {message.addr}:\n"
+                            f"{traceback.format_exc()}"
+                        )
+                        message.close()
+    except KeyboardInterrupt:
+        print("Caught keyboard interrupt, exiting")
+    finally:
+        sel.close()
+
+
+
+
+if __name__ == '__main__':
+    print("in main")
+    x = threading.Thread(target=test_thread, args=(1,))
+    #logging.info("Main    : before running thread")
+    x.start()
+    x.join()
+
+    print("exiting main ")
