@@ -51,7 +51,7 @@ lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
 
 
-def test_thread(name):
+def socket_thread(name):
     print("name: "+str(name))
     try:
         while True:
@@ -76,14 +76,21 @@ def test_thread(name):
     finally:
         sel.close()
 
-
+def servo_commu_thread(name):
+    while(True):
+        print("running in servo commu ")
+        time.sleep(1)
 
 
 if __name__ == '__main__':
     print("in main")
-    x = threading.Thread(target=test_thread, args=(1,))
-    #logging.info("Main    : before running thread")
+    x = threading.Thread(target=socket_thread, args=(1,))
+    x1 = threading.Thread(target=servo_commu_thread, args=(1,))
+    print("x1.start()")
+    x1.start()
+    print("x.start()")
     x.start()
+    print("x1.join")
+    x1.join()
+    print("x.join()")
     x.join()
-
-    print("exiting main ")
