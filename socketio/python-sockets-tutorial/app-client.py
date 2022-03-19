@@ -32,7 +32,7 @@ def start_connection(host, port, request):
     sock.setblocking(False)
     sock.connect_ex(addr)
     #events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    events = selectors.EVENT_READ
+    events = selectors.EVENT_READ| selectors.EVENT_WRITE
     message = libclient.Message(sel, sock, addr, request)
     sel.register(sock, events, data=message)
 

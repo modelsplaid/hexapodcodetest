@@ -11,8 +11,11 @@ request_search = {
 }
 
 
+
+
+
 class Message:
-    def __init__(self, selector, sock, addr):
+    def __init__(self, selector, sock, addr,request):
         self.selector = selector
         self.sock = sock
         self.addr = addr
@@ -20,7 +23,7 @@ class Message:
         self._send_buffer = b""
         self._jsonheader_len = None
         self.jsonheader = None
-        self.request = None
+        self.request = request
         self.response_created = False
         self._request_queued = False
 
@@ -117,11 +120,15 @@ class Message:
         return response
 
     def process_events(self, mask):
+        print("In process_events, mask: "+str(mask))
         if mask & selectors.EVENT_READ:
+            print("goto write direct function")
             self.read()
         if mask & selectors.EVENT_WRITE:
             #self.write()
+            print("goto write direct function")
             self.write_direct()
+          
             # todo: test it 
 
     def read(self):
@@ -162,6 +169,12 @@ class Message:
     def write_direct(self):
         if not self._request_queued:
             self.queue_request()
+        self._write()
+        if self._request_queued:
+            if not self._send_buffer:
+                # Set selector to listen for read events, we're done writing.
+                print("Set selector to listen for read events, we're done writing.")
+                #self._set_selector_events_mask("r")
 
     def write(self):
         if self.request:
@@ -233,7 +246,7 @@ class Message:
                 f"request from {self.addr}"
             )
         # Set selector to listen for write events, we're done reading.
-        self._set_selector_events_mask("w")
+        #self._set_selector_events_mask("w")
 
     def create_response(self):
         if self.jsonheader["content-type"] == "text/json":

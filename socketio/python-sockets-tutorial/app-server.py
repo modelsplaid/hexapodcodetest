@@ -10,12 +10,29 @@ import libserver
 sel = selectors.DefaultSelector()
 
 
+def create_request(action, value):
+    if action == "search":
+        return dict(
+            type="text/json",
+            encoding="utf-8",
+            content=dict(action=action, value=value),
+        )
+    else:
+        return dict(
+            type="binary/custom-client-binary-type",
+            encoding="binary",
+            content=bytes(action + value, encoding="utf-8"),
+        )
+
+
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
     print(f"Accepted connection from {addr}")
     conn.setblocking(False)
-    message = libserver.Message(sel, conn, addr)
-    sel.register(conn, selectors.EVENT_READ, data=message)
+
+    request=create_request("search", "value")
+    message = libserver.Message(sel, conn, addr,request)
+    sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=message)
 
 
 if len(sys.argv) != 3:
