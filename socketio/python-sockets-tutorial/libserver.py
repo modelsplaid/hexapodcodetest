@@ -3,7 +3,7 @@ import selectors
 import json
 import io
 import struct
-
+import logging
 request_search = {
     "morpheus": "Follow the white rabbit. \U0001f430",
     "ring": "In the caves beneath the Misty Mountains. \U0001f48d",
@@ -174,6 +174,7 @@ class Message:
             if not self._send_buffer:
                 # Set selector to listen for read events, we're done writing.
                 print("Set selector to listen for read events, we're done writing.")
+                logging.debug('Set selector to listen')
                 #self._set_selector_events_mask("r")
 
     def write(self):

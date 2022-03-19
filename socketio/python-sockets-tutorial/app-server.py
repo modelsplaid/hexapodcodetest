@@ -10,6 +10,9 @@ import threading
 import logging
 sel = selectors.DefaultSelector()
 
+logging.basicConfig(filename='app.log',level=logging.DEBUG,filemode='w', 
+format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+logging.debug('This will get logged')
 
 def create_request(action, value):
     if action == "search":
@@ -83,6 +86,8 @@ def servo_commu_thread(name):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug('This will get logged')
     print("in main")
     x = threading.Thread(target=socket_thread, args=(1,))
     x1 = threading.Thread(target=servo_commu_thread, args=(1,))
