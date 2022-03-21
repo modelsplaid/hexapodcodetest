@@ -10,9 +10,12 @@ import threading
 import logging
 sel = selectors.DefaultSelector()
 
-logging.basicConfig(filename='app.log',level=logging.DEBUG,filemode='w', 
+#logging.basicConfig(filename='app.log',level=logging.DEBUG,filemode='w', 
+logging.basicConfig(level=logging.DEBUG,filemode='w', 
 format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
 logging.debug('This will get logged')
+
+user_message = 'hello world'
 
 def create_request(action, value):
     if action == "search":
@@ -56,9 +59,10 @@ sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
 
 def socket_thread(name):
     print("name: "+str(name))
+    global user_message
     try:
         while True:
-            print("sel.select")
+            print("user_message: "+str(user_message))
             events = sel.select(timeout=1)
             print("events:"+str(events))
             for key, mask in events:
@@ -67,7 +71,9 @@ def socket_thread(name):
                 else:
                     message = key.data
                     try:
-                        message.process_events(mask)
+                        message.process_events(mask,user_message)
+                        # clear message out
+                        user_message = ''
                     except Exception:
                         print(
                             f"Main: Error: Exception for {message.addr}:\n"
@@ -80,9 +86,11 @@ def socket_thread(name):
         sel.close()
 
 def servo_commu_thread(name):
+    global user_message
     while(True):
-        print("running in servo commu ")
-        time.sleep(1)
+        str_usr = input("Type what you want to send: ")
+        print("This content will send to client: "+str_usr)
+        user_message = str_usr
 
 
 if __name__ == '__main__':

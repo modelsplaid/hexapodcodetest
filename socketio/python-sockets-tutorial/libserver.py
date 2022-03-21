@@ -125,11 +125,21 @@ class Message:
             print("goto write direct function")
             self.read()
         if mask & selectors.EVENT_WRITE:
-            #self.write()
+            self.write()
             print("goto write direct function")
-            self.write_direct()
+            #self.write_direct()
           
-            # todo: test it 
+
+    def process_events(self, mask,sentdata):
+        print("In process_events, mask: "+str(mask))
+        if mask & selectors.EVENT_READ:
+            print("goto write direct function")
+            self.read()
+        if mask & selectors.EVENT_WRITE:
+            #self.write()
+            self.write_direct(sentdata)
+    
+
 
     def read(self):
         self._read()
@@ -146,8 +156,9 @@ class Message:
                 self.process_request()
 
 
-    def queue_request(self):
-        content = self.request["content"]
+    def queue_request(self,sentdata):
+        #content = self.request["content"]
+        content = sentdata
         content_type = self.request["type"]
         content_encoding = self.request["encoding"]
         if content_type == "text/json":
@@ -166,9 +177,9 @@ class Message:
         self._send_buffer += message
         self._request_queued = True
 
-    def write_direct(self):
+    def write_direct(self,sentdata):
         if not self._request_queued:
-            self.queue_request()
+            self.queue_request(sentdata)
         self._write()
         if self._request_queued:
             if not self._send_buffer:
