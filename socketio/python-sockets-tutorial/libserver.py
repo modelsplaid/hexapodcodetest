@@ -120,7 +120,7 @@ class Message:
         return response
 
     def process_events(self, mask):
-        print("In process_events, mask: "+str(mask))
+        #print("In process_events, mask: "+str(mask))
         if mask & selectors.EVENT_READ:
             print("goto write direct function")
             self.read()
@@ -184,9 +184,10 @@ class Message:
         if self._request_queued:
             if not self._send_buffer:
                 # Set selector to listen for read events, we're done writing.
-                print("Set selector to listen for read events, we're done writing.")
-                logging.debug('Set selector to listen')
+                #print("Set selector to listen for read events, we're done writing.")
+                #logging.debug('Set selector to listen')
                 #self._set_selector_events_mask("r")
+                a = 0
 
     def write(self):
         if self.request:

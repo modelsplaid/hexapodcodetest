@@ -64,17 +64,24 @@ def socket_thread(name):
         while True:
             print("user_message: "+str(user_message))
             events = sel.select(timeout=1)
-            print("events:"+str(events))
+            #print("events:"+str(events))
 
-
+            time.sleep(0.5)
             for key, mask in events:
-                # add code here to send message when data is not empty
 
 
                 if key.data is None:
                     accept_wrapper(key.fileobj)
                 else:
                     message = key.data
+
+                    # add code here to send message when data is not empty                    
+                    if(user_message is not ''): 
+                        # generating an write event
+                        print("socket message will send： "+user_message)
+                        message._set_selector_events_mask("rw")
+                        message._request_queued = False
+
                     try:
                         message.process_events(mask,user_message)
                         # clear message out
@@ -92,10 +99,13 @@ def socket_thread(name):
 
 def servo_commu_thread(name):
     global user_message
+    counter = 0
     while(True):
-        str_usr = input("Type what you want to send: ")
-        print("This content will send to client: "+str_usr)
-        user_message = str_usr
+        #str_usr = input("Type what you want to send: ")
+        #print("This content will send to client: "+str_usr)
+        counter = counter+1
+        user_message = "counter value: "+str(counter)
+        time.sleep(0.5)
 
 
 if __name__ == '__main__':
