@@ -91,9 +91,12 @@ class Message:
 
     def process_events(self, mask):
         if mask & selectors.EVENT_READ:
+            print("self.read()")
             self.read()
         if mask & selectors.EVENT_WRITE:
-            self.write()
+            #self.write()
+            #print("skipself.write()")
+            a = 0
 
     def read(self):
         self._read()
@@ -193,7 +196,7 @@ class Message:
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
             print(f"Received response {self.response!r} from {self.addr}")
-            self._process_response_json_content()
+            #self._process_response_json_content()
         else:
             # Binary or unknown content-type
             self.response = data

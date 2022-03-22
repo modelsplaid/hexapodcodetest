@@ -65,7 +65,12 @@ def socket_thread(name):
             print("user_message: "+str(user_message))
             events = sel.select(timeout=1)
             print("events:"+str(events))
+
+
             for key, mask in events:
+                # add code here to send message when data is not empty
+
+
                 if key.data is None:
                     accept_wrapper(key.fileobj)
                 else:
