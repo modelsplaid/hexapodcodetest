@@ -3,7 +3,7 @@ import selectors
 import json
 import io
 import struct
-
+import logging
 
 class Message:
     def __init__(self, selector, sock, addr, request):
@@ -102,18 +102,18 @@ class Message:
 
     def read(self):
         self._read()
-        '''
+        
         if self._jsonheader_len is None:
             self.process_protoheader()
-
+        
         if self._jsonheader_len is not None:
             if self.jsonheader is None:
                 self.process_jsonheader()
-
+        
         if self.jsonheader:
             if self.response is None:
                 self.process_response()
-        '''
+
     def write(self):
         if not self._request_queued:
             self.queue_request()
@@ -170,6 +170,7 @@ class Message:
                 ">H", self._recv_buffer[:hdrlen]
             )[0]
             self._recv_buffer = self._recv_buffer[hdrlen:]
+            logging.debug("self._jsonheader_len:"+str(self._jsonheader_len))
 
     def process_jsonheader(self):
         hdrlen = self._jsonheader_len
@@ -177,6 +178,9 @@ class Message:
             self.jsonheader = self._json_decode(
                 self._recv_buffer[:hdrlen], "utf-8"
             )
+            logging.debug("len(self._recv_buffer):"+str(len(self._recv_buffer)))
+            logging.debug("self._jsonheader_len:"+str(self._jsonheader_len))
+            logging.debug("self.jsonheader:"+str(self.jsonheader))
             self._recv_buffer = self._recv_buffer[hdrlen:]
             for reqhdr in (
                 "byteorder",
@@ -189,19 +193,29 @@ class Message:
 
     def process_response(self):
         content_len = self.jsonheader["content-length"]
+
+        logging.debug("len(self._recv_buffer):"+str(len(self._recv_buffer))+" content_len:"+str(content_len))
+        
+        # if not received full data pack 
         if not len(self._recv_buffer) >= content_len:
+            logging.error("not received full data pack. if not len(self._recv_buffer) >= content_len")
             print("return process_response")
             return
+
+        # if  received full data pack, start to process it 
         data = self._recv_buffer[:content_len]
         self._recv_buffer = self._recv_buffer[content_len:]
         if self.jsonheader["content-type"] == "text/json":
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
+            logging.debug("self.response:"+str(self.response))
             print(f"Received response {self.response!r} from {self.addr}")
             
             ## init for next return
-            #self._jsonheader_len = None
+            self._jsonheader_len = None
             self.response = None
+            self.jsonheader = None
+            self._recv_buffer = b""
             #self._process_response_json_content()
         else:
             # Binary or unknown content-type

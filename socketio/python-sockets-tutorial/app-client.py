@@ -6,6 +6,14 @@ import selectors
 import traceback
 
 import libclient
+import logging
+
+#logging.basicConfig(filename='app.log', level=logging.DEBUG,filemode='w', 
+#format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+
+logging.basicConfig(level=logging.DEBUG, 
+format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+
 
 sel = selectors.DefaultSelector()
 
