@@ -34,6 +34,7 @@ class Message:
         try:
             # Should be ready to read
             data = self.sock.recv(4096)
+            print("received data in _read(): "+str(data) )
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
             pass
@@ -59,6 +60,7 @@ class Message:
         return json.dumps(obj, ensure_ascii=False).encode(encoding)
 
     def _json_decode(self, json_bytes, encoding):
+        print("json_bytes: "+str(json_bytes))
         tiow = io.TextIOWrapper(
             io.BytesIO(json_bytes), encoding=encoding, newline=""
         )
@@ -100,7 +102,7 @@ class Message:
 
     def read(self):
         self._read()
-
+        '''
         if self._jsonheader_len is None:
             self.process_protoheader()
 
@@ -111,7 +113,7 @@ class Message:
         if self.jsonheader:
             if self.response is None:
                 self.process_response()
-
+        '''
     def write(self):
         if not self._request_queued:
             self.queue_request()
@@ -196,6 +198,10 @@ class Message:
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
             print(f"Received response {self.response!r} from {self.addr}")
+            
+            ## init for next return
+            #self._jsonheader_len = None
+            self.response = None
             #self._process_response_json_content()
         else:
             # Binary or unknown content-type

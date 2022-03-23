@@ -92,6 +92,8 @@ class Message:
         jsonheader_bytes = self._json_encode(jsonheader, "utf-8")
         message_hdr = struct.pack(">H", len(jsonheader_bytes))
         message = message_hdr + jsonheader_bytes + content_bytes
+
+        print("message: "+str(message) )
         return message
 
     def _create_response_json_content(self):
