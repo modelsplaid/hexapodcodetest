@@ -62,30 +62,34 @@ def socket_thread(name):
     global user_message
     try:
         while True:
-            print("user_message: "+str(user_message))
+            
             events = sel.select(timeout=1)
-            #print("events:"+str(events))
 
-            time.sleep(0.5)
+            time.sleep(0.1)
+
+            # load data and events for each connected client 
+            if(user_message is not ''):  # if new data is coming from servos
+                #print("user_message: "+str(user_message))
+                for key, mask in events: # loop over each client connect objs
+                    if key.data is not None:  # if connected to the client
+                        message = key.data
+                        logging.debug("socket message will send： "+user_message)
+                        message.queue_request(user_message)
+                        #message._request_queued = True
+                        message.response_created = False
+                        message._set_selector_events_mask("rw")
+                        
+                user_message = '' # clear out 
+
+            # parsing events
             for key, mask in events:
-
-
                 if key.data is None:
                     accept_wrapper(key.fileobj)
                 else:
-                    message = key.data
-
-                    # add code here to send message when data is not empty                    
-                    if(user_message is not ''): 
-                        # generating an write event
-                        print("socket message will send： "+user_message)
-                        message._set_selector_events_mask("rw")
-                        message._request_queued = False
-
+                    message = key.data               
                     try:
-                        message.process_events(mask,user_message)
-                        # clear message out
-                        user_message = ''
+                        message.process_events(mask)
+                        # clear message out                       
                     except Exception:
                         print(
                             f"Main: Error: Exception for {message.addr}:\n"
