@@ -1,0 +1,3 @@
+[submodule "tzq_feiteservo"]
+	path = tzq_feiteservo
+	url = git@github.com:modelsplaid/tzq_feiteservo.git
