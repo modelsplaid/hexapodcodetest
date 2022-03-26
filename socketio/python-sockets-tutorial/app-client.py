@@ -39,8 +39,8 @@ def start_connection(host, port, request):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)
     sock.connect_ex(addr)
-    #events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    events = selectors.EVENT_READ| selectors.EVENT_WRITE
+    events = selectors.EVENT_READ
+    #events = selectors.EVENT_READ| selectors.EVENT_WRITE
     message = libclient.Message(sel, sock, addr, request)
     sel.register(sock, events, data=message)
 
@@ -57,7 +57,8 @@ start_connection(host, port, request)
 
 try:
     while True:
-        events = sel.select(timeout=1)
+        #print("in sel.select")
+        events = sel.select(None)
         for key, mask in events:
             message = key.data
             try:
