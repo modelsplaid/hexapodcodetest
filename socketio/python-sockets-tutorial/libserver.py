@@ -130,8 +130,9 @@ class Message:
             print("goto write direct function")
             self.read()
         if mask & selectors.EVENT_WRITE:
-            self.write()
             print("goto write direct function")
+            self.write()
+            
           
 
     #def process_events(self, mask,sentdata):

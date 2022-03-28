@@ -11,7 +11,7 @@ import logging
 sel = selectors.DefaultSelector()
 
 #logging.basicConfig(filename='app.log',level=logging.DEBUG,filemode='w', 
-logging.basicConfig(level=logging.DEBUG,filemode='w', 
+logging.basicConfig(level=logging.INFO,filemode='w', 
 format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
 logging.debug('This will get logged')
 
@@ -65,7 +65,7 @@ def socket_thread(name):
             
             events = sel.select(timeout=1)
 
-            time.sleep(0.1)
+            #time.sleep(0.1)
 
             # load data and events for each connected client 
             if(user_message is not ''):  # if new data is coming from servos
@@ -77,7 +77,7 @@ def socket_thread(name):
                         message.queue_request(user_message)
                         #message._request_queued = True
                         message.response_created = False
-                        message._set_selector_events_mask("rw")
+                        #message._set_selector_events_mask("rw")
                         
                 user_message = '' # clear out 
 
@@ -89,7 +89,7 @@ def socket_thread(name):
                     message = key.data               
                     try:
                         message.process_events(mask)
-                        # clear message out                       
+                        # clear message out             
                     except Exception:
                         print(
                             f"Main: Error: Exception for {message.addr}:\n"
