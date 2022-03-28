@@ -65,22 +65,6 @@ def socket_thread(name):
             
             events = sel.select(timeout=1)
 
-            #time.sleep(0.1)
-
-            # load data and events for each connected client 
-            if(user_message is not ''):  # if new data is coming from servos
-                #print("user_message: "+str(user_message))
-                for key, mask in events: # loop over each client connect objs
-                    if key.data is not None:  # if connected to the client
-                        message = key.data
-                        logging.debug("socket message will send： "+user_message)
-                        message.queue_request(user_message)
-                        #message._request_queued = True
-                        message.response_created = False
-                        #message._set_selector_events_mask("rw")
-                        
-                user_message = '' # clear out 
-
             # parsing events
             for key, mask in events:
                 if key.data is None:
@@ -96,6 +80,17 @@ def socket_thread(name):
                             f"{traceback.format_exc()}"
                         )
                         message.close()
+            # load data and events for each connected client 
+            if(user_message is not ''):  # if new data is coming from servos
+                #print("user_message: "+str(user_message))
+                for key, mask in events: # loop over each client connect objs
+                    if key.data is not None:  # if connected to the client
+                        message = key.data
+                        logging.debug("socket message will send： "+user_message)
+                        message.queue_request(user_message)
+                        message.response_created = False
+                        message._set_selector_events_mask("rw")                        
+                user_message = '' # clear out                         
     except KeyboardInterrupt:
         print("Caught keyboard interrupt, exiting")
     finally:
@@ -109,7 +104,7 @@ def servo_commu_thread(name):
         #print("This content will send to client: "+str_usr)
         counter = counter+1
         user_message = "counter value: "+str(counter)
-        time.sleep(0.5)
+        time.sleep(1)
 
 
 if __name__ == '__main__':
