@@ -4,7 +4,7 @@ import sys
 import socket
 import selectors
 import traceback
-
+import time
 import libclient
 import logging
 
@@ -17,6 +17,10 @@ format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)
 
 sel = selectors.DefaultSelector()
 
+SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
+def sleep_freq_hz(freq_hz=500):
+    period_sec = 1.0/freq_hz
+    time.sleep(period_sec)
 
 def create_request(action, value):
     if action == "search":
@@ -58,10 +62,12 @@ start_connection(host, port, request)
 try:
     while True:
         #print("in sel.select")
+        sleep_freq_hz()
         events = sel.select(None)
         for key, mask in events:
             message = key.data
             try:
+
                 message.process_events(mask)
             except Exception:
                 print(

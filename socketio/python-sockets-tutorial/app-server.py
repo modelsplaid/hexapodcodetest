@@ -17,6 +17,11 @@ logging.debug('This will get logged')
 
 user_message = 'hello world'
 
+SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
+def sleep_freq_hz(freq_hz=500):
+    period_sec = 1.0/freq_hz
+    time.sleep(period_sec) 
+
 def create_request(action, value):
     if action == "search":
         return dict(
@@ -56,14 +61,16 @@ print(f"Listening on {(host, port)}")
 lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
 
+glob_events = [] 
 
 def socket_thread(name):
+    global glob_events
     print("name: "+str(name))
     global user_message
     try:
         while True:
-            
-            events = sel.select(timeout=1)
+            sleep_freq_hz() 
+            events = sel.select(None)
 
             # parsing events
             for key, mask in events:

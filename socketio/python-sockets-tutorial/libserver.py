@@ -68,10 +68,12 @@ class Message:
                 # change event to only read when the buffer is drained. 
                 # The response has been sent.
                 if sent and not self._send_buffer:
-                    self._set_selector_events_mask("r")
-                    print("-----------done sending it")
+                    #self._set_selector_events_mask("r")
+                    #print("-----------done sending it")
+                    return
         else:
-            logging.error("cannot write data to socke, buffer len too short. buffer len: "+str(len(self._send_buffer)))
+            #logging.error("cannot write data to socke, buffer len too short. buffer len: "+str(len(self._send_buffer)))
+            return
             
     def _json_encode(self, obj, encoding):
         return json.dumps(obj, ensure_ascii=False).encode(encoding)
@@ -97,7 +99,7 @@ class Message:
         message_hdr = struct.pack(">H", len(jsonheader_bytes))
         message = message_hdr + jsonheader_bytes + content_bytes
 
-        print("message: "+str(message) )
+        #print("message: "+str(message) )
         return message
 
     def _create_response_json_content(self):
@@ -128,10 +130,8 @@ class Message:
     def process_events(self, mask):
         #print("In process_events, mask: "+str(mask))
         if mask & selectors.EVENT_READ:
-            print("goto write direct function")
             self.read()
         if mask & selectors.EVENT_WRITE:
-            print("goto write direct function")
             self.write()
             
           
@@ -199,7 +199,8 @@ class Message:
         if self._request_queued:       
             self._write()
         else: 
-            logging.error("cannot write data to socket,request is not queued ")
+            #logging.error("cannot write data to socket,request is not queued ")
+            return
 
     def close(self):
         print(f"Closing connection to {self.addr}")
