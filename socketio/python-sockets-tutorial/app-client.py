@@ -7,6 +7,7 @@ import traceback
 import time
 import libclient
 import logging
+import threading
 
 #logging.basicConfig(filename='app.log', level=logging.DEBUG,filemode='w', 
 #format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
@@ -61,7 +62,6 @@ start_connection(host, port, request)
 
 try:
     while True:
-        #print("in sel.select")
         sleep_freq_hz()
         events = sel.select(None)
         for key, mask in events:
@@ -82,3 +82,14 @@ except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
     sel.close()
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug('This will get logged')
+    #x = threading.Thread(target=socket_thread, args=(1,))
+    #x1 = threading.Thread(target=servo_commu_thread, args=(1,))
+    #x1.start()
+    #x.start()
+    #x1.join()
+    #x.join()

@@ -44,7 +44,31 @@ class Message:
             else:
                 raise RuntimeError("Peer closed.")
 
+
     def _write(self):
+        if len(self._send_buffer)>=2:
+            
+            print(f"Sending {self._send_buffer!r} to {self.addr}")
+            try:
+                # Should be ready to write
+                sent = self.sock.send(self._send_buffer)
+            except BlockingIOError:
+                # Resource temporarily unavailable (errno EWOULDBLOCK)
+                pass
+            else:
+                self._send_buffer = self._send_buffer[sent:]
+                
+                # change event to only read when the buffer is drained. 
+                # The response has been sent.
+                if sent and not self._send_buffer:
+                    #self._set_selector_events_mask("r")
+                    #print("-----------done sending it")
+                    return
+        else:
+            #logging.error("cannot write data to socke, buffer len too short. buffer len: "+str(len(self._send_buffer)))
+            return
+
+    def _writeold(self):
         if self._send_buffer:
             print(f"Sending {self._send_buffer!r} to {self.addr}")
             try:
@@ -55,6 +79,7 @@ class Message:
                 pass
             else:
                 self._send_buffer = self._send_buffer[sent:]
+
 
     def _json_encode(self, obj, encoding):
         return json.dumps(obj, ensure_ascii=False).encode(encoding)
@@ -96,9 +121,7 @@ class Message:
             print("self.read()")
             self.read()
         if mask & selectors.EVENT_WRITE:
-            #self.write()
-            #print("skipself.write()")
-            a = 0
+            self.write()
 
     def read(self):
         self._read()
@@ -114,7 +137,7 @@ class Message:
             if self.response is None:
                 self.process_response()
 
-    def write(self):
+    def writeold(self):
         if not self._request_queued:
             self.queue_request()
 
@@ -125,6 +148,13 @@ class Message:
                 # Set selector to listen for read events, we're done writing.
                 self._set_selector_events_mask("r")
 
+    def write(self):
+        if self._request_queued:       
+            self._write()
+        else: 
+            #logging.error("cannot write data to socket,request is not queued ")
+            return
+    
     def close(self):
         print(f"Closing connection to {self.addr}")
         try:
