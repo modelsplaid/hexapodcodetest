@@ -116,7 +116,6 @@ class Message:
             if self.request is None:
                 self.process_request()
 
-
     def queue_request(self,sentdata):
         content = sentdata
         content_type = self.request["type"]
