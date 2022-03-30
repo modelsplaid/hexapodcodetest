@@ -137,16 +137,9 @@ class Message:
             if self.response is None:
                 self.process_response()
 
-    def writeold(self):
-        if not self._request_queued:
-            self.queue_request()
+    def send_json(self,json_data):
+        a=0
 
-        self._write()
-
-        if self._request_queued:
-            if not self._send_buffer:
-                # Set selector to listen for read events, we're done writing.
-                self._set_selector_events_mask("r")
 
     def write(self):
         if self._request_queued:       

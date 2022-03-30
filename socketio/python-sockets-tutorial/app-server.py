@@ -65,12 +65,21 @@ glob_events = []
 
 def socket_thread(name):
     global glob_events
-    print("name: "+str(name))
     global user_message
     try:
         while True:
             sleep_freq_hz() 
             events = sel.select(None)
+
+            # load data and events for each connected client 
+            if(user_message is not ''):  # if new data is coming from servos
+                #print("user_message: "+str(user_message))
+                for key, mask in events: # loop over each client connect objs
+                    if key.data is not None:  # if connected to the client
+                        message = key.data
+                        logging.debug("socket message will send： "+user_message)
+                        message.server_send_json(user_message)                                     
+                user_message = '' # clear out    
 
             # parsing events
             for key, mask in events:
@@ -87,19 +96,9 @@ def socket_thread(name):
                             f"{traceback.format_exc()}"
                         )
                         message.close()
-            # load data and events for each connected client 
-            if(user_message is not ''):  # if new data is coming from servos
-                #print("user_message: "+str(user_message))
-                for key, mask in events: # loop over each client connect objs
-                    if key.data is not None:  # if connected to the client
-                        message = key.data
-                        logging.debug("socket message will send： "+user_message)
-                        message.queue_request(user_message)
-                        message.response_created = False
-                        message._set_selector_events_mask("rw")                        
-                user_message = '' # clear out                         
+                     
     except KeyboardInterrupt:
-        print("Caught keyboard interrupt, exiting")
+        print("---Caught keyboard interrupt, exiting")
     finally:
         sel.close()
 
