@@ -38,7 +38,7 @@ def create_request(action, value):
         )
 
 
-def start_connection(host, port, request):
+def start_connection(host, port):
     addr = (host, port)
     print(f"Starting connection to {addr}")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,18 +46,16 @@ def start_connection(host, port, request):
     sock.connect_ex(addr)
     events = selectors.EVENT_READ
     #events = selectors.EVENT_READ| selectors.EVENT_WRITE
-    message = libclient.Message(sel, sock, addr, request)
+    message = libclient.Message(sel, sock, addr)
     sel.register(sock, events, data=message)
 
 
-if len(sys.argv) != 5:
-    print(f"Usage: {sys.argv[0]} <host> <port> <action> <value>")
+if len(sys.argv) !=3:
+    print(f"Usage: {sys.argv[0]} <host> <port> ")
     sys.exit(1)
 
 host, port = sys.argv[1], int(sys.argv[2])
-action, value = sys.argv[3], sys.argv[4]
-request = create_request(action, value)
-start_connection(host, port, request)
+start_connection(host, port)
 
 
 try:

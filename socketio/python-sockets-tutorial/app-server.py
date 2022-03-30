@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO,filemode='w',
 format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
 logging.debug('This will get logged')
 
-user_message = 'hello world'
+user_message = ''
 
 SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
 def sleep_freq_hz(freq_hz=500):

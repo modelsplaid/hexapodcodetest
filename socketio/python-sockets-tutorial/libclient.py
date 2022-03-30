@@ -6,11 +6,11 @@ import struct
 import logging
 
 class Message:
-    def __init__(self, selector, sock, addr, request):
+    def __init__(self, selector, sock, addr):
         self.selector = selector
         self.sock = sock
         self.addr = addr
-        self.request = request
+        self.request = None
         self._recv_buffer = b""
         self._send_buffer = b""
         self._request_queued = False
