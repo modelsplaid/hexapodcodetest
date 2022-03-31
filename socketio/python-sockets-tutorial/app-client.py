@@ -23,21 +23,6 @@ def sleep_freq_hz(freq_hz=500):
     period_sec = 1.0/freq_hz
     time.sleep(period_sec)
 
-def create_request(action, value):
-    if action == "search":
-        return dict(
-            type="text/json",
-            encoding="utf-8",
-            content=dict(action=action, value=value),
-        )
-    else:
-        return dict(
-            type="binary/custom-client-binary-type",
-            encoding="binary",
-            content=bytes(action + value, encoding="utf-8"),
-        )
-
-
 def start_connection(host, port):
     addr = (host, port)
     print(f"Starting connection to {addr}")
@@ -73,6 +58,9 @@ try:
                     f"{traceback.format_exc()}"
                 )
                 message.close()
+            onedata = message.get_recv_queu()    
+            if(onedata is not False): 
+                print("server data: "+str(onedata))            
         # Check for a socket being monitored to continue.
         if not sel.get_map():
             break
