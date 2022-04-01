@@ -11,7 +11,7 @@ import threading
 
 #logging.basicConfig(filename='app.log', level=logging.DEBUG,filemode='w', 
 #format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
-
+user_message = ''
 logging.basicConfig(level=logging.INFO, 
 format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
 
@@ -28,7 +28,9 @@ def start_connection(host, port):
     print(f"Starting connection to {addr}")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)
-    sock.connect_ex(addr)
+    #coninfo = sock.connect_ex(addr)
+    coninfo = sock.connect_ex(addr)
+    print("coninfo: "+str(coninfo))
     events = selectors.EVENT_READ
     #events = selectors.EVENT_READ| selectors.EVENT_WRITE
     message = libclient.Message(sel, sock, addr)
@@ -40,42 +42,68 @@ if len(sys.argv) !=3:
     sys.exit(1)
 
 host, port = sys.argv[1], int(sys.argv[2])
-start_connection(host, port)
 
 
-try:
+
+def socket_thread(name): 
+
     while True:
-        sleep_freq_hz()
-        events = sel.select(None)
-        for key, mask in events:
-            message = key.data
-            try:
+        start_connection(host, port)
+        try:
+            while True:
+                sleep_freq_hz()
+                print("1")
+                events = sel.select(1)
+                print("2")
+                for key, mask in events:
+                    message = key.data
+                    try:
 
-                message.process_events(mask)
-            except Exception:
-                print(
-                    f"Main: Error: Exception for {message.addr}:\n"
-                    f"{traceback.format_exc()}"
-                )
-                message.close()
-            onedata = message.get_recv_queu()    
-            if(onedata is not False): 
-                print("server data: "+str(onedata))            
-        # Check for a socket being monitored to continue.
-        if not sel.get_map():
-            break
-except KeyboardInterrupt:
-    print("Caught keyboard interrupt, exiting")
-finally:
-    sel.close()
+                        message.process_events(mask)
+                        onedata = message.get_recv_queu()                      
+                        if(onedata is not False): 
+                            print("server data: "+str(onedata))  
+                    except Exception:
+                        print(
+                            f"Main: Error: Exception for {message.addr}:\n"
+                            f"{traceback.format_exc()}"
+                        )
+                        message.close()
+                        break
 
+                    
+                # Check for a socket being monitored to continue.
+                if not sel.get_map():
+                    break
+        except KeyboardInterrupt:
+            print("Caught keyboard interrupt, exiting")
+            return
+        finally:
+            sel.close()
+            return
+
+    
+
+
+def servo_commu_thread(name):
+    global user_message
+    counter = 0
+    while(True):
+        #str_usr = input("Type what you want to send: ")
+        #print("This content will send to client: "+str_usr)
+        counter = counter+1
+        user_message = "client counter value: "+str(counter)
+        time.sleep(1)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('This will get logged')
-    #x = threading.Thread(target=socket_thread, args=(1,))
+    x = threading.Thread(target=socket_thread, args=(1,))
     #x1 = threading.Thread(target=servo_commu_thread, args=(1,))
     #x1.start()
-    #x.start()
+    x.start()
     #x1.join()
-    #x.join()
+    x.join()
+
+
+# todo: add multi thread and send to server function    

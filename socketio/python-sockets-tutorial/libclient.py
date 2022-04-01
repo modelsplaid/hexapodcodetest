@@ -39,6 +39,7 @@ class Message:
             #print("received data in _read(): "+str(data) )
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
+            print("client is not connected")
             pass
         else:
             if data:
