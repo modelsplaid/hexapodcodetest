@@ -44,10 +44,11 @@ if len(sys.argv) !=3:
 
 host, port = sys.argv[1], int(sys.argv[2])
 
-
+start_connection(host, port)
 
 def socket_thread(name): 
 
+    
     try:
         runstatus = True
         while  runstatus:
@@ -58,7 +59,6 @@ def socket_thread(name):
                 try:
 
                     if(message.process_events(mask)==False):
-                        #message.close()
                         runstatus = False
                     onedata = message.get_recv_queu()                      
                     if(onedata is not False): 
@@ -101,10 +101,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('This will get logged')
     x = threading.Thread(target=socket_thread, args=(1,))
-    #x1 = threading.Thread(target=servo_commu_thread, args=(1,))
-    #x1.start()
+    x1 = threading.Thread(target=servo_commu_thread, args=(1,))
+    x1.start()
     x.start()
-    #x1.join()
+    x1.join()
     x.join()
 
 

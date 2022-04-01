@@ -6,7 +6,7 @@ import struct
 import logging
 
 class Message:
-    def __init__(self, selector, sock, addr,request):
+    def __init__(self, selector, sock, addr):
         self.selector = selector
         self.sock = sock
         self.addr = addr
@@ -14,9 +14,9 @@ class Message:
         self._send_buffer = b""
         self._jsonheader_len = None
         self.jsonheader = None
-        self.request = request
+        self.request = self.create_request('')
 
-    def create_request(value):
+    def create_request(self,value):
             return dict(
                 type="text/json",
                 encoding="utf-8",
@@ -59,6 +59,7 @@ class Message:
                 sent = self.sock.send(self._send_buffer)
             except BlockingIOError:
                 # Resource temporarily unavailable (errno EWOULDBLOCK)
+                print("Resource temporarily unavailable (errno EWOULDBLOCK)")
                 pass
             else:
                 self._send_buffer = self._send_buffer[sent:]            

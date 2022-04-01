@@ -22,28 +22,11 @@ def sleep_freq_hz(freq_hz=500):
     period_sec = 1.0/freq_hz
     time.sleep(period_sec) 
 
-def create_request(action, value):
-    if action == "search":
-        return dict(
-            type="text/json",
-            encoding="utf-8",
-            content=dict(action=action, value=value),
-        )
-    else:
-        return dict(
-            type="binary/custom-client-binary-type",
-            encoding="binary",
-            content=bytes(action + value, encoding="utf-8"),
-        )
-
-
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
     print(f"Accepted connection from {addr}")
     conn.setblocking(False)
-
-    request=create_request("search", "value")
-    message = libserver.Message(sel, conn, addr,request)
+    message = libserver.Message(sel, conn, addr)
     sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=message)
 
 
