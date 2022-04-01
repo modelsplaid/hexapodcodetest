@@ -105,6 +105,11 @@ class Message:
             self.write()
         
         return True
+
+    def server_send_json(self,json_data):
+        self.queue_request(json_data) 
+        self._set_selector_events_mask("rw") 
+
     def read(self):
         if(self._read()==False):
             return False
@@ -146,25 +151,19 @@ class Message:
             # Delete reference to socket object for garbage collection
             self.sock = None
 
-    def queue_request(self):
-        content = self.request["content"]
+    def queue_request(self,sentdata):
+        content = sentdata
         content_type = self.request["type"]
         content_encoding = self.request["encoding"]
-        if content_type == "text/json":
-            req = {
-                "content_bytes": self._json_encode(content, content_encoding),
-                "content_type": content_type,
-                "content_encoding": content_encoding,
-            }
-        else:
-            req = {
-                "content_bytes": content,
-                "content_type": content_type,
-                "content_encoding": content_encoding,
-            }
+       
+        req = {
+            "content_bytes": self._json_encode(content, content_encoding),
+            "content_type": content_type,
+            "content_encoding": content_encoding,
+        }
+ 
         message = self._create_message(**req)
         self._send_buffer += message
-        self._request_queued = True
 
     def process_protoheader(self):
         hdrlen = 2 # first two bytes is header, contains message length info
