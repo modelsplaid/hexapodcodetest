@@ -12,7 +12,7 @@ sel = selectors.DefaultSelector()
 
 #logging.basicConfig(filename='app.log',level=logging.DEBUG,filemode='w', 
 logging.basicConfig(level=logging.INFO,filemode='w', 
-format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(libserver_obj)s')
 logging.debug('This will get logged')
 
 user_message = ''
@@ -26,8 +26,8 @@ def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
     print(f"Accepted connection from {addr}")
     conn.setblocking(False)
-    message = libserver.Message(sel, conn, addr)
-    sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=message)
+    libserver_obj = libserver.Message(sel, conn, addr)
+    sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=libserver_obj)
 
 
 if len(sys.argv) != 3:
@@ -59,9 +59,9 @@ def socket_thread(name):
                 #print("user_message: "+str(user_message))
                 for key, mask in events: # loop over each client connect objs
                     if key.data is not None:  # if connected to the client
-                        message = key.data
-                        logging.debug("socket message will send： "+user_message)
-                        message.server_send_json(user_message)                                     
+                        libserver_obj = key.data
+                        logging.debug("socket libserver_obj will send： "+user_message)
+                        libserver_obj.server_send_json(user_message)                                     
                 user_message = '' # clear out    
 
             # parsing events
@@ -69,16 +69,16 @@ def socket_thread(name):
                 if key.data is None:
                     accept_wrapper(key.fileobj)
                 else:
-                    message = key.data               
+                    libserver_obj = key.data               
                     try:
-                        message.process_events(mask)
-                        # clear message out             
+                        libserver_obj.process_events(mask)
+                        # clear libserver_obj out             
                     except Exception:
                         print(
-                            f"Main: Error: Exception for {message.addr}:\n"
+                            f"Main: Error: Exception for {libserver_obj.addr}:\n"
                             f"{traceback.format_exc()}"
                         )
-                        message.close()
+                        libserver_obj.close()
                      
     except KeyboardInterrupt:
         print("---Caught keyboard interrupt, exiting")

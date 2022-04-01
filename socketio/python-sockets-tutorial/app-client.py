@@ -10,10 +10,10 @@ import logging
 import threading
 
 #logging.basicConfig(filename='app.log', level=logging.DEBUG,filemode='w', 
-#format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+#format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(libclient_obj)s')
 user_message = ''
 logging.basicConfig(level=logging.INFO, 
-format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(libclient_obj)s')
 
 
 sel = selectors.DefaultSelector()
@@ -33,8 +33,8 @@ def start_connection(host, port):
     print("sock: "+str(sock))
     events = selectors.EVENT_READ
     #events = selectors.EVENT_READ| selectors.EVENT_WRITE
-    message = libclient.Message(sel, sock, addr)
-    sel.register(sock, events, data=message)
+    libclient_obj = libclient.Message(sel, sock, addr)
+    sel.register(sock, events, data=libclient_obj)
 
     return True
 
@@ -55,20 +55,20 @@ def socket_thread(name):
             sleep_freq_hz()
             events = sel.select(1)
             for key, mask in events:
-                message = key.data
+                libclient_obj = key.data
                 try:
 
-                    if(message.process_events(mask)==False):
+                    if(libclient_obj.process_events(mask)==False):
                         runstatus = False
-                    onedata = message.get_recv_queu()                      
+                    onedata = libclient_obj.get_recv_queu()                      
                     if(onedata is not False): 
                         print("server data: "+str(onedata))  
                 except Exception:
                     print(
-                        f"Main: Error: Exception for {message.addr}:\n"
+                        f"Main: Error: Exception for {libclient_obj.addr}:\n"
                         f"{traceback.format_exc()}"
                     )
-                    message.close()
+                    libclient_obj.close()
                     break
 
                 
