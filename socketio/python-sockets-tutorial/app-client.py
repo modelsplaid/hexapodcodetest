@@ -28,14 +28,15 @@ def start_connection(host, port):
     print(f"Starting connection to {addr}")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)
-    #coninfo = sock.connect_ex(addr)
-    coninfo = sock.connect_ex(addr)
-    print("coninfo: "+str(coninfo))
+    connectstat=sock.connect_ex(addr)
+    print("connectstat: "+str(connectstat))
+    print("sock: "+str(sock))
     events = selectors.EVENT_READ
     #events = selectors.EVENT_READ| selectors.EVENT_WRITE
     message = libclient.Message(sel, sock, addr)
     sel.register(sock, events, data=message)
 
+    return True
 
 if len(sys.argv) !=3:
     print(f"Usage: {sys.argv[0]} <host> <port> ")
@@ -47,40 +48,41 @@ host, port = sys.argv[1], int(sys.argv[2])
 
 def socket_thread(name): 
 
-    while True:
-        start_connection(host, port)
-        try:
-            while True:
-                sleep_freq_hz()
-                print("1")
-                events = sel.select(1)
-                print("2")
-                for key, mask in events:
-                    message = key.data
-                    try:
+    try:
+        runstatus = True
+        while  runstatus:
+            sleep_freq_hz()
+            events = sel.select(1)
+            for key, mask in events:
+                message = key.data
+                try:
 
-                        message.process_events(mask)
-                        onedata = message.get_recv_queu()                      
-                        if(onedata is not False): 
-                            print("server data: "+str(onedata))  
-                    except Exception:
-                        print(
-                            f"Main: Error: Exception for {message.addr}:\n"
-                            f"{traceback.format_exc()}"
-                        )
-                        message.close()
-                        break
-
-                    
-                # Check for a socket being monitored to continue.
-                if not sel.get_map():
+                    if(message.process_events(mask)==False):
+                        #message.close()
+                        runstatus = False
+                    onedata = message.get_recv_queu()                      
+                    if(onedata is not False): 
+                        print("server data: "+str(onedata))  
+                except Exception:
+                    print(
+                        f"Main: Error: Exception for {message.addr}:\n"
+                        f"{traceback.format_exc()}"
+                    )
+                    message.close()
                     break
-        except KeyboardInterrupt:
-            print("Caught keyboard interrupt, exiting")
-            return
-        finally:
-            sel.close()
-            return
+
+                
+            # Check for a socket being monitored to continue.
+            if not sel.get_map():
+                print("get_map")
+                break
+    except KeyboardInterrupt:
+        print("Caught keyboard interrupt, exiting")
+        return
+    finally:
+        print("---sel.close")
+        sel.close()
+        return
 
     
 

@@ -40,13 +40,19 @@ class Message:
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
             print("client is not connected")
-            pass
+            #pass
+            return False
+    
+        except ConnectionRefusedError:
+            print("connection refused")
+            return False
         else:
             if data:
                 self._recv_raw_buffer += data
             else:
-                raise RuntimeError("Peer closed.")
-
+                print("---peer closed")
+                return False
+        return True
 
     def _write(self):
         if len(self._send_buffer)>=2:
@@ -58,6 +64,7 @@ class Message:
             except BlockingIOError:
                 # Resource temporarily unavailable (errno EWOULDBLOCK)
                 pass
+
             else:
                 self._send_buffer = self._send_buffer[sent:]
                 
@@ -80,6 +87,8 @@ class Message:
             except BlockingIOError:
                 # Resource temporarily unavailable (errno EWOULDBLOCK)
                 pass
+            except ConnectionRefusedError: 
+                print("!!!ConnectionRefusedError")
             else:
                 self._send_buffer = self._send_buffer[sent:]
 
@@ -112,16 +121,20 @@ class Message:
 
     def process_events(self, mask):
         if mask & selectors.EVENT_READ:
-            self.read()
+            if(self.read()==False):
+                return False
+            
         if mask & selectors.EVENT_WRITE:
             self.write()
-
+        
+        return True
     def read(self):
-        self._read()
+        if(self._read()==False):
+            return False
         
         if self._jsonheader_len is None:
-            self.process_protoheader()
-        
+            self.process_protoheader()        
+
         if self._jsonheader_len is not None:
             if self.jsonheader is None:
                 self.process_jsonheader()
@@ -129,6 +142,8 @@ class Message:
         if self.jsonheader:
             if self.response is None:
                 self.process_response()
+
+        return True
 
     def send_json(self,json_data):
         a=0
@@ -236,7 +251,7 @@ class Message:
             #self._process_response_json_content()
    
     def get_recv_queu(self):
-        if(self.recv_queue.qsize()>=0):
+        if(self.recv_queue.empty()==False):
             return self.recv_queue.get()
         else: 
             return False
