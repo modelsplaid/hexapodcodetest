@@ -64,7 +64,13 @@ def socket_thread(name):
                         libclient_obj = key.data
                         #print("socket libclient_obj will send： "+user_message)
                         libclient_obj.client_send_json(user_message)                                     
+            
+            
                 user_message = '' # clear out    
+            else: 
+                #sleep longer to decrease cpu rate
+                sleep_freq_hz(50)
+
             for key, mask in events:
                 libclient_obj = key.data
                 try:
@@ -105,7 +111,7 @@ def servo_commu_thread(name):
         #print("This content will send to client: "+str_usr)
         counter = counter+1
         user_message = "client counter value: "+str(counter)
-        time.sleep(1)
+        time.sleep(0.01)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

@@ -63,7 +63,8 @@ def socket_thread(name):
                         #print("socket libserver_obj will send： "+user_message)
                         libserver_obj.server_send_json(user_message)                                     
                 user_message = '' # clear out    
-
+            else: 
+                sleep_freq_hz(50)
             # parsing events
             for key, mask in events:
                 if key.data is None:
@@ -98,7 +99,7 @@ def servo_commu_thread(name):
         #print("This content will send to client: "+str_usr)
         counter = counter+1
         user_message = "server counter value: "+str(counter)
-        time.sleep(1)
+        time.sleep(0.01)
 
 
 if __name__ == '__main__':
