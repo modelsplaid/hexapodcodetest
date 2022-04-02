@@ -86,13 +86,11 @@ def socket_thread(name):
                         f"{traceback.format_exc()}"
                     )
                     libclient_obj.close()
-                    break
 
                 
             # Check for a socket being monitored to continue.
             if not sel.get_map():
                 print("get_map")
-                break
     except KeyboardInterrupt:
         print("Caught keyboard interrupt, exiting")
         return
