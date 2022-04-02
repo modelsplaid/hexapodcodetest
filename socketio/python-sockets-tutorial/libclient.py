@@ -18,6 +18,16 @@ class Message:
         self.jsonheader = None
         self.response = None
         self.recv_queue = queue.Queue()
+        self.request = self.create_request('')
+
+
+    def create_request(self,value):
+            return dict(
+                type="text/json",
+                encoding="utf-8",
+                content=dict(value=value),
+            )
+
 
 
     def _set_selector_events_mask(self, mode):
@@ -57,9 +67,9 @@ class Message:
 
 
     def write(self):
-        if len(self._send_buffer)>=0:
+        if len(self._send_buffer)>0:
             
-            print(f"Sending {self._send_buffer!r} to {self.addr}")
+            #print(f"Sending {self._send_buffer!r} to {self.addr}")
             try:
                 # Should be ready to write
                 sent = self.sock.send(self._send_buffer)
@@ -106,7 +116,7 @@ class Message:
         
         return True
 
-    def server_send_json(self,json_data):
+    def client_send_json(self,json_data):
         self.queue_request(json_data) 
         self._set_selector_events_mask("rw") 
 

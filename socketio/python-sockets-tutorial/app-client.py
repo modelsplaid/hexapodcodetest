@@ -31,8 +31,8 @@ def start_connection(host, port):
     connectstat=sock.connect_ex(addr)
     print("connectstat: "+str(connectstat))
     print("sock: "+str(sock))
-    events = selectors.EVENT_READ|selectors.EVENT_WRITE
-    #events = selectors.EVENT_READ| selectors.EVENT_WRITE
+    #events = selectors.EVENT_READ
+    events = selectors.EVENT_READ| selectors.EVENT_WRITE
     libclient_obj = libclient.Message(sel, sock, addr)
     sel.register(sock, events, data=libclient_obj)
 
@@ -46,25 +46,25 @@ host, port = sys.argv[1], int(sys.argv[2])
 
 start_connection(host, port)
 
+user_message = '' # clear out    
 def socket_thread(name): 
-
+    global user_message
     
     try:
         runstatus = True
         while  runstatus:
             sleep_freq_hz()
             events = sel.select(1)
-
+           
             # load data and events for each connected client 
             if(user_message is not ''):  # if new data is coming from servos
                 #print("user_message: "+str(user_message))
                 for key, mask in events: # loop over each client connect objs
                     if key.data is not None:  # if connected to the client
                         libclient_obj = key.data
-                        logging.debug("socket libclient_obj will send： "+user_message)
+                        #print("socket libclient_obj will send： "+user_message)
                         libclient_obj.client_send_json(user_message)                                     
                 user_message = '' # clear out    
-
             for key, mask in events:
                 libclient_obj = key.data
                 try:
@@ -73,7 +73,7 @@ def socket_thread(name):
                         runstatus = False
                     onedata = libclient_obj.get_recv_queu()                      
                     if(onedata is not False): 
-                        print("server data: "+str(onedata))  
+                        print("++++ server data: "+str(onedata))  
                 except Exception:
                     print(
                         f"Main: Error: Exception for {libclient_obj.addr}:\n"
@@ -90,11 +90,12 @@ def socket_thread(name):
     except KeyboardInterrupt:
         print("Caught keyboard interrupt, exiting")
         return
+    '''
     finally:
         print("---sel.close")
         sel.close()
         return
-
+    '''
     
 
 

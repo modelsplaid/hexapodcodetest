@@ -53,7 +53,7 @@ class Message:
     def write(self):
         if len(self._send_buffer)>0:
 
-            #print(f"Sending {self._send_buffer!r} to {self.addr}")
+            print(f"Sending {self._send_buffer!r} to {self.addr}")
             try:
                 # Should be ready to write
                 sent = self.sock.send(self._send_buffer)

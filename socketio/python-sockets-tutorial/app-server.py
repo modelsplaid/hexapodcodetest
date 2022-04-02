@@ -60,7 +60,7 @@ def socket_thread(name):
                 for key, mask in events: # loop over each client connect objs
                     if key.data is not None:  # if connected to the client
                         libserver_obj = key.data
-                        logging.debug("socket libserver_obj will send： "+user_message)
+                        #print("socket libserver_obj will send： "+user_message)
                         libserver_obj.server_send_json(user_message)                                     
                 user_message = '' # clear out    
 
