@@ -72,6 +72,11 @@ def socket_thread(name):
                     libserver_obj = key.data               
                     try:
                         libserver_obj.process_events(mask)
+                        onedata = libserver_obj.get_recv_queu()
+                        if(onedata is not False):
+                            print("---- received from client data: "+str(onedata))
+
+
                         # clear libserver_obj out             
                     except Exception:
                         print(

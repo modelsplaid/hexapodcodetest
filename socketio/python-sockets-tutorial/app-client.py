@@ -73,7 +73,7 @@ def socket_thread(name):
                         runstatus = False
                     onedata = libclient_obj.get_recv_queu()                      
                     if(onedata is not False): 
-                        print("++++ server data: "+str(onedata))  
+                        print("++++ received from server data: "+str(onedata))  
                 except Exception:
                     print(
                         f"Main: Error: Exception for {libclient_obj.addr}:\n"
@@ -90,12 +90,10 @@ def socket_thread(name):
     except KeyboardInterrupt:
         print("Caught keyboard interrupt, exiting")
         return
-    '''
     finally:
         print("---sel.close")
         sel.close()
         return
-    '''
     
 
 

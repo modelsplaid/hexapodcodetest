@@ -229,7 +229,6 @@ class Message:
             self.response = None
             self.jsonheader = None
             self._recv_raw_buffer = b""
-            #self._process_response_json_content()
    
     def get_recv_queu(self):
         if(self.recv_queue.empty()==False):
