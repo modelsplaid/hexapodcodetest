@@ -4,19 +4,31 @@ import json
 import io
 import struct
 import logging
-
+import queue
 class Message:
-    def __init__(self, selector, sock, addr, request):
+    def __init__(self, selector, sock, addr):
         self.selector = selector
         self.sock = sock
         self.addr = addr
-        self.request = request
-        self._recv_buffer = b""
+        self.request = None
+        self._recv_raw_buffer = b""
         self._send_buffer = b""
         self._request_queued = False
         self._jsonheader_len = None
         self.jsonheader = None
         self.response = None
+        self.recv_queue = queue.Queue()
+        self.request = self.create_request('')
+
+
+    def create_request(self,value):
+            return dict(
+                type="text/json",
+                encoding="utf-8",
+                content=dict(value=value),
+            )
+
+
 
     def _set_selector_events_mask(self, mode):
         """Set selector to listen for events: mode is 'r', 'w', or 'rw'."""
@@ -34,25 +46,37 @@ class Message:
         try:
             # Should be ready to read
             data = self.sock.recv(4096)
-            print("received data in _read(): "+str(data) )
+            #print("received data in _read(): "+str(data) )
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
-            pass
+            print("client is not connected")
+            #pass
+            return False
+    
+        except ConnectionRefusedError:
+            print("connection refused")
+            return False
         else:
             if data:
-                self._recv_buffer += data
+                self._recv_raw_buffer += data
             else:
-                raise RuntimeError("Peer closed.")
+                print("---peer closed")
+                return False
+        return True
 
-    def _write(self):
-        if self._send_buffer:
-            print(f"Sending {self._send_buffer!r} to {self.addr}")
+
+
+    def write(self):
+        if len(self._send_buffer)>0:
+            
+            #print(f"Sending {self._send_buffer!r} to {self.addr}")
             try:
                 # Should be ready to write
                 sent = self.sock.send(self._send_buffer)
             except BlockingIOError:
-                # Resource temporarily unavailable (errno EWOULDBLOCK)
+                print("Resource temporarily unavailable (errno EWOULDBLOCK)")
                 pass
+
             else:
                 self._send_buffer = self._send_buffer[sent:]
 
@@ -60,7 +84,7 @@ class Message:
         return json.dumps(obj, ensure_ascii=False).encode(encoding)
 
     def _json_decode(self, json_bytes, encoding):
-        print("json_bytes: "+str(json_bytes))
+        #print("json_bytes: "+str(json_bytes))
         tiow = io.TextIOWrapper(
             io.BytesIO(json_bytes), encoding=encoding, newline=""
         )
@@ -82,30 +106,27 @@ class Message:
         message = message_hdr + jsonheader_bytes + content_bytes
         return message
 
-    def _process_response_json_content(self):
-        content = self.response
-        result = content.get("result")
-        print(f"Got result: {result}")
-
-    def _process_response_binary_content(self):
-        content = self.response
-        print(f"Got response: {content!r}")
-
     def process_events(self, mask):
         if mask & selectors.EVENT_READ:
-            print("self.read()")
-            self.read()
+            if(self.read()==False):
+                return False
+            
         if mask & selectors.EVENT_WRITE:
-            #self.write()
-            #print("skipself.write()")
-            a = 0
+            self.write()
+        
+        return True
+
+    def client_send_json(self,json_data):
+        self.queue_request(json_data) 
+        self._set_selector_events_mask("rw") 
 
     def read(self):
-        self._read()
+        if(self._read()==False):
+            return False
         
         if self._jsonheader_len is None:
-            self.process_protoheader()
-        
+            self.process_protoheader()        
+
         if self._jsonheader_len is not None:
             if self.jsonheader is None:
                 self.process_jsonheader()
@@ -114,17 +135,14 @@ class Message:
             if self.response is None:
                 self.process_response()
 
-    def write(self):
-        if not self._request_queued:
-            self.queue_request()
+        return True
 
-        self._write()
+    def send_json(self,json_data):
+        a=0
 
-        if self._request_queued:
-            if not self._send_buffer:
-                # Set selector to listen for read events, we're done writing.
-                self._set_selector_events_mask("r")
 
+
+    
     def close(self):
         print(f"Closing connection to {self.addr}")
         try:
@@ -143,45 +161,39 @@ class Message:
             # Delete reference to socket object for garbage collection
             self.sock = None
 
-    def queue_request(self):
-        content = self.request["content"]
+    def queue_request(self,sentdata):
+        content = sentdata
         content_type = self.request["type"]
         content_encoding = self.request["encoding"]
-        if content_type == "text/json":
-            req = {
-                "content_bytes": self._json_encode(content, content_encoding),
-                "content_type": content_type,
-                "content_encoding": content_encoding,
-            }
-        else:
-            req = {
-                "content_bytes": content,
-                "content_type": content_type,
-                "content_encoding": content_encoding,
-            }
+       
+        req = {
+            "content_bytes": self._json_encode(content, content_encoding),
+            "content_type": content_type,
+            "content_encoding": content_encoding,
+        }
+ 
         message = self._create_message(**req)
         self._send_buffer += message
-        self._request_queued = True
 
     def process_protoheader(self):
-        hdrlen = 2
-        if len(self._recv_buffer) >= hdrlen:
+        hdrlen = 2 # first two bytes is header, contains message length info
+        if len(self._recv_raw_buffer) >= hdrlen:
             self._jsonheader_len = struct.unpack(
-                ">H", self._recv_buffer[:hdrlen]
+                ">H", self._recv_raw_buffer[:hdrlen]
             )[0]
-            self._recv_buffer = self._recv_buffer[hdrlen:]
+            self._recv_raw_buffer = self._recv_raw_buffer[hdrlen:]
             logging.debug("self._jsonheader_len:"+str(self._jsonheader_len))
 
     def process_jsonheader(self):
         hdrlen = self._jsonheader_len
-        if len(self._recv_buffer) >= hdrlen:
+        if len(self._recv_raw_buffer) >= hdrlen:
             self.jsonheader = self._json_decode(
-                self._recv_buffer[:hdrlen], "utf-8"
+                self._recv_raw_buffer[:hdrlen], "utf-8"
             )
-            logging.debug("len(self._recv_buffer):"+str(len(self._recv_buffer)))
+            logging.debug("len(self._recv_raw_buffer):"+str(len(self._recv_raw_buffer)))
             logging.debug("self._jsonheader_len:"+str(self._jsonheader_len))
             logging.debug("self.jsonheader:"+str(self.jsonheader))
-            self._recv_buffer = self._recv_buffer[hdrlen:]
+            self._recv_raw_buffer = self._recv_raw_buffer[hdrlen:]
             for reqhdr in (
                 "byteorder",
                 "content-length",
@@ -194,36 +206,32 @@ class Message:
     def process_response(self):
         content_len = self.jsonheader["content-length"]
 
-        logging.debug("len(self._recv_buffer):"+str(len(self._recv_buffer))+" content_len:"+str(content_len))
+        #logging.debug("len(self._recv_raw_buffer):"+str(len(self._recv_raw_buffer))+" content_len:"+str(content_len))
         
         # if not received full data pack 
-        if not len(self._recv_buffer) >= content_len:
-            logging.error("not received full data pack. if not len(self._recv_buffer) >= content_len")
-            print("return process_response")
+        if not len(self._recv_raw_buffer) >= content_len:
+            logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
+            print("not received full data pack. return process_response")
             return
 
         # if  received full data pack, start to process it 
-        data = self._recv_buffer[:content_len]
-        self._recv_buffer = self._recv_buffer[content_len:]
+        data = self._recv_raw_buffer[:content_len]
+        self._recv_raw_buffer = self._recv_raw_buffer[content_len:]
         if self.jsonheader["content-type"] == "text/json":
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
             logging.debug("self.response:"+str(self.response))
-            print(f"Received response {self.response!r} from {self.addr}")
+            #print(f"Received response {self.response!r} from {self.addr}")
             
+            self.recv_queue.put(self.response) # pop out the queu
             ## init for next return
             self._jsonheader_len = None
             self.response = None
             self.jsonheader = None
-            self._recv_buffer = b""
-            #self._process_response_json_content()
-        else:
-            # Binary or unknown content-type
-            self.response = data
-            print(
-                f"Received {self.jsonheader['content-type']} "
-                f"response from {self.addr}"
-            )
-            self._process_response_binary_content()
-        # Close when response has been processed
-        #self.close()
+            self._recv_raw_buffer = b""
+   
+    def get_recv_queu(self):
+        if(self.recv_queue.empty()==False):
+            return self.recv_queue.get()
+        else: 
+            return False

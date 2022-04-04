@@ -12,34 +12,22 @@ sel = selectors.DefaultSelector()
 
 #logging.basicConfig(filename='app.log',level=logging.DEBUG,filemode='w', 
 logging.basicConfig(level=logging.INFO,filemode='w', 
-format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(message)s')
+format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)s,%(libserver_obj)s')
 logging.debug('This will get logged')
 
-user_message = 'hello world'
+user_message = ''
 
-def create_request(action, value):
-    if action == "search":
-        return dict(
-            type="text/json",
-            encoding="utf-8",
-            content=dict(action=action, value=value),
-        )
-    else:
-        return dict(
-            type="binary/custom-client-binary-type",
-            encoding="binary",
-            content=bytes(action + value, encoding="utf-8"),
-        )
-
+SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
+def sleep_freq_hz(freq_hz=500):
+    period_sec = 1.0/freq_hz
+    time.sleep(period_sec) 
 
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
     print(f"Accepted connection from {addr}")
     conn.setblocking(False)
-
-    request=create_request("search", "value")
-    message = libserver.Message(sel, conn, addr,request)
-    sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=message)
+    libserver_obj = libserver.Message(sel, conn, addr)
+    sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=libserver_obj)
 
 
 if len(sys.argv) != 3:
@@ -56,43 +44,50 @@ print(f"Listening on {(host, port)}")
 lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
 
+glob_events = [] 
 
 def socket_thread(name):
-    print("name: "+str(name))
+    global glob_events
     global user_message
     try:
         while True:
-            
-            events = sel.select(timeout=1)
+            sleep_freq_hz() 
+            events = sel.select(None)
 
-            # parsing events
-            for key, mask in events:
-                if key.data is None:
-                    accept_wrapper(key.fileobj)
-                else:
-                    message = key.data               
-                    try:
-                        message.process_events(mask)
-                        # clear message out             
-                    except Exception:
-                        print(
-                            f"Main: Error: Exception for {message.addr}:\n"
-                            f"{traceback.format_exc()}"
-                        )
-                        message.close()
             # load data and events for each connected client 
             if(user_message is not ''):  # if new data is coming from servos
                 #print("user_message: "+str(user_message))
                 for key, mask in events: # loop over each client connect objs
                     if key.data is not None:  # if connected to the client
-                        message = key.data
-                        logging.debug("socket message will send： "+user_message)
-                        message.queue_request(user_message)
-                        message.response_created = False
-                        message._set_selector_events_mask("rw")                        
-                user_message = '' # clear out                         
+                        libserver_obj = key.data
+                        #print("socket libserver_obj will send： "+user_message)
+                        libserver_obj.server_send_json(user_message)                                     
+                user_message = '' # clear out    
+            else: 
+                sleep_freq_hz(50)
+            # parsing events
+            for key, mask in events:
+                if key.data is None:
+                    accept_wrapper(key.fileobj)
+                else:
+                    libserver_obj = key.data               
+                    try:
+                        libserver_obj.process_events(mask)
+                        onedata = libserver_obj.get_recv_queu()
+                        if(onedata is not False):
+                            print("---- received from client data: "+str(onedata))
+
+
+                        # clear libserver_obj out             
+                    except Exception:
+                        print(
+                            f"Main: Error: Exception for {libserver_obj.addr}:\n"
+                            f"{traceback.format_exc()}"
+                        )
+                        libserver_obj.close()
+                     
     except KeyboardInterrupt:
-        print("Caught keyboard interrupt, exiting")
+        print("---Caught keyboard interrupt, exiting")
     finally:
         sel.close()
 
@@ -103,21 +98,16 @@ def servo_commu_thread(name):
         #str_usr = input("Type what you want to send: ")
         #print("This content will send to client: "+str_usr)
         counter = counter+1
-        user_message = "counter value: "+str(counter)
-        time.sleep(1)
+        user_message = "server counter value: "+str(counter)
+        time.sleep(0.01)
 
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('This will get logged')
-    print("in main")
     x = threading.Thread(target=socket_thread, args=(1,))
     x1 = threading.Thread(target=servo_commu_thread, args=(1,))
-    print("x1.start()")
     x1.start()
-    print("x.start()")
     x.start()
-    print("x1.join")
     x1.join()
-    print("x.join()")
     x.join()
