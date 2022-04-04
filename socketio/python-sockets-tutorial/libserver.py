@@ -65,9 +65,10 @@ class Message:
                 pass
             else:
                 self._send_buffer = self._send_buffer[sent:]
-                # Close when the buffer is drained. The response has been sent.
+                # change event to only read when the buffer is drained. 
+                # The response has been sent.
                 if sent and not self._send_buffer:
-                    #self.close()
+                    self._set_selector_events_mask("r")
                     print("-----------done sending it")
         else:
             logging.error("cannot write data to socke, buffer len too short. buffer len: "+str(len(self._send_buffer)))
@@ -130,8 +131,9 @@ class Message:
             print("goto write direct function")
             self.read()
         if mask & selectors.EVENT_WRITE:
-            self.write()
             print("goto write direct function")
+            self.write()
+            
           
 
     #def process_events(self, mask,sentdata):
