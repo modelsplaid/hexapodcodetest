@@ -69,7 +69,7 @@ def socket_thread(name):
                 user_message = '' # clear out    
             else: 
                 #sleep longer to decrease cpu rate
-                sleep_freq_hz(50)
+                sleep_freq_hz(100)
 
             for key, mask in events:
                 libclient_obj = key.data
@@ -111,7 +111,29 @@ def servo_commu_thread(name):
         user_message = "client counter value: "+str(counter)
         time.sleep(0.01)
 
+class MiniSocketServer:
+    def __init__(self):
+        self.servo_commu_thread = threading.Thread(target=self.servo_commu_thread, args=(2,))
+
+        self.servo_commu_thread.start()
+        print("done init")
+    def __del__(self):
+        print("self.servo_commu_thread.join()")
+        self.servo_commu_thread.stop()
+
+    def servo_commu_thread(self,name):
+        while (True):
+            print("in servo commu thread")
+            time.sleep(0.5)
+
 if __name__ == '__main__':
+    m_sock_server = MiniSocketServer()
+
+    for i in range(10):
+        time.sleep(0.5)
+        print("in main")
+    m_sock_server.servo_commu_thread.stop()
+    '''
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('This will get logged')
     x = threading.Thread(target=socket_thread, args=(1,))
@@ -120,6 +142,5 @@ if __name__ == '__main__':
     x.start()
     x1.join()
     x.join()
+    ''' 
 
-
-# todo: add multi thread and send to server function    
