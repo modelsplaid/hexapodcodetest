@@ -114,25 +114,31 @@ def servo_commu_thread(name):
 class MiniSocketServer:
     def __init__(self):
         self.servo_commu_thread = threading.Thread(target=self.servo_commu_thread, args=(2,))
-
+        self.servo_commu_thread.daemon = True
         self.servo_commu_thread.start()
-        print("done init")
-    def __del__(self):
+        print("Mini socket server done init")
+    def stop_threads(self):
         print("self.servo_commu_thread.join()")
-        self.servo_commu_thread.stop()
+        self.servo_commu_thread._stop()
+
 
     def servo_commu_thread(self,name):
-        while (True):
-            print("in servo commu thread")
-            time.sleep(0.5)
+        global user_message
+        counter = 0
+        while(True):
+            #str_usr = input("Type what you want to send: ")
+            #print("This content will send to client: "+str_usr)
+            counter = counter+1
+            user_message = "client counter value: "+str(counter)
+            time.sleep(0.01)
 
 if __name__ == '__main__':
     m_sock_server = MiniSocketServer()
 
-    for i in range(10):
+    for i in range(5):
         time.sleep(0.5)
         print("in main")
-    m_sock_server.servo_commu_thread.stop()
+    sys.exit()
     '''
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('This will get logged')
