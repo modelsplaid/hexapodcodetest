@@ -250,11 +250,11 @@ class MiniSocketClient:
         self.user_message = ''
         self.user_message_queu = queue.Queue()
         self.sel = selectors.DefaultSelector()        
-        self.start_connection("", 12345)
+        self.start_connection("", 12346)
 
-        self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
-        self.test_commu_thread.daemon = True
-        self.test_commu_thread.start()
+        #self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
+        #self.test_commu_thread.daemon = True
+        #self.test_commu_thread.start()
 
         self.socket_thread_obj = threading.Thread(target=self.socket_thread, args=(2,))
         self.socket_thread_obj.daemon = True
@@ -294,7 +294,7 @@ class MiniSocketClient:
 
                 # load data and events for each connected client 
                 #if(self.user_message is not ''):  # if new data is coming from servos
-                print("self.user_message_queu.empty(): "+str(self.user_message_queu.empty()) )
+                #print("self.user_message_queu.empty(): "+str(self.user_message_queu.empty()) )
                 if(self.user_message_queu.empty() is  False):
                     self.user_message = self.user_message_queu.get()
                     #print("user_message: "+str(self.user_message))

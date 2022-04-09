@@ -42,8 +42,8 @@ lsock.bind((host, port))
 lsock.listen()
 print(f"Listening on {(host, port)}")
 lsock.setblocking(False)
-sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
-
+#sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
+sel.register(lsock, selectors.EVENT_READ, data=None)
 glob_events = [] 
 
 def socket_thread(name):
@@ -65,6 +65,7 @@ def socket_thread(name):
                 user_message = '' # clear out    
             else: 
                 sleep_freq_hz(50)
+                pass
             # parsing events
             for key, mask in events:
                 if key.data is None:
@@ -73,10 +74,13 @@ def socket_thread(name):
                     libserver_obj = key.data               
                     try:
                         libserver_obj.process_events(mask)
-                        onedata = libserver_obj.get_recv_queu()
-                        if(onedata is not False):
-                            print("---- received from client data: "+str(onedata))
 
+                        while(True):
+                            onedata = libserver_obj.get_recv_queu()
+                            if(onedata is not False):
+                                print("---- received from client data: "+str(onedata))
+                            else: 
+                                break
 
                         # clear libserver_obj out             
                     except Exception:
@@ -98,7 +102,7 @@ def servo_commu_thread(name):
         #str_usr = input("Type what you want to send: ")
         #print("This content will send to client: "+str_usr)
         counter = counter+1
-        user_message = "server counter value: "+str(counter)
+        #user_message = "server counter value: "+str(counter)
         time.sleep(0.01)
 
 

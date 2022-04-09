@@ -18,7 +18,7 @@ class Message:
         self.response = None
         self.request = self.create_request('')
         self.recv_queue = queue.Queue()
-
+        self.hdrlen = 2
     def create_request(self,value):
             return dict(
                 type="text/json",
@@ -105,21 +105,27 @@ class Message:
                 
     def server_send_json(self,json_data):
         self.queue_request(json_data) 
-        self._set_selector_events_mask("rw")    
+        #self._set_selector_events_mask("rw")    
 
     def read(self):
         self._read()
 
-        if self._jsonheader_len is None:
-            self.process_protoheader()
+        while len(self._recv_raw_buffer) >= self.hdrlen:
+            if self._jsonheader_len is None:
+                self.process_protoheader()
 
-        if self._jsonheader_len is not None:
-            if self.jsonheader is None:
-                self.process_jsonheader()
+            else:
+                if self.jsonheader is None:
+                    if(self.process_jsonheader() == False):
+                        # does not receive all jsonheader yet, quit it to receive more data
+                        # stop next function
+                        return
 
-        if self.jsonheader:
-            if self.response is None:
-                self.process_response() 
+            if self.jsonheader:
+                if self.response is None:
+                    if self.process_response() == False:
+                        return    # does not receive all jsonheader yet, quit it to receive more data
+
 
     def queue_request(self,sentdata):
         content = sentdata
@@ -155,26 +161,27 @@ class Message:
             self.sock = None
 
     def process_protoheader(self):
-        hdrlen = 2
-        if len(self._recv_raw_buffer) >= hdrlen:
-            self._jsonheader_len = struct.unpack(">H", self._recv_raw_buffer[:hdrlen])[0]
-            self._recv_raw_buffer = self._recv_raw_buffer[hdrlen:]
+        self.hdrlen = 2
+        if len(self._recv_raw_buffer) >= self.hdrlen:
+            self._jsonheader_len = struct.unpack(">H", self._recv_raw_buffer[:self.hdrlen])[0]
+            self._recv_raw_buffer = self._recv_raw_buffer[self.hdrlen:]
 
     def process_jsonheader(self):
-        hdrlen = self._jsonheader_len
-        if len(self._recv_raw_buffer) >= hdrlen:
+        if len(self._recv_raw_buffer) >= self._jsonheader_len:
             self.jsonheader = self._json_decode(
-                self._recv_raw_buffer[:hdrlen], "utf-8"
+                self._recv_raw_buffer[:self._jsonheader_len], "utf-8"
             )
-            self._recv_raw_buffer = self._recv_raw_buffer[hdrlen:]
-            for reqhdr in (
-                "byteorder",
-                "content-length",
-                "content-type",
-                "content-encoding",
-            ):
+            self._recv_raw_buffer = self._recv_raw_buffer[self._jsonheader_len:]
+            for reqhdr in ("byteorder","content-length",
+                "content-type","content-encoding",):
+
                 if reqhdr not in self.jsonheader:
                     raise ValueError(f"Missing required header '{reqhdr}'.")
+            
+            return True  # means the raw buffer contains all json header content, and processed it 
+        else: 
+            print("!!!!!!THIIS WARNING MEANS: means the raw buffer not contains all json header content, should skip it and wait next recev!!!!!")
+            return False# means the raw buffer not contains all json header content, should skip it and wait next recev
 
     def process_response(self):
         content_len = self.jsonheader["content-length"]
@@ -182,26 +189,30 @@ class Message:
         #logging.debug("len(self._recv_raw_buffer):"+str(len(self._recv_raw_buffer))+" content_len:"+str(content_len))
 
         # if not received full data pack 
-        if not len(self._recv_raw_buffer) >= content_len:
-            logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
-            print("not received full data pack. return process_response")
-            return
+        if  content_len > len(self._recv_raw_buffer):
+            #logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
+            print("!!!!!!not received full data pack. return process_response!!!!!!")
+            return False
+        else:
+            # if  received full data pack, start to process it 
+            data = self._recv_raw_buffer[:content_len]
+            self._recv_raw_buffer = self._recv_raw_buffer[content_len:]
 
-        # if  received full data pack, start to process it 
-        data = self._recv_raw_buffer[:content_len]
-        self._recv_raw_buffer = self._recv_raw_buffer[content_len:]
-        if self.jsonheader["content-type"] == "text/json":
-            encoding = self.jsonheader["content-encoding"]
-            self.response = self._json_decode(data, encoding)
-            logging.debug("self.response:"+str(self.response))
-            #print(f"Received response {self.response!r} from {self.addr}")
+            # decoded one frame of data 
+            if self.jsonheader["content-type"] == "text/json": 
+                encoding = self.jsonheader["content-encoding"]
+                self.response = self._json_decode(data, encoding) 
+                logging.debug("self.response:"+str(self.response))
+                #print(f"Received response {self.response!r} from {self.addr}")
 
-            self.recv_queue.put(self.response) # pop out the queu
-            ## init for next return
-            self._jsonheader_len = None
-            self.response = None
-            self.jsonheader = None
-            self._recv_raw_buffer = b""
+                self.recv_queue.put(self.response) # pop out the queu
+
+                # to prepare decode next frame of data
+                self.response = None
+                self._jsonheader_len = None
+                self.jsonheader = None
+
+            return True
 
 
 
