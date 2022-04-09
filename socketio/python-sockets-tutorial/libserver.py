@@ -47,12 +47,15 @@ class Message:
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
             print("# Resource temporarily unavailable (errno EWOULDBLOCK)")
-            pass
+            #pass
+            return False
         else:
             if data:
                 self._recv_raw_buffer += data
+                return True
             else:
                 raise RuntimeError("Peer closed.")
+        return False
 
     def write(self):
         if len(self._send_buffer)>0:
@@ -105,7 +108,7 @@ class Message:
                 
     def server_send_json(self,json_data):
         self.queue_request(json_data) 
-        #self._set_selector_events_mask("rw")    
+        self._set_selector_events_mask("rw")    
 
     def read(self):
         self._read()
@@ -161,7 +164,7 @@ class Message:
             self.sock = None
 
     def process_protoheader(self):
-        self.hdrlen = 2
+        self.hdrlen = 2  # first two bytes is header, contains message length info
         if len(self._recv_raw_buffer) >= self.hdrlen:
             self._jsonheader_len = struct.unpack(">H", self._recv_raw_buffer[:self.hdrlen])[0]
             self._recv_raw_buffer = self._recv_raw_buffer[self.hdrlen:]
@@ -206,8 +209,7 @@ class Message:
                 #print(f"Received response {self.response!r} from {self.addr}")
 
                 self.recv_queue.put(self.response) # pop out the queu
-
-                # to prepare decode next frame of data
+                # to prepare decode next frame in recv buffer
                 self.response = None
                 self._jsonheader_len = None
                 self.jsonheader = None

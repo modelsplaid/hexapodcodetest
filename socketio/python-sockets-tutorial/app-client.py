@@ -12,7 +12,7 @@ format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)
 if __name__ == '__main__':
     m_sock_server = MiniSocketClient()
 
-    for i in range(500):
+    for i in range(100):
         m_sock_server.push_sender_queu("hello in main: " +str(i))
         time.sleep(0.01)
     sys.exit()

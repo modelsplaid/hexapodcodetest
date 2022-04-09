@@ -102,7 +102,7 @@ def servo_commu_thread(name):
         #str_usr = input("Type what you want to send: ")
         #print("This content will send to client: "+str_usr)
         counter = counter+1
-        #user_message = "server counter value: "+str(counter)
+        user_message = "server counter value: "+str(counter)
         time.sleep(0.01)
 
 
