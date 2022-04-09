@@ -125,9 +125,8 @@ class Message:
                         return
 
             if self.jsonheader:
-                if self.response is None:
-                    if self.process_response() == False:
-                        return    # does not receive all jsonheader yet, quit it to receive more data
+                if self.process_response() == False:
+                    return    # does not receive all jsonheader yet, quit it to receive more data
 
 
     def queue_request(self,sentdata):

@@ -138,9 +138,8 @@ class MessageClient:
                         return
 
             if self.jsonheader:
-                if self.response is None:
-                    if self.process_response() == False:
-                        return    # does not receive all jsonheader yet, quit it to receive more data
+                if self.process_response() == False:
+                    return    # does not receive all jsonheader yet, quit it to receive more data
 
 
 
@@ -250,7 +249,7 @@ class MiniSocketClient:
         self.user_message = ''
         self.user_message_queu = queue.Queue()
         self.sel = selectors.DefaultSelector()        
-        self.start_connection("", 12346)
+        self.start_connection("", 12347)
 
         #self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
         #self.test_commu_thread.daemon = True
