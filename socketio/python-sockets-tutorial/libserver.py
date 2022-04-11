@@ -322,6 +322,9 @@ class MiniSocketServer:
                             libserver_obj.process_events(mask)
 
                             while(True):
+                                # todo here: create a recv queue, save data to this recv queue. 
+                                # the queue should also have an entry to identify data is from which server 
+                                # 
                                 onedata = libserver_obj.get_recv_queu()
                                 if(onedata is not False):
                                     print("---- received from client data: "+str(onedata))

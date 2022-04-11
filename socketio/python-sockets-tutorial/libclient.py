@@ -319,9 +319,9 @@ class MiniSocketClient:
 
                         onedata = libclient_obj.get_recv_queu()   
 
-                        # todo here: create a recv queue, save data to this recv queue. 
+                        # todo 2 here: create a recv queue, save data to this recv queue. 
                         # the queue should also have an entry to identify data is from which server 
-                        #                    
+                        # todo 1 onedata = libclient_obj.get_recv_queu()  shoudl add a for loop to extract all data like libserver                    
                         if(onedata is not False): 
                             print("++++ received from server data: "+str(onedata))  
                     except Exception:
