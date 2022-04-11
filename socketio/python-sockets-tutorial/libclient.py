@@ -214,7 +214,7 @@ class MessageClient:
         
         # if not received full data pack 
         if  content_len > len(self._recv_raw_buffer):
-            #logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
+            logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
             print("!!!!!!not received full data pack. return process_response")
             return False
 
@@ -315,6 +315,7 @@ class MiniSocketClient:
 
                         if(libclient_obj.process_events(mask)==False):
                             runstatus = False
+
                         onedata = libclient_obj.get_recv_queu()                      
                         if(onedata is not False): 
                             print("++++ received from server data: "+str(onedata))  
