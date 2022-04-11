@@ -265,7 +265,8 @@ class MiniSocketClient:
         self.user_message_queu.put(user_input)
 
     def pop_receiver_queue(self):
-        a=0
+        #if(libclient_obj.recv_queue.empty() is  False):
+        pass
 
     def start_connection(self,host, port):
         addr = (host, port)
@@ -316,7 +317,11 @@ class MiniSocketClient:
                         if(libclient_obj.process_events(mask)==False):
                             runstatus = False
 
-                        onedata = libclient_obj.get_recv_queu()                      
+                        onedata = libclient_obj.get_recv_queu()   
+
+                        # todo here: create a recv queue, save data to this recv queue. 
+                        # the queue should also have an entry to identify data is from which server 
+                        #                    
                         if(onedata is not False): 
                             print("++++ received from server data: "+str(onedata))  
                     except Exception:

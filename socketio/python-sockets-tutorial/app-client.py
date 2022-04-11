@@ -10,10 +10,10 @@ format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)
 
 
 if __name__ == '__main__':
-    m_sock_server = MiniSocketClient()
+    m_sock_client = MiniSocketClient()
 
     for i in range(200):
-        m_sock_server.push_sender_queu("hello in main: " +str(i))
+        m_sock_client.push_sender_queu("client sent msg: " +str(i))
         time.sleep(0.01)
     sys.exit()
 
