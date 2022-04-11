@@ -51,8 +51,7 @@ class MessageClient:
     def _read(self):
         try:
             # Should be ready to read
-            #data = self.sock.recv(4096)
-            data = self.sock.recv(40)
+            data = self.sock.recv(4096)
             #print("received data in _read(): "+str(data) )
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
@@ -205,7 +204,7 @@ class MessageClient:
                     raise ValueError(f"Missing required header '{reqhdr}'.")
             return True  # means the raw buffer contains all json header content, and processed it 
         else: 
-            print("!!!!!!THIIS WARNING MEANS: means the raw buffer not contains all json header content, should skip it and wait next recev!!!!!")
+            print("!!!!!!THIIS WARNING MEANS: RECEIVE BUFFER SIZE  IS NOT ENOUGH, CONSIDER TO INCREASE BUFFER SIZE, OR YOU MAY LOSE DATA !!!!!")
             return False
 
     def process_response(self):
@@ -309,7 +308,7 @@ class MiniSocketClient:
                 else: 
                     #sleep longer to decrease cpu rate
                     self.sleep_freq_hz(100)
-
+                    pass
                 for key, mask in events:
                     libclient_obj = key.data
                     try:
