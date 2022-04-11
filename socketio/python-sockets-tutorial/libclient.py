@@ -51,7 +51,8 @@ class MessageClient:
     def _read(self):
         try:
             # Should be ready to read
-            data = self.sock.recv(4096)
+            #data = self.sock.recv(4096)
+            data = self.sock.recv(40)
             #print("received data in _read(): "+str(data) )
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
@@ -214,7 +215,7 @@ class MessageClient:
         
         # if not received full data pack 
         if  content_len > len(self._recv_raw_buffer):
-            logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
+            #logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
             print("!!!!!!not received full data pack. return process_response")
             return False
 
