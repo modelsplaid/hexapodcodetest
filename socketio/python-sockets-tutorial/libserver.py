@@ -5,17 +5,10 @@ import io
 import struct
 import logging
 import queue
-<<<<<<< HEAD
-import time
-import threading
-import traceback
-import socket
-=======
 import threading
 import traceback
 import socket
 import time
->>>>>>> cdb9cc3a56cdaa82370aabb0e223a6d11dbecabe
 
 class MessageServer:
     def __init__(self, selector, sock, addr):
