@@ -5,12 +5,19 @@ import io
 import struct
 import logging
 import queue
+<<<<<<< HEAD
 import time
 import threading
 import traceback
 import socket
+=======
+import threading
+import traceback
+import socket
+import time
+>>>>>>> cdb9cc3a56cdaa82370aabb0e223a6d11dbecabe
 
-class Message:
+class MessageServer:
     def __init__(self, selector, sock, addr):
         self.selector = selector
         self.sock = sock
@@ -46,6 +53,7 @@ class Message:
     def _read(self):
         try:
             # Should be ready to read
+            #data = self.sock.recv(40)
             data = self.sock.recv(4096)
             #print("recv data: "+str(data))
         except BlockingIOError:
@@ -58,7 +66,8 @@ class Message:
                 self._recv_raw_buffer += data
                 return True
             else:
-                raise RuntimeError("Peer closed.")
+                #raise RuntimeError("Peer closed.")
+                print("Client closed.")
         return False
 
     def write(self):
@@ -196,7 +205,7 @@ class Message:
 
         # if not received full data pack 
         if  content_len > len(self._recv_raw_buffer):
-            #logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
+            logging.error("not received full data pack. if not len(self._recv_raw_buffer) >= content_len")
             print("!!!!!!not received full data pack. return process_response!!!!!!")
             return False
         else:
@@ -252,106 +261,124 @@ class Message:
 # tobo: edit below code 
 class MiniSocketServer:
 
-    def __init__(self):
+    def __init__(self,host="",port=12345,send_freq=500,socket_buffer_sz=4096):
         
-        self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
+        self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = send_freq
         self.user_message = ''
         self.user_message_queu = queue.Queue()
+<<<<<<< HEAD
+=======
+        self.sel = selectors.DefaultSelector()        
+        self.create_listening_port("",12347)
+>>>>>>> cdb9cc3a56cdaa82370aabb0e223a6d11dbecabe
 
         self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
         self.test_commu_thread.daemon = True
         self.test_commu_thread.start()
 
+        
         self.socket_thread_obj = threading.Thread(target=self.socket_thread, args=(2,))
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
-
+        self.recv_queues = queue.Queue()
         print("Mini socket server done init")
+
+    def create_listening_port(self,host,port):
+        lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Avoid bind() exception: OSError: [Errno 48] Address already in use
+        lsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        lsock.bind((host, port))
+        lsock.listen()
+        print(f"Listening on {(host, port)}")
+        lsock.setblocking(False)
+        #sel.register(lsock, selectors.EVENT_WRITE|selectors.EVENT_READ, data=None)
+        self.sel.register(lsock, selectors.EVENT_READ, data=None)
+        return True
 
     def push_sender_queu(self,user_input):
         self.user_message_queu.put(user_input)
 
     def pop_receiver_queue(self):
-        a=0
+        if (self.recv_queues.empty()==False):
+            return self.recv_queues.get()
+        else:
+            return False
 
-    def start_connection(self,host, port):
-        addr = (host, port)
-        print(f"Starting connection to {addr}")
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.setblocking(False)
-        connectstat=sock.connect_ex(addr)
-        print("connectstat: "+str(connectstat))
-        print("sock: "+str(sock))
-        #events = selectors.EVENT_READ
-        events = selectors.EVENT_READ| selectors.EVENT_WRITE
-        libclient_obj = MessageClient(self.sel, sock, addr)
-        self.sel.register(sock, events, data=libclient_obj)
-
-        return True
-
+  
 
     def socket_thread(self,name): 
-        
         try:
-            runstatus = True
-            while  runstatus:
-                self.sleep_freq_hz()
-                events = self.sel.select(1)
+            while True:
+                self.sleep_freq_hz() 
+                events = self.sel.select(None)
 
                 # load data and events for each connected client 
                 #if(self.user_message is not ''):  # if new data is coming from servos
-                #print("self.user_message_queu.empty(): "+str(self.user_message_queu.empty()) )
                 if(self.user_message_queu.empty() is  False):
                     self.user_message = self.user_message_queu.get()
-                    #print("user_message: "+str(self.user_message))
+                    #print("self.user_message: "+str(self.user_message))
                     for key, mask in events: # loop over each client connect objs
                         if key.data is not None:  # if connected to the client
-                            libclient_obj = key.data
-                            #print("socket libclient_obj will send： "+self.user_message)
-                            libclient_obj.client_send_json(self.user_message)                                     
-
-
+                            libserver_obj = key.data
+                            #print("socket libserver_obj will send： "+self.user_message)
+                            libserver_obj.server_send_json(self.user_message)                                     
                     self.user_message = '' # clear out    
                 else: 
-                    #sleep longer to decrease cpu rate
-                    self.sleep_freq_hz(100)
-
+                    self.sleep_freq_hz(50)
+                    pass
+                # parsing events
                 for key, mask in events:
-                    libclient_obj = key.data
-                    try:
+                    if key.data is None:
+                        self.accept_wrapper(key.fileobj)
+                    else:
+                        libserver_obj = key.data               
+                        try:
+                            libserver_obj.process_events(mask)
 
-                        if(libclient_obj.process_events(mask)==False):
-                            runstatus = False
-                        onedata = libclient_obj.get_recv_queu()                      
-                        if(onedata is not False): 
-                            print("++++ received from server data: "+str(onedata))  
-                    except Exception:
-                        print(
-                            f"Main: Error: Exception for {libclient_obj.addr}:\n"
-                            f"{traceback.format_exc()}"
-                        )
-                        libclient_obj.close()
+                            while(True): # loop over every element in recv buffer
+                                # todo here: create a recv queue, save data to this recv queue. 
+                                # the queue should also have an entry to identify data is from which server 
+                                # 
+                                onedata = libserver_obj.get_recv_queu()
+                                if(onedata is not False):
+                                    self.recv_queues.put(onedata)
 
-                # Check for a socket being monitored to continue.
-                if not self.sel.get_map():
-                    print("get_map")
+                                    #print("---- received from client data: "+str(onedata))
+                                else: 
+                                    break
+
+                            # clear libserver_obj out             
+                        except Exception:
+                            print(
+                                f"Main: Error: Exception for {libserver_obj.addr}:\n"
+                                f"{traceback.format_exc()}"
+                            )
+                            libserver_obj.close()
+
         except KeyboardInterrupt:
-            print("Caught keyboard interrupt, exiting")
-            return
+            print("---Caught keyboard interrupt, exiting")
         finally:
-            print("---self.sel.close")
-            self.sel.close()
-            return
+            self.sel.close()        
+            pass
 
 
     def test_commu_thread(self,name):        
         counter = 0
         while(True):
             #str_usr = input("Type what you want to send: ")
-            #print("This content will send to client: "+str_usr)
+            #print("This content will send to server: "+str_usr)
             counter = counter+1
-            self.user_message = "client counter value: "+str(counter)
+            self.user_message = "server counter value: "+str(counter)
             time.sleep(0.01)
+
+
+    def accept_wrapper(self,sock):
+        conn, addr = sock.accept()  # Should be ready to read
+        print(f"Accepted connection from {addr}")
+        conn.setblocking(False)
+        libserver_obj = MessageServer(self.sel, conn, addr)
+        self.sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=libserver_obj)
+
 
     def sleep_freq_hz(self,freq_hz=500):
         period_sec = 1.0/freq_hz

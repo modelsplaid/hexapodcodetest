@@ -141,14 +141,6 @@ class MessageClient:
                 if self.process_response() == False:
                     return    # does not receive all jsonheader yet, quit it to receive more data
 
-
-
-    def send_json(self,json_data):
-        a=0
-
-
-
-    
     def close(self):
         print(f"Closing connection to {self.addr}")
         try:
@@ -204,7 +196,7 @@ class MessageClient:
                     raise ValueError(f"Missing required header '{reqhdr}'.")
             return True  # means the raw buffer contains all json header content, and processed it 
         else: 
-            print("!!!!!!THIIS WARNING MEANS: means the raw buffer not contains all json header content, should skip it and wait next recev!!!!!")
+            print("!!!!!!THIIS WARNING MEANS: RECEIVE BUFFER SIZE  IS NOT ENOUGH, CONSIDER TO INCREASE BUFFER SIZE, OR YOU MAY LOSE DATA !!!!!")
             return False
 
     def process_response(self):
@@ -243,7 +235,7 @@ class MessageClient:
 
 
 class MiniSocketClient:
-    def __init__(self):
+    def __init__(self,host="",port=12345,send_freq=500,socket_buffer_sz=4096):
         
         self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
         self.user_message = ''
@@ -258,6 +250,7 @@ class MiniSocketClient:
         self.socket_thread_obj = threading.Thread(target=self.socket_thread, args=(2,))
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
+        self.recv_queues = queue.Queue()
 
         print("Mini socket client done init")
 
@@ -265,7 +258,10 @@ class MiniSocketClient:
         self.user_message_queu.put(user_input)
 
     def pop_receiver_queue(self):
-        a=0
+        if (self.recv_queues.empty()==False):
+            return self.recv_queues.get()
+        else:
+            return False
 
     def start_connection(self,host, port):
         addr = (host, port)
@@ -308,16 +304,23 @@ class MiniSocketClient:
                 else: 
                     #sleep longer to decrease cpu rate
                     self.sleep_freq_hz(100)
-
+                    pass
                 for key, mask in events:
                     libclient_obj = key.data
                     try:
 
                         if(libclient_obj.process_events(mask)==False):
                             runstatus = False
-                        onedata = libclient_obj.get_recv_queu()                      
-                        if(onedata is not False): 
-                            print("++++ received from server data: "+str(onedata))  
+
+                        while(True): # loop over every element in recv buffer
+                            onedata = libclient_obj.get_recv_queu()   
+
+                            if(onedata is not False): 
+                                self.recv_queues.put(onedata)
+                                #print("++++ received from server data: "+str(onedata))  
+                            else:
+                                break
+
                     except Exception:
                         print(
                             f"Main: Error: Exception for {libclient_obj.addr}:\n"
