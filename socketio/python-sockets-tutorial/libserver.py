@@ -5,6 +5,10 @@ import io
 import struct
 import logging
 import queue
+import time
+import threading
+import traceback
+import socket
 
 class Message:
     def __init__(self, selector, sock, addr):
@@ -253,12 +257,10 @@ class MiniSocketServer:
         self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
         self.user_message = ''
         self.user_message_queu = queue.Queue()
-        self.sel = selectors.DefaultSelector()        
-        self.start_connection("", 12347)
 
-        #self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
-        #self.test_commu_thread.daemon = True
-        #self.test_commu_thread.start()
+        self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
+        self.test_commu_thread.daemon = True
+        self.test_commu_thread.start()
 
         self.socket_thread_obj = threading.Thread(target=self.socket_thread, args=(2,))
         self.socket_thread_obj.daemon = True

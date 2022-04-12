@@ -259,7 +259,7 @@ class MiniSocketClient:
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
 
-        print("Mini socket server done init")
+        print("Mini socket client done init")
 
     def push_sender_queu(self,user_input):
         self.user_message_queu.put(user_input)
