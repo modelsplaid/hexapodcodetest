@@ -141,14 +141,6 @@ class MessageClient:
                 if self.process_response() == False:
                     return    # does not receive all jsonheader yet, quit it to receive more data
 
-
-
-    def send_json(self,json_data):
-        a=0
-
-
-
-    
     def close(self):
         print(f"Closing connection to {self.addr}")
         try:
@@ -258,6 +250,7 @@ class MiniSocketClient:
         self.socket_thread_obj = threading.Thread(target=self.socket_thread, args=(2,))
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
+        self.recv_queues = queue.Queue()
 
         print("Mini socket server done init")
 
@@ -265,8 +258,10 @@ class MiniSocketClient:
         self.user_message_queu.put(user_input)
 
     def pop_receiver_queue(self):
-        #if(libclient_obj.recv_queue.empty() is  False):
-        pass
+        if (self.recv_queues.empty()==False):
+            return self.recv_queues.get()
+        else:
+            return False
 
     def start_connection(self,host, port):
         addr = (host, port)
@@ -317,13 +312,15 @@ class MiniSocketClient:
                         if(libclient_obj.process_events(mask)==False):
                             runstatus = False
 
-                        onedata = libclient_obj.get_recv_queu()   
+                        while(True): # loop over every element in recv buffer
+                            onedata = libclient_obj.get_recv_queu()   
 
-                        # todo 2 here: create a recv queue, save data to this recv queue. 
-                        # the queue should also have an entry to identify data is from which server 
-                        # todo 1 onedata = libclient_obj.get_recv_queu()  shoudl add a for loop to extract all data like libserver                    
-                        if(onedata is not False): 
-                            print("++++ received from server data: "+str(onedata))  
+                            if(onedata is not False): 
+                                self.recv_queues.put(onedata)
+                                #print("++++ received from server data: "+str(onedata))  
+                            else:
+                                break
+
                     except Exception:
                         print(
                             f"Main: Error: Exception for {libclient_obj.addr}:\n"

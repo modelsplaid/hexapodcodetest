@@ -59,7 +59,8 @@ class MessageServer:
                 self._recv_raw_buffer += data
                 return True
             else:
-                raise RuntimeError("Peer closed.")
+                #raise RuntimeError("Peer closed.")
+                print("Client closed.")
         return False
 
     def write(self):
@@ -269,7 +270,7 @@ class MiniSocketServer:
         self.socket_thread_obj = threading.Thread(target=self.socket_thread, args=(2,))
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
-
+        self.recv_queues = queue.Queue()
         print("Mini socket server done init")
 
     def create_listening_port(self,host,port):
@@ -288,7 +289,10 @@ class MiniSocketServer:
         self.user_message_queu.put(user_input)
 
     def pop_receiver_queue(self):
-        a=0
+        if (self.recv_queues.empty()==False):
+            return self.recv_queues.get()
+        else:
+            return False
 
   
 
@@ -321,13 +325,15 @@ class MiniSocketServer:
                         try:
                             libserver_obj.process_events(mask)
 
-                            while(True):
+                            while(True): # loop over every element in recv buffer
                                 # todo here: create a recv queue, save data to this recv queue. 
                                 # the queue should also have an entry to identify data is from which server 
                                 # 
                                 onedata = libserver_obj.get_recv_queu()
                                 if(onedata is not False):
-                                    print("---- received from client data: "+str(onedata))
+                                    self.recv_queues.put(onedata)
+
+                                    #print("---- received from client data: "+str(onedata))
                                 else: 
                                     break
 
