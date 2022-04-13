@@ -259,11 +259,8 @@ class MiniSocketServer:
         self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = send_freq
         self.user_message = ''
         self.user_message_queu = queue.Queue()
-<<<<<<< HEAD
-=======
         self.sel = selectors.DefaultSelector()        
-        self.create_listening_port("",12347)
->>>>>>> cdb9cc3a56cdaa82370aabb0e223a6d11dbecabe
+        self.create_listening_port(host,port)
 
         self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
         self.test_commu_thread.daemon = True
