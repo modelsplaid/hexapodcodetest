@@ -11,7 +11,7 @@ import socket
 import time
 
 class MessageServer:
-    def __init__(self, selector, sock, addr):
+    def __init__(self, selector, sock, addr,socket_buffer_sz=4096):
         self.selector = selector
         self.sock = sock
         self.addr = addr
@@ -23,6 +23,7 @@ class MessageServer:
         self.request = self.create_request('')
         self.recv_queue = queue.Queue()
         self.hdrlen = 2
+        self.socket_recv_buffer_sz = socket_buffer_sz
     def create_request(self,value):
             return dict(
                 type="text/json",
@@ -47,7 +48,7 @@ class MessageServer:
         try:
             # Should be ready to read
             #data = self.sock.recv(40)
-            data = self.sock.recv(4096)
+            data = self.sock.recv(self.socket_recv_buffer_sz)
             #print("recv data: "+str(data))
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
@@ -257,6 +258,7 @@ class MiniSocketServer:
     def __init__(self,host="",port=12345,send_freq=500,socket_buffer_sz=4096):
         
         self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = send_freq
+        self.socket_recv_buffer_sz = socket_buffer_sz
         self.user_message = ''
         self.user_message_queu = queue.Queue()
         self.sel = selectors.DefaultSelector()        
@@ -271,6 +273,7 @@ class MiniSocketServer:
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
         self.recv_queues = queue.Queue()
+        
         print("Mini socket server done init")
 
     def create_listening_port(self,host,port):
@@ -366,7 +369,7 @@ class MiniSocketServer:
         conn, addr = sock.accept()  # Should be ready to read
         print(f"Accepted connection from {addr}")
         conn.setblocking(False)
-        libserver_obj = MessageServer(self.sel, conn, addr)
+        libserver_obj = MessageServer(self.sel, conn, addr,self.socket_recv_buffer_sz)
         self.sel.register(conn, selectors.EVENT_READ| selectors.EVENT_WRITE, data=libserver_obj)
 
 

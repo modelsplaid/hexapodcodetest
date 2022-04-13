@@ -12,7 +12,7 @@ import socket
 
 
 class MessageClient:
-    def __init__(self, selector, sock, addr):
+    def __init__(self, selector, sock, addr,socket_buffer_sz=4096):
         self.selector = selector
         self.sock = sock
         self.addr = addr
@@ -26,7 +26,7 @@ class MessageClient:
         self.recv_queue = queue.Queue()
         self.request = self.create_request('')
         self.hdrlen = 2
-
+        self.socket_recv_buffer_sz = socket_buffer_sz
     def create_request(self,value):
             return dict(
                 type="text/json",
@@ -51,7 +51,7 @@ class MessageClient:
     def _read(self):
         try:
             # Should be ready to read
-            data = self.sock.recv(4096)
+            data = self.sock.recv(self.socket_recv_buffer_sz)
             #print("received data in _read(): "+str(data) )
         except BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
@@ -236,12 +236,12 @@ class MessageClient:
 
 class MiniSocketClient:
     def __init__(self,host="",port=12345,send_freq=500,socket_buffer_sz=4096):
-        
-        self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = 500
+        self.socket_recv_buffer_sz = socket_buffer_sz
+        self.SERVER_MAX_SEND_RECV_FREQUENCY_HZ = send_freq
         self.user_message = ''
         self.user_message_queu = queue.Queue()
         self.sel = selectors.DefaultSelector()        
-        self.start_connection("", 12347)
+        self.start_connection(host, port)
 
         #self.test_commu_thread = threading.Thread(target=self.test_commu_thread, args=(2,))
         #self.test_commu_thread.daemon = True
@@ -251,7 +251,7 @@ class MiniSocketClient:
         self.socket_thread_obj.daemon = True
         self.socket_thread_obj.start()
         self.recv_queues = queue.Queue()
-
+        
         print("Mini socket client done init")
 
     def push_sender_queu(self,user_input):
@@ -273,7 +273,7 @@ class MiniSocketClient:
         print("sock: "+str(sock))
         #events = selectors.EVENT_READ
         events = selectors.EVENT_READ| selectors.EVENT_WRITE
-        libclient_obj = MessageClient(self.sel, sock, addr)
+        libclient_obj = MessageClient(self.sel, sock, addr,self.socket_recv_buffer_sz)
         self.sel.register(sock, events, data=libclient_obj)
 
         return True
