@@ -12,7 +12,7 @@ format='%(filename)s,%(funcName)s,%(lineno)d,%(name)s ,%(process)d, %(levelname)
 if __name__ == '__main__':
     m_sock_client = MiniSocketClient()
 
-    for i in range(200):
+    for i in range(2000):
         m_sock_client.push_sender_queu("client sent msg: " +str(i))
         while True:
             one_frame=m_sock_client.pop_receiver_queue()
@@ -20,6 +20,6 @@ if __name__ == '__main__':
                  print("---- received from server data: "+str(one_frame))
             else: 
                 break
-        time.sleep(0.01)
+        time.sleep(0.1)
     sys.exit()
 
