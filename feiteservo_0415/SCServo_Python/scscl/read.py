@@ -32,7 +32,7 @@ from scservo_sdk import *                      # Uses SCServo SDK library
 
 # Default setting
 SCS_ID                      = 1                 # SCServo ID : 1
-BAUDRATE                    = 1000000           # SCServo default baudrate : 1000000
+BAUDRATE                    = 38400           # SCServo default baudrate : 1000000
 DEVICENAME                  = '/dev/ttyUSB0'    # Check which port is being used on your controller
                                                 # ex) Windows: "COM1"   Linux: "/dev/ttyUSB0" Mac: "/dev/tty.usbserial-*"
 
@@ -53,7 +53,6 @@ else:
     print("Press any key to terminate...")
     getch()
     quit()
-
 # Set port baudrate
 if portHandler.setBaudRate(BAUDRATE):
     print("Succeeded to change the baudrate")
@@ -62,11 +61,13 @@ else:
     print("Press any key to terminate...")
     getch()
     quit()
-
 while 1:
+    '''
     print("Press any key to continue! (or press ESC to quit!)")
     if getch() == chr(0x1b):
         break
+    '''
+
     # Read SCServo present position
     scs_present_position, scs_present_speed, scs_comm_result, scs_error = packetHandler.ReadPosSpeed(SCS_ID)
     if scs_comm_result != COMM_SUCCESS:
