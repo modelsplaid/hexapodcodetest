@@ -32,9 +32,9 @@ from scservo_sdk import *                      # Uses SCServo SDK library
 
 # Default setting
 SCS_ID                      = 1                 # SCServo ID : 1
-BAUDRATE                    = 1000000           # SCServo default baudrate : 1000000
+BAUDRATE                    = 38400           # SCServo default baudrate : 1000000
 DEVICENAME                  = '/dev/ttyUSB0'    # Check which port is being used on your controller
-                                                # ex) Windows: "COM1"   Linux: "/dev/ttyUSB0" Mac: "/dev/tty.usbserial-*"
+                                                # ex) Windows: "COM2"   Linux: "/dev/ttyUSB0" Mac: "/dev/tty.usbserial-*"
 
 # Initialize PortHandler instance
 # Set the port path
