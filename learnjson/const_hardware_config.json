@@ -1,0 +1,222 @@
+{
+    "NUTURAL_POSES_PULSE": {
+        "0": {
+            "coxia": 1971,
+            "femur": 2017,
+            "tibia": 1068,
+            "name": "right-middle",
+            "id": 0
+        },
+        "1": {
+            "coxia": 2088,
+            "femur": 2070,
+            "tibia": 940,
+            "name": "right-front",
+            "id": 1
+        },
+        "2": {
+            "coxia": 1908,
+            "femur": 1989,
+            "tibia": 3158,
+            "name": "left-front",
+            "id": 2
+        },
+        "3": {
+            "coxia": 2056,
+            "femur": 2081,
+            "tibia": 3172,
+            "name": "left-middle",
+            "id": 3
+        },
+        "4": {
+            "coxia": 2059,
+            "femur": 2042,
+            "tibia": 3181,
+            "name": "left-back",
+            "id": 4
+        },
+        "5": {
+            "coxia": 2054,
+            "femur": 1887,
+            "tibia": 914,
+            "name": "right-back",
+            "id": 5
+        }
+    },
+    "NUTURAL_POSES_DEG": {
+        "0": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "right-middle",
+            "id": 0
+        },
+        "1": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "right-front",
+            "id": 1
+        },
+        "2": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "left-front",
+            "id": 2
+        },
+        "3": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "left-middle",
+            "id": 3
+        },
+        "4": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "left-back",
+            "id": 4
+        },
+        "5": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "right-back",
+            "id": 5
+        }
+    },
+    "DIRECTION_POSES_PULSE": {
+        "0": {
+            "coxia": -1,
+            "femur": -1,
+            "tibia": 1,
+            "name": "right-middle",
+            "id": 0
+        },
+        "1": {
+            "coxia": -1,
+            "femur": -1,
+            "tibia": 1,
+            "name": "right-front",
+            "id": 1
+        },
+        "2": {
+            "coxia": -1,
+            "femur": 1,
+            "tibia": -1,
+            "name": "left-front",
+            "id": 2
+        },
+        "3": {
+            "coxia": -1,
+            "femur": 1,
+            "tibia": -1,
+            "name": "left-middle",
+            "id": 3
+        },
+        "4": {
+            "coxia": -1,
+            "femur": 1,
+            "tibia": -1,
+            "name": "left-back",
+            "id": 4
+        },
+        "5": {
+            "coxia": -1,
+            "femur": -1,
+            "tibia": 1,
+            "name": "right-back",
+            "id": 5
+        }
+    },
+    "SERVO_ID_MAPPING": {
+        "0": {
+            "coxia": 13,
+            "femur": 14,
+            "tibia": 15,
+            "name": "right-middle",
+            "id": 0
+        },
+        "1": {
+            "coxia": 16,
+            "femur": 17,
+            "tibia": 18,
+            "name": "right-front",
+            "id": 1
+        },
+        "2": {
+            "coxia": 7,
+            "femur": 8,
+            "tibia": 9,
+            "name": "left-front",
+            "id": 2
+        },
+        "3": {
+            "coxia": 4,
+            "femur": 5,
+            "tibia": 6,
+            "name": "left-middle",
+            "id": 3
+        },
+        "4": {
+            "coxia": 1,
+            "femur": 2,
+            "tibia": 3,
+            "name": "left-back",
+            "id": 4
+        },
+        "5": {
+            "coxia": 10,
+            "femur": 11,
+            "tibia": 12,
+            "name": "right-back",
+            "id": 5
+        }
+    },
+    "PULSES2SERVOS": {
+        "0": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "right-middle",
+            "id": 0
+        },
+        "1": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "right-front",
+            "id": 1
+        },
+        "2": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "left-front",
+            "id": 2
+        },
+        "3": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "left-middle",
+            "id": 3
+        },
+        "4": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "left-back",
+            "id": 4
+        },
+        "5": {
+            "coxia": 0,
+            "femur": 0,
+            "tibia": 0,
+            "name": "right-back",
+            "id": 5
+        }
+    }
+}
