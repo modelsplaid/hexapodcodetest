@@ -7,6 +7,11 @@ dataqueue.put(data_json)
 dataqueue.put(data_json) 
 dataqueue.put(data_json) 
 dataqueue.put(data_json)
-qsz=dataqueu.qsize()
-json.dump(dataqueue,"jsonqueu.json")
+qsz=dataqueue.qsize()
+datalist = [None]*qsz
+for i in range(qsz):
+    datalist[i]=dataqueue.get()
+
+out_file = open("recorded_servo_data.json", "w")
+json.dump(datalist,out_file,indent=4)
 # todo: save json queue to file according:  https://www.delftstack.com/howto/python/how-to-create-a-list-with-a-specific-size-in-python/

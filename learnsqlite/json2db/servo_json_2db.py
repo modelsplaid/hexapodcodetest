@@ -1,5 +1,6 @@
 import sqlite3
-
+import queue
+import json
 class servoCommuJson2DB: 
     def __init__(self):
         self.con = []
@@ -9,7 +10,21 @@ class servoCommuJson2DB:
         self.cur = self.con.cursor()
     def load_servo_json_recoredr(self):
         #todo here
-        a = 0
+        out_file = open("servo_commu.json", "r")
+        data_json = json.load(out_file)
+        dataqueue = queue.Queue()
+        dataqueue.put(data_json)
+        dataqueue.put(data_json)
+        dataqueue.put(data_json)
+        dataqueue.put(data_json)
+        qsz=dataqueue.qsize()
+        datalist = [None]*qsz
+        for i in range(qsz):
+            datalist[i]=dataqueue.get()
+
+        out_file = open("recorded_servo_data.json", "w")
+        json.dump(datalist,out_file,indent=4)
+
 
     def execute_create_table(self):
         # Create table
