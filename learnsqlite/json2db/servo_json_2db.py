@@ -8,11 +8,27 @@ class servoCommuJson2DB:
     def connect(self,database_file = 'example.db'):
         self.con = sqlite3.connect(database_file)
         self.cur = self.con.cursor()
+
     def load_servo_json_recoredr(self,json_file_name = "recorded_servo_data.json"):
         #load json file
-        out_file = open(json_file_name, "r")
-        data_json = json.load(out_file)   
-        return data_json
+        try:
+            out_file = open(json_file_name, "r")
+            data_json = json.load(out_file)   
+            return data_json
+        except: 
+            print("unable load json file, try using ijson")  
+            servo_queue = queue.Queue() 
+            import ijson
+            with open(json_file_name, "r") as f:
+                for record in ijson.items(f,"item"):
+                    one_frame = record
+                    servo_queue.put(one_frame) 
+
+            num_frams = servo_queue.qsize()
+            data_json = []*num_frams
+            for i in range(num_frams):
+                data_json = servo_queue.get()
+            return data_json
 
     def conver_json_2_db(self,json_file= "recorded_servo_data.json",db_file = 'example.db'):
         
@@ -21,6 +37,7 @@ class servoCommuJson2DB:
             self.execute_create_table()
         except:
             print("table already exit,insert to present db")
+
         jsondata = self.load_servo_json_recoredr(json_file)
         num_frams = len(jsondata)
         for i in range(num_frams):
@@ -33,7 +50,6 @@ class servoCommuJson2DB:
                 #print("one_dev_data:"+str(one_dev_data) )
                 self.execute_insert_into(one_dev_data)
                 
-
     def execute_create_table(self):
         # Create table
         self.cur.execute('''CREATE TABLE serial_servo_commu
