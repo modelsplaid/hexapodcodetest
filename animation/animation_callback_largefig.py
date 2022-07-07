@@ -60,10 +60,15 @@ print(HEXAPOD_FIGURE["data"][1]['x'])
 sidebar_layout = html.Div(
     id='sidebar1',
     children=[
-            html.H1(id='label2', children='Hello Dash2'),
-            html.Button(id='submit-button-state', n_clicks=0, children='Submit'),                            
-            html.Button(id='activate_interval', n_clicks=0, children='activate interval'),                         
-        ],style={"display": "flex"}  
+            html.Button(id='submit-button-state', n_clicks=0, children='Submit',style={"padding": "2%"}),                            
+            html.Button(id='activate_interval1', n_clicks=0, children='activate interval1',style={"padding": "2%"}),   
+            html.Button(id='activate_interval2', n_clicks=0, children='activate interval2',style={"padding": "2%"}),   
+            html.Button(id='activate_interval3', n_clicks=0, children='activate interval3',style={"padding": "2%"}),   
+            html.Button(id='activate_interval4', n_clicks=0, children='activate interval4',style={"padding": "2%"}),   
+            html.Button(id='activate_interval5', n_clicks=0, children='activate interval5',style={"padding": "2%"}),                         
+        ],
+    style={"display": "flex","flex-direction": "column","width": "10%","height": "10%"} 
+        
 )
 
 app = dash.Dash(__name__)
@@ -75,8 +80,8 @@ app.layout = html.Div(
                     children=[
                     dcc.Graph(id='timeseries_graph', figure=HEXAPOD_FIGURE)
             ]),
-                                                  
-        ],
+        ]#,style={"display": "flex"}               
+        
 )
 
 
