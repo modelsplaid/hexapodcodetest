@@ -19,7 +19,6 @@ LEGEND_FONT_COLOR = "#34495e"
 data = [
         {'color': 'rgba(244,22,100,0.6)',
               'opacity': 0.9,
-              'type': 'mesh3d',
               'x': [100.0, 100.0, -100.0, -100.0, -100.0, 100.0, 100.0],
               'y': [0.0, 100.0, 100.0, 0.0, -100.0, -100.0, 0.0],
 
@@ -67,7 +66,7 @@ sidebar_layout = html.Div(
             html.Button(id='activate_interval4', n_clicks=0, children='activate interval4',style={"padding": "2%"}),   
             html.Button(id='activate_interval5', n_clicks=0, children='activate interval5',style={"padding": "2%"}),                         
         ],
-    style={"display": "flex","flex-direction": "column","width": "10%","height": "10%"} 
+    style={"display": "flex","flex-direction": "column","justify-content":"center","width": "10%","height": "100%"} 
         
 )
 
@@ -80,7 +79,7 @@ app.layout = html.Div(
                     children=[
                     dcc.Graph(id='timeseries_graph', figure=HEXAPOD_FIGURE)
             ]),
-        ]#,style={"display": "flex"}               
+        ],style={"display": "flex","flex-direction": "column","justify-content":"center","padding": "2%"}               
         
 )
 
