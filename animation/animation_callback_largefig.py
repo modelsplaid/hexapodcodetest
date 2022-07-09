@@ -40,14 +40,18 @@ HEXAPOD_FIGURE = {
     "data": data,
     "layout": {
         "paper_bgcolor": PAPER_BG_COLOR,
-         "hovermode": "closest",
+        "hovermode": "closest",
         "legend": {
             "x": 0,
             "y": 0,
             "bgcolor": LEGENDS_BG_COLOR,
             "font": {"family": "courier", "size": 12, "color": LEGEND_FONT_COLOR},
         },
-    }
+        "height": "700",
+        'autosize': True,        
+    },
+    
+
 }
 
 HEXAPOD_FIGURE["data"][0]['x'] = [100.0, 100.0, -100.0, -100.0, -100.0, 100.0, 300.0]
