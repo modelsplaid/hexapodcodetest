@@ -15,7 +15,7 @@ app.layout = html.Div([
 ])
 
 
-@app.callback(Output('output-state', 'children'),Output('output-state2', 'children'),
+@app.callback([Output('output-state', 'children'),Output('output-state2', 'children')],
               Input('submit-button-state', 'n_clicks'),
               State('input-1-state', 'value'),
               State('input-2-state', 'value'))
