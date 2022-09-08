@@ -67,6 +67,8 @@ class HexaLeg(DHRobot):
         self.addconfiguration("qr", self.qr)
         self.addconfiguration("qz", self.qz)
 
+        ets = self.ets()
+        print("ets is:"+str(ets))
 
 def testparams():
     deg = pi / 180
@@ -78,6 +80,10 @@ def testparams():
     qr = np.array([90, 0, 0]) * deg
     ets = hexaleg.ets()
     print("ets:"+str(ets))
+
+    Te = hexaleg.fkine([0,0,0])
+    print("Te: \n"+str(Te))
+
     #traj = hexaleg.jtraj(qz,qr,10)
     #rtb.qplot(traj.q)
 
@@ -136,16 +142,17 @@ def testjtraj():
     qs = np.array([10.1, -19.3, -29.6]) * deg
     qt = np.array([15.1, 10.3, -20.6]) * deg
 
-    traj = rtb.jtraj(qs, qt, 100)
+    traj = rtb.jtraj(qs, qt, 10)
     #print("robotraj arrive: \n"+str(traj.arrive ))
     print("robotraj info: \n"+str(traj.t))
     print("robotraj via: \n"+str(traj.s ))
 
     hexaleg = HexaLeg(symbolic=False)
-    print(hexaleg)
-    hexaleg.plot(traj.s,eeframe=True,jointaxes=True)
+    #print(hexaleg)
+    #hexaleg.plot(traj.s,eeframe=True,jointaxes=True)
 
 if __name__ == "__main__":  # pragma nocover
     #testinv()
     #testEulerAngle()
     testjtraj()
+    testparams()
