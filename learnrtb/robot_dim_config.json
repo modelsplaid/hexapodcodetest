@@ -1,0 +1,28 @@
+{
+    "BASE_DIMENSIONS": {
+        "front": 59,
+        "side": 119,
+        "middle":93,
+        "coxia":45,
+	    "femur":75,
+        "tibia":140
+    },
+    "BASE_IK_PARAMS": {
+        "hip_stance": 0,
+        "leg_stance": 0,
+        "percent_x": 0,
+        "percent_y": 0,
+        "percent_z": 0,
+        "rot_x": 0,
+        "rot_y": 0,
+        "rot_z": 0
+    },
+    "COXIA_AXES": {
+        "right-middle": 0,
+        "right-front": 45,
+        "left-front": 135,
+        "left-middle": 180,
+        "left-back": 225,
+        "right-back": 315
+    }
+}

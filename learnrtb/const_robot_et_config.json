@@ -1,0 +1,28 @@
+{
+    "HEXA_LEG_NAME_LIST": {
+        "0": {
+            "name": "right-middle",
+            "id": 0
+        },
+        "1": {
+            "name": "right-front",
+            "id": 1
+        },
+        "2": {
+            "name": "left-front",
+            "id": 2
+        },
+        "3": {
+            "name": "left-middle",
+            "id": 3
+        },
+        "4": {
+            "name": "left-back",
+            "id": 4
+        },
+        "5": {
+            "name": "right-back",
+            "id": 5
+        }
+    }
+}

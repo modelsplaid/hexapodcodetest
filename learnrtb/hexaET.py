@@ -22,7 +22,7 @@ class EHexaLeg(ERobot):
         # robot centrual base
         robot_base = Link(ET.Rz(), name="robot_base", jindex=0, parent=None)
 
-
+        
         # right middle
         rm_base = Link(ET.tx(middle)*ET.Rz(), name="rm_base", jindex=1, parent=robot_base)
         rm_coxia = Link(ET.tx(coxia)*ET.Rx(pi/2)*ET.Rz() , name="rm_coxia", jindex=2, parent=rm_base)
