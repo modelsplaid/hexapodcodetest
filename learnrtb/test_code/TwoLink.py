@@ -6,7 +6,12 @@ from roboticstoolbox import DHRobot, RevoluteDH
 # from math import pi
 from spatialmath import SE3
 import numpy as np
-
+import numpy as np
+import spatialmath.base as base
+import time
+#from math import *
+from sympy import *
+import spatialmath.base.symbolic as sym
 
 class TwoLink(DHRobot):
     """
@@ -63,9 +68,11 @@ class TwoLink(DHRobot):
 
             zero = sym.zero()
             pi = sym.pi()
-            a1, a2 = sym.symbol("a1 a2")  # type: ignore
+            a1, a2 = sym.symbol("l1 l2")  # type: ignore
             m1, m2 = sym.symbol("m1 m2")  # type: ignore
-            c1, c2 = sym.symbol("c1 c2")  # type: ignore
+            #c1, c2 = sym.symbol("c1 c2")  # type: ignore
+            c1= a1 #sym.symbol("c1 c2")  # type: ignore
+            c2= a2
             g = sym.symbol("g")
         else:
             from math import pi
@@ -100,10 +107,36 @@ class TwoLink(DHRobot):
         self.addconfiguration_attr("qn", [pi / 6, -pi / 6])
 
         self.base = SE3.Rx(pi / 2)
-        self.gravity = [0, 0, g]
+        self.gravity = [0, g, 0]
 
+def symbolic_dyna():
 
-if __name__ == "__main__":  # pragma nocover
+    theta1,theta2 = base.sym.symbol('ɵ1, ɵ2')
+    thetad1,thetad2 = base.sym.symbol('ɵ́1, ɵ́2')
+    thetadd1,thetadd2 = base.sym.symbol('ɵ̋1, ɵ̋2')
+    zero = sym.zero()
+    pi = sym.pi()
+    grav_g = base.sym.symbol('g')
+
+    thetas = [theta1,theta2]
+    thetads = [thetad1,thetad2]
+    thetadds = [thetadd1,thetadd2]
+    gravs = [zero,grav_g,zero]
+
 
     robot = TwoLink(symbolic=True)
-    print(robot)
+    dynamat=robot.rne_python(Q=thetas,QD=thetads,QDD=thetadds,gravity=gravs)
+    
+    print("dynamat:\n")
+    print(dynamat)
+    simpdynamat = simplify(dynamat)
+
+    print("simpdynamat:\n")
+    for i in range(len(simpdynamat)):
+        print("---\n")
+        print(simpdynamat[i])
+
+if __name__ == "__main__":  # pragma nocover
+    symbolic_dyna()
+    #robot = TwoLink(symbolic=True)
+    #print(robot)
