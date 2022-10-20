@@ -40,7 +40,7 @@ class HexaLeg(DHRobot):
             half_pi = pi/2
             a0 = zero
             a1, a2, a3 = sym.symbol("a1 a2 a3")  # link
-            theta1, theta2, theta3 = base.sym.symbol('ϴ1, ϴ2, ϴ3 ')
+            theta1, theta2, theta3 = base.sym.symbol('ɵ1, ɵ2, ɵ3 ')
             theta4 = zero
             a = [a0,a1,a2,a3]
             d = [zero,zero,zero,zero]
@@ -56,9 +56,9 @@ class HexaLeg(DHRobot):
             a = [0,0.045,0.075,0.140]
             d = [0,0,0,0]
             deg = pi / 180.0
-            self.qr = np.array([10, 10, 10,10]) * deg
-            self.qz = np.array([20, 20, 20,10]) * deg
-            thetas = [10, 10, 10,10]
+            self.qr = np.array([10, 10, 10,zero]) * deg
+            self.qz = np.array([20, 20, 20,zero]) * deg
+            thetas = [10, 10, 10,zero]
 
         alpha = [zero,half_pi, zero, zero]
         links = []
@@ -118,7 +118,7 @@ class HexaLegFirstTwoLink(DHRobot):
             half_pi = pi/2
             a0 = zero
             a1, a2 = sym.symbol("a1 a2")  # link
-            theta1, theta2,theta3 = base.sym.symbol('ϴ1, ϴ2, ϴ3')
+            theta1, theta2,theta3 = base.sym.symbol('ɵ1, ɵ2, ɵ3')
             a = [a0,a1,a2]
             d = [zero,zero,zero]
 
@@ -194,7 +194,7 @@ class HexaLegFirstLink(DHRobot):
             half_pi = pi/2
             a0 = zero
             a1 = sym.symbol("a1")  # link
-            theta1,theta2= base.sym.symbol('ϴ1, ϴ2')
+            theta1,theta2= base.sym.symbol('ɵ1, ɵ2')
             #theta2 = zero
             a = [a0,a1]
             d = [zero,zero]

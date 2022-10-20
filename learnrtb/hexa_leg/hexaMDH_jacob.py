@@ -38,7 +38,7 @@ class HexaLeg(DHRobot):
             half_pi = pi/2
             a0 = zero
             a1, a2, a3 = sym.symbol("a1 a2 a3")  # link
-            theta1, theta2, theta3 = base.sym.symbol('ϴ1, ϴ2, ϴ3 ')
+            theta1, theta2, theta3 = base.sym.symbol('ɵ1, ɵ2, ɵ3 ')
             theta4 = zero
             a = [a0,a1,a2,a3]
             d = [zero,zero,zero,zero]

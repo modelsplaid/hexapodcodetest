@@ -163,6 +163,8 @@ def symbolic_dyna():
         print("---\n")
         print(simpdynamat[i])
 
+    robot.dynamics()
+
 if __name__ == "__main__":  # pragma nocover
     #symbjacob()
     symbolic_dyna()
