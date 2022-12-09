@@ -1,0 +1,34 @@
+{
+    "gaits_vals": {
+        "hip_swing":{
+            "max":35,
+            "min":15,
+            "default":25
+        },
+        "lift_swing":{
+            "max":90,
+            "min":40,
+            "default":60
+        },
+        "hip_stance":{
+            "max":35,
+            "min":15,
+            "default":25
+        },
+        "leg_stance":{
+            "max":10,
+            "min":-10,
+            "default":1
+        },
+        "step_count":{
+            "max":6,
+            "min":0,
+            "default":2
+        },
+        "speed_period":{
+            "max":600,
+            "min":300,
+            "default":423
+        }
+    }
+}
