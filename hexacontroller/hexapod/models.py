@@ -20,43 +20,43 @@ from hexapod.points import (
 
 # Dimensions f, s, and m
 #
-#       |-f-|
-#       *---*---*--------
-#      /    |    \     |
-#     /     |     \    s
-#    /      |      \   |
-#   *------cog------* ---
-#    \      |      /|
-#     \     |     / |
-#      \    |    /  |
-#       *---*---*   |
-#           |       |
-#           |---m---|
+#                               |-f-|
+#                               *---*---*--------
+#                              /    |    \     |
+#                             /     |     \    s
+#                            /      |      \   |
+#                           *------cog------* ---
+#                            \      |      /|
+#                             \     |     / |
+#                              \    |    /  |
+#                               *---*---*   |
+#                                   |       |
+#                                   |---m---|
+#                        
+#                                   y axis
+#                                   ^
+#                                   |
+#                                   |
+#                                   ----> x axis
+#                                 cog (origin)
 #
-#    y axis
-#    ^
-#    |
-#    |
-#    ----> x axis
-#  cog (origin)
 #
-#
-# Relative x-axis, for each attached linkage
-#
-#         x2          x1
-#          \         /
-#           *---*---*
-#          /    |    \
-#         /     |     \
-#        /      |      \
-#  x3 --*------cog------*-- x0
-#        \      |      /
-#         \     |     /
-#          \    |    /
-#           *---*---*
-#          /         \
-#         x4         x5
-#
+# Top-down view for each attached linkage
+# Note: legs' axis configurations is based mdh. For mdh, only z-axis rotates.
+#  
+#                             x2          x1
+#                              \         /
+#                               *---*---*
+#     z3t|     z3f|            /    |    \  |y0c     
+#        |        |           /     |     \ |         
+#        |        |   coxia  /      |      \|         femur    tibia
+#  x3t----  z3f----  x3c----*------cog------*----x0c  ----x0f  ----z0t     
+#   tibia    femur          |\      |      /coxia     |        |
+#                           | \     |     /           |        |
+#                        y3c|  \    |    /            |z0f     |z0t
+#                               *---*---*
+#                              /         \
+#                             x4         x5  
 
 
 class Hexagon:
