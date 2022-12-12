@@ -68,18 +68,20 @@ class Hexagon:
         "left-back",
         "right-back",
     )
-    out_file = open("./config/robot_dim_config.json", "r")  # todo: edit this
-    config_json = json.load(out_file)
-    COXIA_AXES_CONFIG = (config_json['COXIA_AXES'])
-    COXIA_AXES = (COXIA_AXES_CONFIG["right-middle"],\
-                COXIA_AXES_CONFIG["right-front"],\
-                COXIA_AXES_CONFIG["left-front"],\
-                COXIA_AXES_CONFIG["left-middle"],\
-                COXIA_AXES_CONFIG["left-back"], 
-                COXIA_AXES_CONFIG["right-back"]) # todo here 
-    __slots__ = ("f", "m", "s", "cog", "head", "vertices", "all_points")
 
-    def __init__(self, f, m, s):
+    __slots__ = ("f", "m", "s", "cog", "head", "vertices", \
+                    "all_points","COXIA_AXES_CONFIG","COXIA_AXES")
+
+    def __init__(self, f, m, s,coxia_axis_config):
+
+        self.COXIA_AXES_CONFIG = coxia_axis_config
+        self.COXIA_AXES = (self.COXIA_AXES_CONFIG["right-middle"],\
+                    self.COXIA_AXES_CONFIG["right-front"],\
+                    self.COXIA_AXES_CONFIG["left-front"],\
+                    self.COXIA_AXES_CONFIG["left-middle"],\
+                    self.COXIA_AXES_CONFIG["left-back"], 
+                    self.COXIA_AXES_CONFIG["right-back"])  
+
         self.f = f
         self.m = m
         self.s = s
@@ -120,9 +122,10 @@ class VirtualHexapod:
         "z_axis",
     )
 
-    def __init__(self, dimensions):
+    def __init__(self, dimensions,coxia_axis_config):
         print("init of virtualhexapd")
-        self._store_attributes(dimensions)
+        
+        self._store_attributes(dimensions,coxia_axis_config)
         self._init_legs()
         self._init_local_frame()
 
@@ -213,7 +216,7 @@ class VirtualHexapod:
         a, b, c = self.coxia, self.femur, self.tibia
         return f + m + s + a + b + c
 
-    def _store_attributes(self, dimensions):
+    def _store_attributes(self, dimensions,coxia_axis_config):
         self.body_rotation_frame = None
         self.dimensions = dimensions
         self.coxia = dimensions["coxia"]
@@ -222,7 +225,7 @@ class VirtualHexapod:
         self.front = dimensions["front"]
         self.mid = dimensions["middle"]
         self.side = dimensions["side"]
-        self.body = Hexagon(self.front, self.mid, self.side)
+        self.body = Hexagon(self.front, self.mid, self.side,coxia_axis_config)
 
     def _init_legs(self):
         self.legs = []
@@ -232,10 +235,10 @@ class VirtualHexapod:
                 self.coxia,
                 self.femur,
                 self.tibia,
-                coxia_axis=Hexagon.COXIA_AXES[i],
-                new_origin=self.body.vertices[i],
-                name=Hexagon.VERTEX_NAMES[i],
-                id_number=i,
+                coxia_axis = self.body.COXIA_AXES[i],
+                new_origin = self.body.vertices[i],
+                name = self.body.VERTEX_NAMES[i],
+                id_number = i,
             )
             self.legs.append(linkage)
 

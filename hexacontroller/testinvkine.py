@@ -16,12 +16,13 @@ config_json = json.load(out_file)
 BASE_DIMENSIONS = (config_json['BASE_DIMENSIONS'])
 
 ik_parameters = (config_json['BASE_IK_PARAMS'])
+COXIA_AXES_CONFIG = (config_json['COXIA_AXES'])
 
-hexapod = VirtualHexapod(BASE_DIMENSIONS)
-#BASE_PLOTTER = HexapodPlotter()
+hexapod = VirtualHexapod(BASE_DIMENSIONS,COXIA_AXES_CONFIG)
+BASE_PLOTTER = HexapodPlotter()
 
-#print("---Running in inverse_kinematics_update")
-#poses, hexapod = inverse_kinematics_update(hexapod, ik_parameters)
+print("---Running in inverse_kinematics_update")
+poses, hexapod = inverse_kinematics_update(hexapod, ik_parameters)
 
 
 

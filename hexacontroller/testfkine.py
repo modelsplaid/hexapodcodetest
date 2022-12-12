@@ -14,6 +14,7 @@ zero_pose = {
 out_file = open("./config/robot_dim_config.json", "r")
 config_json = json.load(out_file)
 BASE_DIMENSIONS = (config_json['BASE_DIMENSIONS'])
+COXIA_AXES_CONFIG = (config_json['COXIA_AXES'])
 
-hexapod = VirtualHexapod(BASE_DIMENSIONS)
+hexapod = VirtualHexapod(BASE_DIMENSIONS,COXIA_AXES_CONFIG)
 hexapod.update(zero_pose)
