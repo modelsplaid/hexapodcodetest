@@ -12,11 +12,11 @@ if __name__ == "__main__":
 
     # for right middle linkage
     coxia = BASE_DIMENSIONS["coxia"]  #45.0
-    femur = BASE_DIMENSIONS["femur"] #75.0
-    tibia = BASE_DIMENSIONS["tibia"] #150.0
-    front = BASE_DIMENSIONS["front"] #59
-    mid =   BASE_DIMENSIONS["middle"]   #93
-    side =  BASE_DIMENSIONS["side"]  #119
+    femur = BASE_DIMENSIONS["femur"]  #75.0
+    tibia = BASE_DIMENSIONS["tibia"]  #150.0
+    front = BASE_DIMENSIONS["front"]  #59
+    mid =   BASE_DIMENSIONS["middle"] #93
+    side =  BASE_DIMENSIONS["side"]   #119
 
     COXIA_AXES = coxia_axis_config
 
@@ -34,4 +34,4 @@ if __name__ == "__main__":
               id_number = 0,
           )
 
-    leg_rm.change_pose(0,0,0) # coxia, femur, tibia in deg
+    leg_rm.change_pose_deg(0,0,0) # coxia, femur, tibia in deg

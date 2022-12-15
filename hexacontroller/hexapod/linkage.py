@@ -169,7 +169,7 @@ class Linkage:
         self.coxia_axis = coxia_axis
         self.id = id_number
         self.name = name
-        self.change_pose(alpha, beta, gamma)
+        self.change_pose_deg(alpha, beta, gamma)
 
     def coxia_angle(self):
         return self.alpha
@@ -192,7 +192,7 @@ class Linkage:
     def get_point(self, i):
         return self.all_points[i]
 
-    def change_pose(self, alpha, beta, gamma):
+    def change_pose_deg(self, alpha, beta, gamma):
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
