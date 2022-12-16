@@ -1,11 +1,15 @@
-#Dimensions f, s, and m
+#
+#--------------     
+# Dimensions of 
+# f, s, and m
+#--------------     
 #                              |-f-|
 #                              *---*---*--------
-#                             /    |    \     |
+#                             /   y^    \     |
 #                            /     |     \    s
 #                           /      |      \   |
-#                          *------cog------* ---
-#                           \      |      /|
+#                          *------cog--->--* ---
+#                           \      |    x /|
 #                            \     |     / |
 #                             \    |    /  |
 #                              *---*---*   |
@@ -18,17 +22,19 @@
 #                                  |
 #                                  ----> x axis
 #                                cog (origin)
-#                                
-#Top-down view for each attached linkage
-#Note: legs' axis configurations is based mdh. For mdh, only z-axis rotates.
+#
+#--------------                                
+#Top-down view
+#--------------
+#Note: legs' axis configuration is based on mdh. For mdh, only z-axis rotates.
 # 
 #                            x2          x1
 #                             \         /
-#                              *---*---*
-#    z3t|     z3f|            /    |    \  |y0c     
+#                              *---*---*   
+#    z3t^     z3f^            /    |    \  ^y0c     
 #       |        |           /     |     \ |         
 #       |        |   coxia  /      |      \|         femur    tibia
-# x3t----  z3f----  x3c----*------cog------*----x0c  ----x0f  ----z0t     
+# x3t<---  x3f<---  x3c----*------cog------*---->x0c ----x0f  ----z0t     
 #  tibia    femur          |\      |      /coxia     |        |
 #                          | \     |     /           |        |
 #                       y3c|  \    |    /            |z0f     |z0t
@@ -38,14 +44,14 @@
 # -------------
 # LINKAGE
 # -------------
-# Linkage is defined in MDH(modified denavit hartenberg)  format
+# Linkage is defined in MDH(modified denavit hartenberg) format
 # Zero joint position of the linkages (alpha=0, beta=0, gamma=0) is defined as below:
 #  link b and link c form a straight line
 #  link a and link b form a straight line
-#  link a and the leg x axis are aligned
+#  link a and the leg x-axis are aligned
 #
 # alpha - the angle linkage a makes with x_axis about z axis
-# beta - the angle that linkage a makes with linkage b
+# beta  - the angle that linkage a makes with linkage b
 # gamma - the angle that linkage c make with the line perpendicular to linkage b
 #
 #
@@ -118,9 +124,9 @@
 #
 #
 #Joint direction definition: 
-#For joint beta and gamma: positive: move up. negative: move down
-#For right side alpha: positive: move forward. negative: move backward.
-#For left side alpha : positive: move backward. negative: move forward.
+#For joint beta and gamma: positive: move up.       negative: move down.
+#For right side alpha    : positive: move forward.  negative: move backward.
+#For left side alpha     : positive: move backward. negative: move forward.
 
 from copy import deepcopy
 import numpy as np
@@ -192,6 +198,9 @@ class Linkage:
     def get_point(self, i):
         return self.all_points[i]
 
+    def change_pose_mdh_deg(self, alpha, beta, gamma):
+        pass 
+    
     def change_pose_deg(self, alpha, beta, gamma):
         self.alpha = alpha
         self.beta = beta
@@ -199,7 +208,7 @@ class Linkage:
 
         # frame_ab is the pose of frame_b wrt frame_a
         frame_01 = frame_yrotate_xtranslate(theta=-self.beta, x=self.a)
-        frame_12 = frame_yrotate_xtranslate(theta=90 - self.gamma, x=self.b)
+        frame_12 = frame_yrotate_xtranslate(theta=self.gamma, x=self.b)
         frame_23 = frame_yrotate_xtranslate(theta=0, x=self.c)
 
         frame_02 = np.matmul(frame_01, frame_12)
@@ -210,10 +219,6 @@ class Linkage:
         new_frame = frame_zrotate_xytranslate(
             self.coxia_axis + self.alpha, self.new_origin.x, self.new_origin.y
         )
-        #print("frame_01:"+str(frame_01))
-        #print("frame_12:"+str(frame_12))
-        #print("self.new_origin.x: "+str( self.new_origin.x))
-        #print("self.new_origin.y: "+str( self.new_origin.y))
 
         # find points wrt to body contact point
         p0 = Vector(0, 0, 0)
@@ -228,7 +233,6 @@ class Linkage:
         p2 = p2.get_point_wrt(new_frame, name=self.name + "-femur")
         p3 = p3.get_point_wrt(new_frame, name=self.name + "-tibia")
 
-        # tzq added : 
 
         self.all_points = [p0, p1, p2, p3]
         self.ground_contact_point = self.compute_ground_contact()

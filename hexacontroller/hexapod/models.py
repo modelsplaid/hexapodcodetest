@@ -1,5 +1,136 @@
 # This module contains the model of a hexapod
 # It's used to manipulate the pose of the hexapod
+#
+#--------------     
+# Dimensions of 
+# f, s, and m
+#--------------     
+#                              |-f-|
+#                              *---*---*--------
+#                             /   y^    \     |
+#                            /     |     \    s
+#                           /      |      \   |
+#                          *------cog--->--* ---
+#                           \      |    x /|
+#                            \     |     / |
+#                             \    |    /  |
+#                              *---*---*   |
+#                                  |       |
+#                                  |---m---|
+#                        
+#                                  y axis
+#                                  ^
+#                                  |
+#                                  |
+#                                  ----> x axis
+#                                cog (origin)
+#
+#--------------                                
+#Top-down view
+#--------------
+#Note: legs' axis configuration is based on mdh. For mdh, only z-axis rotates.
+# 
+#                            x2          x1
+#                             \         /
+#                              *---*---*   
+#    z3t^     z3f^            /    |    \  ^y0c     
+#       |        |           /     |     \ |         
+#       |        |   coxia  /      |      \|         femur    tibia
+# x3t<---  x3f<---  x3c----*------cog------*---->x0c ----x0f  ----z0t     
+#  tibia    femur          |\      |      /coxia     |        |
+#                          | \     |     /           |        |
+#                       y3c|  \    |    /            |z0f     |z0t
+#                              *---*---*
+#                             /         \
+#                            x4         x5  
+# -------------
+# LINKAGE
+# -------------
+# Linkage is defined in MDH(modified denavit hartenberg) format
+# Zero joint position of the linkages (alpha=0, beta=0, gamma=0) is defined as below:
+#  link b and link c form a straight line
+#  link a and link b form a straight line
+#  link a and the leg x-axis are aligned
+#
+# alpha - the angle linkage a makes with x_axis about z axis
+# beta  - the angle that linkage a makes with linkage b
+# gamma - the angle that linkage c make with the line perpendicular to linkage b
+#
+#
+# MEASUREMENTS
+#
+#  |------a---------|--------b------|-------c----------|
+#  |================|---------------|------------------|
+#  p0               p1              p2                 p3
+#                               
+#  p0 - body contact (where joint0 alpha located)
+#  p1 - coxia point  (where joint1 beta located)
+#  p2 - femur point  (where joint2 gamma located)
+#  p3 - foot tip     (where tip coordinate located)
+#
+#  z    /y           y               y                  y          
+#  |   /             |               |                  |          
+#  |  /              |               |                  |            
+#  | /               |               |                  |           
+#  |/                |               |                  |           
+#  /--------> x      /-------> x     /-------> x        /-------> x      
+#                   /               /                  /            
+#                  /               /                  /             
+#                 /               /                  /              
+#                z               z                  z               
+#   
+#   joint0         joint1        joint2             tip coordinate 
+#    alpha          beta          gamma 
+#
+#
+#
+#
+# ---------------------------
+# ANGLES alpha beta and gamma
+# ---------------------------
+#
+#    ---TOP TO DOWM VIEW---
+#
+#  body    *-----*------  
+#  |      / femur  tibia
+#  |     /   (b)    (c)
+#  |    / 
+#  |   /
+#  |  / coxia
+#  | /   (a)
+#  |/
+#  * 
+#  alpha 
+#                
+#    ---BACK TO FROM VIEW---
+#           
+#          ---- /* ---------
+#         /    //\\        \
+#        b    //  \\        \
+#       /    //    \\        c
+#      /    //beta  \\        \
+#  *=======* ---->   \\        \
+#  |---a---|          \\        \
+#                     *-----------
+#
+#    ---BACK TO FROM VIEW---
+#    
+# |--a--|---b----|
+# *=====*=========* -------------
+#               | \\            \
+#               |  \\            \
+#               |   \\            c
+#               |    \\            \
+#               |gamma\\            \
+#               |      *----------------
+#
+#
+#Joint direction definition: 
+#For joint beta and gamma: positive: move up.       negative: move down.
+#For right side alpha    : positive: move forward.  negative: move backward.
+#For left side alpha     : positive: move backward. negative: move forward.
+
+
 from copy import deepcopy
 from pprint import pprint
 from math import atan2, degrees, isclose
@@ -16,47 +147,6 @@ from hexapod.points import (
     frame_rotxyz,
     rotz,
 )
-
-
-# Dimensions f, s, and m
-#
-#                               |-f-|
-#                               *---*---*--------
-#                              /    |    \     |
-#                             /     |     \    s
-#                            /      |      \   |
-#                           *------cog------* ---
-#                            \      |      /|
-#                             \     |     / |
-#                              \    |    /  |
-#                               *---*---*   |
-#                                   |       |
-#                                   |---m---|
-#                        
-#                                   y axis
-#                                   ^
-#                                   |
-#                                   |
-#                                   ----> x axis
-#                                 cog (origin)
-#
-#
-# Top-down view for each attached linkage
-# Note: legs' axis configurations is based mdh. For mdh, only z-axis rotates.
-#  
-#                             x2          x1
-#                              \         /
-#                               *---*---*
-#     z3t|     z3f|            /    |    \  |y0c     
-#        |        |           /     |     \ |         
-#        |        |   coxia  /      |      \|         femur    tibia
-#  x3t----  z3f----  x3c----*------cog------*----x0c  ----x0f  ----z0t     
-#   tibia    femur          |\      |      /coxia     |        |
-#                           | \     |     /           |        |
-#                        y3c|  \    |    /            |z0f     |z0t
-#                               *---*---*
-#                              /         \
-#                             x4         x5  
 
 
 class Hexagon:
