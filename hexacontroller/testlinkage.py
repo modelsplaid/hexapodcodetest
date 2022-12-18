@@ -17,6 +17,10 @@ if __name__ == "__main__":
     front = BASE_DIMENSIONS["front"]  #59
     mid =   BASE_DIMENSIONS["middle"] #93
     side =  BASE_DIMENSIONS["side"]   #119
+    
+    # Parse robot mass
+    MASSES = config_json["MASSES"]
+        
 
     COXIA_AXES = coxia_axis_config
 
@@ -32,6 +36,8 @@ if __name__ == "__main__":
               new_origin = body.vertices[right_middle_leg_id],
               name = body.VERTEX_NAMES[right_middle_leg_id],
               id_number = 0,
-          )
+              masses=MASSES
+            )
 
     leg_rm.change_pose_deg(0,0,0) # coxia, femur, tibia in deg
+    
