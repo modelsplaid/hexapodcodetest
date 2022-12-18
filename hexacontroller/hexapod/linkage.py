@@ -191,8 +191,11 @@ class Linkage:
                 m4_kg = m4_kg
                 )
         
-        self.mdhleg.fkine((0,0,0,0))
+        self.mdhleg.fkine((10,20,30,0))
         
+        print("self.mdhleg._nlinks: "+str(self.mdhleg._nlinks))
+        print("self.mdhleg._links: \n"+str(self.mdhleg.A([2,3],[0,0,0,0])))
+
         self.change_pose_deg(alpha, beta, gamma)
 
     def coxia_angle(self):
@@ -218,6 +221,9 @@ class Linkage:
 
     def change_pose_mdh_deg(self, alpha, beta, gamma):
         pass 
+    
+    def change_pose_mdh_deg(self, alpha, beta, gamma):
+        pass
     
     def change_pose_deg(self, alpha, beta, gamma):
         self.alpha = alpha
