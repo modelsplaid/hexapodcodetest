@@ -136,6 +136,7 @@ from hexapod.points import (
     frame_zrotate_xytranslate,
 )
 
+from hexapod.hexaMDH_jacob import HexaLeg
 
 class Linkage:
     POINT_NAMES = ["coxia", "femur", "tibia"]
@@ -153,28 +154,48 @@ class Linkage:
         "id",
         "all_points",
         "ground_contact_point",
+        "masses",
+        "mm_to_m",
+        "mdhleg"
     )
 
-    def __init__(
-        self,
-        a,
-        b,
-        c,
-        alpha=0,
-        beta=0,
-        gamma=0,
-        coxia_axis=0,
-        new_origin=Vector(0, 0, 0),
-        name=None,
-        id_number=None,
-    ):
-        self.a = a
-        self.b = b
-        self.c = c
+    def __init__(self,a,b,c,alpha=0,beta=0,gamma=0,
+            coxia_axis=0,new_origin=Vector(0, 0, 0),name=None,
+            id_number=None,masses=None):
+        # a,b,c: lenght in mm 
+        # alpha,beta,gamma,coxia_axis: in deg
+        
+        
+        self.a = a # coxia length 
+        self.b = b # femur length
+        self.c = c # tibia length
         self.new_origin = new_origin
         self.coxia_axis = coxia_axis
         self.id = id_number
         self.name = name
+        self.masses = masses
+        
+        m1_kg = self.masses["m1"]
+        m2_kg = self.masses["m2"]
+        m3_kg = self.masses["m3"]
+        m4_kg = self.masses["m4"]
+        
+        self.mm_to_m = 1.0/1000.0
+        
+        # Object right-middle leg 
+        self.mdhleg = HexaLeg(False,a*self.mm_to_m,\
+                b*self.mm_to_m,c*self.mm_to_m,
+                m1_kg = m1_kg,
+                m2_kg = m2_kg,
+                m3_kg = m3_kg,
+                m4_kg = m4_kg
+                )
+        
+        self.mdhleg.fkine((10,20,30,0))
+        
+        print("self.mdhleg._nlinks: "+str(self.mdhleg._nlinks))
+        print("self.mdhleg._links: \n"+str(self.mdhleg.A([2,3],[0,0,0,0])))
+
         self.change_pose_deg(alpha, beta, gamma)
 
     def coxia_angle(self):
@@ -200,6 +221,9 @@ class Linkage:
 
     def change_pose_mdh_deg(self, alpha, beta, gamma):
         pass 
+    
+    def change_pose_mdh_deg(self, alpha, beta, gamma):
+        pass
     
     def change_pose_deg(self, alpha, beta, gamma):
         self.alpha = alpha

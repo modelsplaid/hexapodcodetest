@@ -7,6 +7,12 @@
 	    "femur":75,
         "tibia":150
     },
+    "MASSES":{
+        "m1":0.01,
+        "m2":0.14,
+        "m3":0.104,
+        "m4":0.5
+    },
     "BASE_IK_PARAMS": {
         "hip_stance": 0,
         "leg_stance": 0,

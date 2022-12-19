@@ -108,6 +108,7 @@ def testinv():
     return mat_target
 
 if __name__ == "__main__":  # pragma nocover
+    '''
     hexaleg = EHexaLeg()
     mat_target = hexaleg.fkine_all(hexaleg.qr)
     print("mat_target: \n"+str(mat_target))
@@ -115,3 +116,7 @@ if __name__ == "__main__":  # pragma nocover
     #while True:
     hexaleg.plot(hexaleg.qr) 
     time.sleep(10)
+    '''
+    testjtraj()
+
+
