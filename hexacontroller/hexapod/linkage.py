@@ -145,9 +145,9 @@ class Linkage:
         "a",
         "b",
         "c",
-        "alpha",
-        "beta",
-        "gamma",
+        "alpha_deg",
+        "beta_deg",
+        "gamma_deg",
         "coxia_axis",
         "new_origin",
         "name",
@@ -177,10 +177,16 @@ class Linkage:
         self.name = name
         self.masses = masses
         
-        m1_kg = self.masses["m1"]
-        m2_kg = self.masses["m2"]
-        m3_kg = self.masses["m3"]
-        m4_kg = self.masses["m4"]
+        if masses==None:
+            m1_kg = 0 
+            m2_kg = 0
+            m3_kg = 0
+            m4_kg = 0
+        else:
+            m1_kg = self.masses["m1"]
+            m2_kg = self.masses["m2"]
+            m3_kg = self.masses["m3"]
+            m4_kg = self.masses["m4"]
         
         self.mm_to_m = 1.0/1000.0
         self.deg_to_rad = np.pi/180.0
@@ -202,7 +208,7 @@ class Linkage:
         self.change_pose_mdh(alpha, beta, gamma)
 
     def coxia_angle(self):
-        return self.alpha
+        return self.alpha_deg
 
     def body_contact(self):
         return self.all_points[0]
@@ -224,6 +230,10 @@ class Linkage:
 
     
     def change_pose_mdh(self, alpha_deg, beta_deg, gamma_deg):
+        self.alpha_deg = alpha_deg
+        self.beta_deg = beta_deg
+        self.gamma_deg = gamma_deg
+
         alpha_rad = self.deg_to_rad*alpha_deg
         beta_rad = self.deg_to_rad*beta_deg
         gamma_rad = self.deg_to_rad*gamma_deg
@@ -251,14 +261,17 @@ class Linkage:
 
         self.all_points = [p0, p1, p2, p3]
     
+        self.ground_contact_point = self.compute_ground_contact()
+
+
     def change_pose(self, alpha_deg, beta_deg, gamma_deg):
-        self.alpha = alpha_deg
-        self.beta = beta_deg
-        self.gamma = gamma_deg
+        self.alpha_deg = alpha_deg
+        self.beta_deg = beta_deg
+        self.gamma_deg = gamma_deg
 
         # frame_ab is the pose of frame_b wrt frame_a
-        frame_01 = frame_yrotate_xtranslate(theta=-self.beta, x=self.a)
-        frame_12 = frame_yrotate_xtranslate(theta=-self.gamma, x=self.b)
+        frame_01 = frame_yrotate_xtranslate(theta=-self.beta_deg, x=self.a)
+        frame_12 = frame_yrotate_xtranslate(theta=-self.gamma_deg, x=self.b)
         frame_23 = frame_yrotate_xtranslate(theta=0, x=self.c)
 
         frame_02 = np.matmul(frame_01, frame_12)
@@ -267,7 +280,7 @@ class Linkage:
         # tzq print new frame
    
         new_frame = frame_zrotate_xytranslate(
-            self.coxia_axis + self.alpha, self.new_origin.x, self.new_origin.y
+            self.coxia_axis + self.alpha_deg, self.new_origin.x, self.new_origin.y
         )
 
         # find points wrt to body contact point
@@ -316,9 +329,9 @@ class Linkage:
   a={self.a},
   b={self.b},
   c={self.c},
-  alpha={self.alpha},
-  beta={self.beta},
-  gamma={self.gamma},
+  alpha={self.alpha_deg},
+  beta={self.beta_deg},
+  gamma={self.gamma_deg},
   coxia_axis={self.coxia_axis},
   id_number={self.id},
   name='{self.name}',

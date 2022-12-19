@@ -239,7 +239,7 @@ class VirtualHexapod:
         # Update leg poses
         for pose in poses.values():
             i = pose["id"]
-            self.legs[i].change_pose(pose["coxia"], pose["femur"], pose["tibia"])
+            self.legs[i].change_pose_mdh(pose["coxia"], pose["femur"], pose["tibia"])
 
         # Find new orientation of the body (new normal)
         # distance of cog from ground and which legs are on the ground

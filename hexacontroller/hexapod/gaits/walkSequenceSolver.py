@@ -783,7 +783,7 @@ def buildRippleLegSequence(position, bLift, gLift, fw1, fw2, bk1, bk2, bk3, bk4)
        
     return [alpha,beta,gamma]
 
-def rippleSequence(startPose, aLiftSwing, hipSwings, stepCount, walkMode):
+def rippleSequence(startPose, aLiftSwing, hipSwings, stepCount):
     print("In ripple sequence")
 
     sequences = {
@@ -843,8 +843,10 @@ def rippleSequence(startPose, aLiftSwing, hipSwings, stepCount, walkMode):
         legPositionName = startPose[legPositionsIndex]['name']
         delta = hipSwings[legPositionName]
         halfDelta = delta / 2.0
-        # 1. build beta sequence
+        # build beta sequence
         betaLift = buildSequence(beta, aLiftSwing, stepCount)
+
+        # build gamma sequence
         gammaLift = buildSequence(gamma, -aLiftSwing / 2.0, stepCount)
 
         fw1 = buildSequence(alpha - delta, delta, stepCount)
@@ -907,7 +909,7 @@ def getWalkSequence(dimensions, params, gaitType="tripod", walkMode="walking"):
         hipSwings = getHipSwingBackward(aHipSwing)
 
     if gaitType == "ripple":
-        fullSequences = rippleSequence(ikSolver_poses, aliftSwing, hipSwings, stepCount, walkMode)
+        fullSequences = rippleSequence(ikSolver_poses, aliftSwing, hipSwings, stepCount)
     else:
         valvPumpSqs = []
         #fullSequences = tripodSequence(ikSolver_poses, aliftSwing, hipSwings, stepCount, walkMode)
