@@ -15,8 +15,8 @@ if __name__ == "__main__":
     femur = BASE_DIMENSIONS["femur"]  #75.0
     tibia = BASE_DIMENSIONS["tibia"]  #150.0
     front = BASE_DIMENSIONS["front"]  #59
-    mid =   BASE_DIMENSIONS["middle"] #93
-    side =  BASE_DIMENSIONS["side"]   #119
+    mid   = BASE_DIMENSIONS["middle"] #93
+    side  = BASE_DIMENSIONS["side"]   #119
 
     COXIA_AXES = coxia_axis_config
 
@@ -31,7 +31,11 @@ if __name__ == "__main__":
               coxia_axis = body.COXIA_AXES[right_middle_leg_id],
               new_origin = body.vertices[right_middle_leg_id],
               name = body.VERTEX_NAMES[right_middle_leg_id],
-              id_number = 0,
-          )
+              id_number = 0)
 
     leg_rm.change_pose_deg(0,0,0) # coxia, femur, tibia in deg
+
+    print("body_contact: "+str(leg_rm.body_contact()))
+    print("coxia_point:  "+str(leg_rm.coxia_point()))
+    print("femur_point:  "+str(leg_rm.femur_point()))
+    print("foot_tip:     "+str(leg_rm.foot_tip()))
