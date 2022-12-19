@@ -50,6 +50,17 @@ class Vector:
         s = f"Vector(x={self.x:>+8.2f}, y={self.y:>+8.2f}, z={self.z:>+8.2f}, name='{self.name}')"
         return s
 
+    def __add__(self,d):
+        
+
+        a = self.x + d.x
+        b = self.y + d.y
+        c = self.z + d.z
+
+        v = Vector(a,b,c)
+
+        return v
+
     def __str__(self):
         return repr(self)
 

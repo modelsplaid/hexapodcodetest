@@ -6,8 +6,8 @@ import roboticstoolbox as rtb
 import math 
 from scipy.spatial.transform import Rotation as R
 import spatialmath.base as base
-from sympy import *
-import spatialmath.base.symbolic as sym
+#from sympy import *
+
 from math import pi
 from pprint import pprint
 import matplotlib as mpl
@@ -38,7 +38,7 @@ class HexaLeg(DHRobot):
         femur_m=0.075,tibia_m=0.140,m1_kg=0,m2_kg=0,m3_kg=0,m4_kg=0):
         
         if symbolic: # for symbolic computation
-            
+            import spatialmath.base.symbolic as sym
             zero = sym.zero()
             pi = sym.pi()
             half_pi = pi/2

@@ -39,8 +39,9 @@ if __name__ == "__main__":
               masses=MASSES
             )
 
-    leg_rm.change_pose_deg(0,0,0) # coxia, femur, tibia in deg
-    
+    leg_rm.change_pose(10,20,30) # coxia, femur, tibia in deg
+    #leg_rm.change_pose_mdh(10,20,30) # coxia, femur, tibia in deg
+
     print("body_contact: "+str(leg_rm.body_contact()))
     print("coxia_point: "+str(leg_rm.coxia_point()))
     print("femur_point: "+str(leg_rm.femur_point()))
