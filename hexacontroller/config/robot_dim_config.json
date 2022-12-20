@@ -25,10 +25,10 @@
     },
     "COXIA_AXES": {
         "right-middle": 0,
-        "right-front": 45,
-        "left-front": 135,
+        "right-front": 0,
+        "left-front": 180,
         "left-middle": 180,
-        "left-back": 225,
-        "right-back": 315
+        "left-back": 180,
+        "right-back": 0
     }
 }

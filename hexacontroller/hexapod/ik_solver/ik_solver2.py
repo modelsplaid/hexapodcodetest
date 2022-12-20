@@ -212,7 +212,9 @@ class IKSolver:
         self.legs_up_in_the_air.append(self.leg_name)
         LEGS_TOO_SHORT, alert_msg = legs_too_short(self.legs_up_in_the_air)
         if LEGS_TOO_SHORT:
-            raise Exception(alert_msg)
+            #raise Exception(alert_msg)
+            print("alert_msg!!!!!! ")
+            print("alert_msg: "+alert_msg )
 
     def only_few_legs_cant_reach_target(self):
         # Try to reach it by making the legs stretch
