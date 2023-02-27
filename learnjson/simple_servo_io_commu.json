@@ -1,0 +1,103 @@
+{
+    "svos": {
+        "svo_1": {
+            "device_id"       : 1    ,"servo_name"        : "left-back-coxia","tstmp":0 ,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "" ,
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_2": {
+            "device_id"       : 2    ,"servo_name"        : "left-back-femur","tstmp":0,    
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_3": {
+            "device_id"       : 3,    "servo_name"        : "left-back-tibia","tstmp":0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_4": {
+            "device_id"       : 4    ,"servo_name"        : "left-middle-coxia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_5": {
+            "device_id"       : 5,"servo_name"            : "left-middle-femur","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_6": {
+            "device_id"       : 6,"servo_name"            : "left-middle-tibia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_7": {
+            "device_id"       : 7,"servo_name"            : "left-front-coxia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_8": {
+            "device_id"       : 8,"servo_name"            : "left-front-femur","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_9": {
+            "device_id"       : 9,"servo_name"            : "left-front-tibia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_10": {
+            "device_id"       : 10,"servo_name"           : "right-back-coxia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_11": {
+            "device_id"       : 11,"servo_name"           : "right-back-femur","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_12": {
+            "device_id"       : 12,"servo_name"           : "right-back-tibia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_13": {
+            "device_id"       : 13,"servo_name"           : "right-middle-coxia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_14": {
+            "device_id"       : 14,"servo_name"           : "right-middle-femur","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_15": {
+            "device_id"       : 15,"servo_name"           : "right-middle-tibia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_16": {
+            "device_id"       : 16,"servo_name"           : "right-front-coxia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_17": {
+            "device_id"       : 17,"servo_name"           : "right-front-femur","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        },
+        "svo_18": {
+            "device_id"       : 18,"servo_name"           : "right-front-tibia","tstmp": 0,
+            "ssvo_vali": false,"ssvo_pos_val": 99999,"ssvo_pos_stats": "","ssvo_speed_val": 99999,"ssvo_speed_stats": "","ssvo_torq_val": 99999,"ssvo_torq_stats": "",
+            "rsvo_vali": false,"rsvo_pos_val": 99999,"rsvo_pos_stats": "","rsvo_speed_val": 99999,"rsvo_speed_stats": "","rsvo_torq_val": 99999,"rsvo_torq_stats": ""
+        }
+    },
+    "vpumps":
+    {
+    "right-middle": {"vpump_id": 0, "vpump_name": "right-middle-valpump","recv_pmp_stat": 1,"onoff_val_pump": 2,"tstmp": 0},
+    "right-front" : {"vpump_id": 1, "vpump_name": "right-front-valpump" ,"recv_pmp_stat": 1,"onoff_val_pump": 2,"tstmp": 0},
+    "left-front"  : {"vpump_id": 2, "vpump_name": "left-front-valpump"  ,"recv_pmp_stat": 1,"onoff_val_pump": 2,"tstmp": 0},
+    "left-middle" : {"vpump_id": 3, "vpump_name": "left-middle-valpump" ,"recv_pmp_stat": 1,"onoff_val_pump": 2,"tstmp": 0},
+    "left-back"   : {"vpump_id": 4, "vpump_name": "left-back-valpump"   ,"recv_pmp_stat": 1,"onoff_val_pump": 2,"tstmp": 0},
+    "right-back"  : {"vpump_id": 5, "vpump_name": "right-back-valpump"  ,"recv_pmp_stat": 1,"onoff_val_pump": 2,"tstmp": 0}
+    }
+}

@@ -1,0 +1,103 @@
+{
+    "serial_servos": {
+        "serial_servo_1": {
+            "device_id"       : 1    ,"servo_name"        : "left-back-coxia","time_stamp":0 ,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "" ,
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_2": {
+            "device_id"       : 2    ,"servo_name"        : "left-back-femur","time_stamp":0,    
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_3": {
+            "device_id"       : 3,    "servo_name"        : "left-back-tibia","time_stamp":0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_4": {
+            "device_id"       : 4    ,"servo_name"        : "left-middle-coxia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_5": {
+            "device_id"       : 5,"servo_name"            : "left-middle-femur","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_6": {
+            "device_id"       : 6,"servo_name"            : "left-middle-tibia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_7": {
+            "device_id"       : 7,"servo_name"            : "left-front-coxia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_8": {
+            "device_id"       : 8,"servo_name"            : "left-front-femur","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_9": {
+            "device_id"       : 9,"servo_name"            : "left-front-tibia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_10": {
+            "device_id"       : 10,"servo_name"           : "right-back-coxia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_11": {
+            "device_id"       : 11,"servo_name"           : "right-back-femur","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_12": {
+            "device_id"       : 12,"servo_name"           : "right-back-tibia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_13": {
+            "device_id"       : 13,"servo_name"           : "right-middle-coxia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_14": {
+            "device_id"       : 14,"servo_name"           : "right-middle-femur","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_15": {
+            "device_id"       : 15,"servo_name"           : "right-middle-tibia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_16": {
+            "device_id"       : 16,"servo_name"           : "right-front-coxia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_17": {
+            "device_id"       : 17,"servo_name"           : "right-front-femur","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        },
+        "serial_servo_18": {
+            "device_id"       : 18,"servo_name"           : "right-front-tibia","time_stamp": 0,
+            "send_servo_valid": false,"send_servo_pos_val": 99999,"send_servo_pos_stats": "","send_servo_speed_val": 99999,"send_servo_speed_stats": "","send_servo_torque_val": 99999,"send_servo_torque_stats": "",
+            "recv_servo_valid": false,"recv_servo_pos_val": 99999,"recv_servo_pos_stats": "","recv_servo_speed_val": 99999,"recv_servo_speed_stats": "","recv_servo_torque_val": 99999,"recv_servo_torque_stats": ""
+        }
+    },
+    "valve_pumps":
+    {
+    "right-middle": {"valve_pump_id": 0, "valve_pump_name": "right-middle-valpump","recv_pump_status": 1,"turn_onoff_val_pump": 2,"time_stamp": 0},
+    "right-front" : {"valve_pump_id": 1, "valve_pump_name": "right-front-valpump" ,"recv_pump_status": 1,"turn_onoff_val_pump": 2,"time_stamp": 0},
+    "left-front"  : {"valve_pump_id": 2, "valve_pump_name": "left-front-valpump"  ,"recv_pump_status": 1,"turn_onoff_val_pump": 2,"time_stamp": 0},
+    "left-middle" : {"valve_pump_id": 3, "valve_pump_name": "left-middle-valpump" ,"recv_pump_status": 1,"turn_onoff_val_pump": 2,"time_stamp": 0},
+    "left-back"   : {"valve_pump_id": 4, "valve_pump_name": "left-back-valpump"   ,"recv_pump_status": 1,"turn_onoff_val_pump": 2,"time_stamp": 0},
+    "right-back"  : {"valve_pump_id": 5, "valve_pump_name": "right-back-valpump"  ,"recv_pump_status": 1,"turn_onoff_val_pump": 2,"time_stamp": 0}
+    }
+}
