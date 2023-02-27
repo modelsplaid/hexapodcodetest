@@ -12,6 +12,6 @@ t2 = time.time()
 config_json2 = json.load(out_file2)
 t3 = time.time()
 
-print("t2-t1: "+str(t2-t1) )
-print("t3-t2: "+str(t3-t2) )
+print("t2-t1 (ms): "+str((t2-t1)*1000) )
+print("t3-t2 (ms): "+str((t3-t2)*1000) )
 print("speed up(%): "+str((t3-t2-t2+t1)*100/(t3-t2)) )
