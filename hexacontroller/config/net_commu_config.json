@@ -2,8 +2,8 @@
     "net_params": {
         "IP": "",
         "PORT": 12345,
-        "SEND_FREQUENCY_HZ":500,
+        "COMMU_FREQ_HZ":500,
         "SOCKET_BUFFER_SIZE":409600,
-	"MAX_SEND_MESSAGE_FRAME_QUEUE_SIZE":100
+	"MAX_USR_MSG_QSIZE":100
     }
 }
