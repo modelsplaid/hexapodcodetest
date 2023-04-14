@@ -1,0 +1,22 @@
+{
+    "CART_TRAJ_WRT_GND": 
+    {
+        "0": {"x": [195 ,195 ,195 , 195],"y": [ -30, -30,  30, 30],"z": [10,0,0,10],"name": "right-middle","id": 0},
+        "1": {"x": [161 ,161 ,161 , 161],"y": [  89,  89, 149,149],"z": [10,0,0,10],"name": "right-front" ,"id": 1},
+        "2": {"x": [-161,-161,-161,-161],"y": [ 149, 149,  89, 89],"z": [10,0,0,10],"name": "left-front"  ,"id": 2},
+        "3": {"x": [-195,-195,-195,-195],"y": [  30,  30, -30,-30],"z": [10,0,0,10],"name": "left-middle" ,"id": 3},
+        "4": {"x": [-161,-161,-161,-161],"y": [ -88,-88,-148,-148],"z": [10,0,0,10],"name": "left-back"   ,"id": 4},
+        "5": {"x": [161 ,161 ,161 , 161],"y": [-149,-149, -89,-89],"z": [10,0,0,10],"name": "right-back"  ,"id": 5}
+    },
+    "LEG_POSE_SEQS": 
+    {
+        "0": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0, "name": "t0" },
+        "1": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t1" },
+        "2": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t2" },
+        "3": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t3" },
+        "4": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t4" },
+        "5": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t5" }
+    },
+    "COMMENTS":"LEG_POSE_SEQS: Each row is a move in one unit time, Each colum is leg. The value is index of CART_TRAJ_WRT_GND's array value "
+
+}
