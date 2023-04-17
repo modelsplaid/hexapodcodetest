@@ -1,22 +1,28 @@
 {
-    "CART_TRAJ_WRT_GND": 
+    "TRAJ_TMPLT_WRT_GND": 
     {
-        "0": {"x": [195 ,195 ,195 , 195],"y": [ -30, -30,  30, 30],"z": [10,0,0,10],"name": "right-middle","id": 0},
-        "1": {"x": [161 ,161 ,161 , 161],"y": [  89,  89, 149,149],"z": [10,0,0,10],"name": "right-front" ,"id": 1},
-        "2": {"x": [-161,-161,-161,-161],"y": [ 149, 149,  89, 89],"z": [10,0,0,10],"name": "left-front"  ,"id": 2},
-        "3": {"x": [-195,-195,-195,-195],"y": [  30,  30, -30,-30],"z": [10,0,0,10],"name": "left-middle" ,"id": 3},
-        "4": {"x": [-161,-161,-161,-161],"y": [ -88,-88,-148,-148],"z": [10,0,0,10],"name": "left-back"   ,"id": 4},
-        "5": {"x": [161 ,161 ,161 , 161],"y": [-149,-149, -89,-89],"z": [10,0,0,10],"name": "right-back"  ,"id": 5}
+        "0": {"x": [195 ,195 ,195 , 195],"y": [ -30, -30,  30,  30],"z": [10,0,0,10],"name": "right-middle","id": 0},
+        "1": {"x": [161 ,161 ,161 , 161],"y": [  89,  89, 149, 149],"z": [10,0,0,10],"name": "right-front" ,"id": 1},
+        "2": {"x": [-161,-161,-161,-161],"y": [ 149, 149,  89,  89],"z": [10,0,0,10],"name": "left-front"  ,"id": 2},
+        "3": {"x": [-195,-195,-195,-195],"y": [  30,  30, -30, -30],"z": [10,0,0,10],"name": "left-middle" ,"id": 3},
+        "4": {"x": [-161,-161,-161,-161],"y": [ -88,-88 ,-148,-148],"z": [10,0,0,10],"name": "left-back"   ,"id": 4},
+        "5": {"x": [161 ,161 ,161 , 161],"y": [-149,-149, -89, -89],"z": [10,0,0,10],"name": "right-back"  ,"id": 5}
     },
     "LEG_POSE_SEQS": 
     {
-        "0": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0, "name": "t0" },
-        "1": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t1" },
-        "2": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t2" },
-        "3": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t3" },
-        "4": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t4" },
-        "5": {"rm": 0,"rf": 0,"lf": 0 ,"lm": 0,"lb": 0,"rb": 0 ,"name": "t5" }
+        "0" : {"rm": 2,"rf": 2,"lf": 2,"lm": 2,"lb": 2,"rb": 2, "name": "t0  step1" },
+        "1" : {"rm": 2,"rf": 2,"lf": 3,"lm": 2,"lb": 2,"rb": 3 ,"name": "t1  step1" },
+        "2" : {"rm": 2,"rf": 2,"lf": 0,"lm": 2,"lb": 2,"rb": 0 ,"name": "t2  step1" },
+        "3" : {"rm": 2,"rf": 2,"lf": 1,"lm": 2,"lb": 2,"rb": 1 ,"name": "t3  step1" },
+        "4" : {"rm": 2,"rf": 2,"lf": 1,"lm": 2,"lb": 2,"rb": 1, "name": "t4  step2" },
+        "5" : {"rm": 3,"rf": 2,"lf": 1,"lm": 3,"lb": 2,"rb": 1 ,"name": "t5  step2" },
+        "6" : {"rm": 0,"rf": 2,"lf": 1,"lm": 0,"lb": 2,"rb": 1 ,"name": "t6  step2" },
+        "7" : {"rm": 1,"rf": 2,"lf": 1,"lm": 1,"lb": 2,"rb": 1 ,"name": "t7  step2" },
+        "8" : {"rm": 1,"rf": 2,"lf": 1,"lm": 1,"lb": 2,"rb": 1, "name": "t8  step3" },
+        "9" : {"rm": 1,"rf": 3,"lf": 1,"lm": 1,"lb": 3,"rb": 1 ,"name": "t9  step3" },
+        "10": {"rm": 1,"rf": 0,"lf": 1,"lm": 1,"lb": 0,"rb": 1 ,"name": "t10 step3" },
+        "11": {"rm": 1,"rf": 1,"lf": 1,"lm": 1,"lb": 1,"rb": 1 ,"name": "t11 step3" }
     },
-    "COMMENTS":"LEG_POSE_SEQS: Each row is a move in one unit time, Each colum is leg. The value is index of CART_TRAJ_WRT_GND's array value "
+    "COMMENTS":"LEG_POSE_SEQS: Each row is a move in one unit time, Each colum is leg. The value is index of CART_TRAJ_WRT_GND's array value"
 
 }
