@@ -1,7 +1,8 @@
-import sys
+
+from time import sleep
 import time
 
-sys.stdout.write("Hello there!")
-time.sleep(1)
-sys.stdout.write("It is a great day.")
-time.sleep(1)
+for second in range(3):
+    print(time.ctime(), end="\r")
+    time.sleep(1)
+print("\nGo!")
