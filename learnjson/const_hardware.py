@@ -55,16 +55,15 @@ PULSES2SERVOS = {
 
 
 def dump_json():
-    dict_json = {'NUTURAL_POSES_PULSE': NUTURAL_POSES_PULSE,\
-            'NUTURAL_POSES_DEG': NUTURAL_POSES_DEG,\
-            'DIRECTION_POSES_PULSE': DIRECTION_POSES_PULSE,\
-            'SERVO_ID_MAPPING':SERVO_ID_MAPPING,
-            'PULSES2SERVOS':PULSES2SERVOS      
-            }
+    dict_json = {'NUTURAL_POSES_PULSE'  : NUTURAL_POSES_PULSE  ,\
+                 'NUTURAL_POSES_DEG'    : NUTURAL_POSES_DEG    ,\
+                 'DIRECTION_POSES_PULSE': DIRECTION_POSES_PULSE,\
+                 'SERVO_ID_MAPPING'     : SERVO_ID_MAPPING     ,\
+                 'PULSES2SERVOS'        : PULSES2SERVOS      }
+
     out_file = open("const_hardware_config.json", "w") 
     json.dump(dict_json,out_file,indent = 4) 
     print("IN const hardware:  ")
-    #print(NUTURAL_POSES_PULSE)    
 
 def str_key2int(str_key_dic):
     int_key_dic = dict()
