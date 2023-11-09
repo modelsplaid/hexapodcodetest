@@ -21,8 +21,8 @@ def info(title):
     print('parent process:', os.getppid())
     print('process id:', os.getpid())
 
-    while(True):
-        pass 
+    #while(True):
+    #    pass 
 
 global dic_msg
 dic_msg = 1
@@ -69,17 +69,18 @@ def test_queu():
         print("q1.size(): "+str(q1.qsize())) # todo; here: why q1 always 0?
 
 
-def f_share_mem(n, a):
+def f_share_mem(n, a,b):
+    b("call from f_share_mem")
     n.value = 3.1415927
     for i in range(len(a)):
-        a[i] = str(-a[i])
+        a[i] = -a[i]
 
 def test_share_mem():
     num = Value('d', 0.0)
     #arr = Array('i', range(10))
     arr = RawArray('i', range(10))
 
-    p = Process(target=f_share_mem, args=(num, arr))
+    p = Process(target=f_share_mem, args=(num, arr,info))
     p.start()
     p.join()
 
@@ -114,6 +115,7 @@ if __name__ == '__main__':
     #test_spawn()
     #test_queu()
     #test_share_mem()
-    test_manager()
+    #test_manager()
+    test_share_mem()
 
 
