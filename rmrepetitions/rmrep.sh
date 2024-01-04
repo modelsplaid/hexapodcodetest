@@ -30,39 +30,39 @@ else
 fi
 
 
-"""
-Chat gpt4 
+# """
+# Chat gpt4 
 
-User
-write a bash scripts, which can detect name repetitions between two directories
-
-
-User
-what value can i choose for parameter -type and -exec for the command find?
+# User
+# write a bash scripts, which can detect name repetitions between two directories
 
 
-In the find command in Unix and Unix-like operating systems, the -type and -exec parameters are quite versatile and can be used in various ways:
+# User
+# what value can i choose for parameter -type and -exec for the command find?
 
--type Parameter:
-This parameter is used to specify the type of files that you want to search for. Common values for this parameter include:
 
-f: Regular file
-d: Directory
-l: Symbolic link
-c: Character devices
-b: Block devices
-s: Socket
-p: Named pipe (FIFO)
-Example: find /path/to/search -type f searches for regular files.
+# In the find command in Unix and Unix-like operating systems, the -type and -exec parameters are quite versatile and can be used in various ways:
 
--exec Parameter:
-The -exec parameter allows you to execute a command on each file found by find. This is a powerful feature as it lets you process or manipulate the matching files directly. The syntax is -exec command {} \;, where {} is replaced by the name of the current file.
+# -type Parameter:
+# This parameter is used to specify the type of files that you want to search for. Common values for this parameter include:
 
-Examples:
+# f: Regular file
+# d: Directory
+# l: Symbolic link
+# c: Character devices
+# b: Block devices
+# s: Socket
+# p: Named pipe (FIFO)
+# Example: find /path/to/search -type f searches for regular files.
 
-find /path/to/search -type f -exec ls -l {} \; will list details of each file found.
-find /path/to/search -type f -exec chmod 755 {} \; will change the permissions of each file found to 755.
-The command specified with -exec is executed once for each matching file. If you want to run a single command for all matched files, you can use -exec command {} +. This will replace {} with as many pathnames as possible for each invocation of the command.
+# -exec Parameter:
+# The -exec parameter allows you to execute a command on each file found by find. This is a powerful feature as it lets you process or manipulate the matching files directly. The syntax is -exec command {} \;, where {} is replaced by the name of the current file.
 
-Remember, when using the -exec option, it's essential to end the command with either \; or +, to indicate the end of the command that find should execute. The backslash \ is used to escape the semicolon ; from shell interpretation, as ; is a special character in most shell environments.
-"""
+# Examples:
+
+# find /path/to/search -type f -exec ls -l {} \; will list details of each file found.
+# find /path/to/search -type f -exec chmod 755 {} \; will change the permissions of each file found to 755.
+# The command specified with -exec is executed once for each matching file. If you want to run a single command for all matched files, you can use -exec command {} +. This will replace {} with as many pathnames as possible for each invocation of the command.
+
+# Remember, when using the -exec option, it's essential to end the command with either \; or +, to indicate the end of the command that find should execute. The backslash \ is used to escape the semicolon ; from shell interpretation, as ; is a special character in most shell environments.
+# """
