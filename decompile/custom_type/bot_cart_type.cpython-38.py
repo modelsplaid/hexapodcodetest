@@ -14,7 +14,7 @@ from spatialmath import SE3
 from custom_type.bot_base_type import BotBaseType
 
 class BotCartType(BotBaseType):
-    __slots__ = ('cart_dic', 'name', 'ct_nam_arr', 'leg_sz', "action_perid","lft_ids"
+    __slots__ = ("cart_dic", 'name', 'ct_nam_arr', 'leg_sz', "action_perid","lft_ids"
                  'rht_ids', 'leg_names', '_iter_idx_')
 
     def __init__(self, name='', cart_dic=None):
@@ -24,6 +24,7 @@ class BotCartType(BotBaseType):
         self.rht_ids = super().RHT_IDS
         self.leg_names = super().NAMES_LEG
         if cart_dic is not None and not isinstance(cart_dic, dict) == False:
+            print("11111111111111111111111")
             if isinstance(name, str) == False:
                 raise NameError('fatal error: Incorrect arguments type')
         else:
@@ -45,6 +46,7 @@ class BotCartType(BotBaseType):
                 self.cart_dic = cart_tmplt
             else:
                 self.cart_dic = deepcopy(cart_dic)
+            print("2222222222222222222222")
         self.name = name
 
     def increase_by_idx(self, leg_idx: int, cart_idx: int, inc_val: float):
@@ -171,6 +173,8 @@ class BotCartType(BotBaseType):
         """
         cls = self.__class__
         result = cls.__new__(cls)
+        print("cart_dic",self.cart_dic)
+
         result.cart_dic = deepcopy(self.cart_dic)
         result.ct_nam_arr = deepcopy(self.ct_nam_arr)
         result.name = self.name
