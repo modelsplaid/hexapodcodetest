@@ -23,7 +23,6 @@ fi
 files1=$(find "$dir1" -type d -maxdepth 1 -exec basename {} \;)
 files2=$(find "$dir2" -type d -maxdepth 1 -exec basename {} \;)
 
-
 # Find duplicates
 duplicates=$(echo "$files1"$'\n'"$files2" | sort | uniq -d)
 
@@ -31,7 +30,12 @@ if [ -z "$duplicates" ]; then
     echo "No duplicate file names found between $dir1 and $dir2."
 else
     echo "Duplicate file names found:"
-    echo "$duplicates"
+    #echo "$duplicates"
+    for str_prc in ${duplicates}; do
+        echo ${dir1}/"$str_prc"":" 
+        du -h -d 0 ${dir1}/"$str_prc" 
+        du -h -d 0 ${dir2}/"$str_prc"
+    done
 fi
 
 
