@@ -20,8 +20,8 @@ fi
 #files2=$(find "$dir2" -type f -exec basename {} \;)
 
 # Find files in both directories (only base names)
-files1=$(find "$dir1" -type d -maxdepth 1 -exec basename {} \;)
-files2=$(find "$dir2" -type d -maxdepth 1 -exec basename {} \;)
+files1=$(find "$dir1" -maxdepth 1 -type d  -exec basename {} \;)
+files2=$(find "$dir2" -maxdepth 1 -type d  -exec basename {} \;)
 
 # Find duplicates
 duplicates=$(echo "$files1"$'\n'"$files2" | sort | uniq -d)
