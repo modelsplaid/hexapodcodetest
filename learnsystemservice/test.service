@@ -1,0 +1,11 @@
+[Unit]
+Description=My test service
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /media/a/42d20e5a-ecfb-43c5-99d3-34fc18ecd184/yihang/pc_share/HexaClean/hexapodcodetest/learnsystemservice/test.py
+
+[Install]
+WantedBy=multi-user.target
