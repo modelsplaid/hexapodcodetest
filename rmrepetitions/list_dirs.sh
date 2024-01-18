@@ -52,7 +52,7 @@ loop_folder_lst() {
     
         # loop over remain 
         for one_dir in ${dirs_arr[@]}; do
-            echo Compare: $fst_dir with: $one_dir
+            #echo Compare: $fst_dir with: $one_dir
             bash rmrep.sh $fst_dir $one_dir
         done
 
