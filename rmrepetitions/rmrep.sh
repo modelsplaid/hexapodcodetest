@@ -1,14 +1,15 @@
 #!/bin/bash
 
-# Check if two arguments are given (two directory paths)
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 directory1 directory2"
-    exit 1
-fi
+# # Check if two arguments are given (two directory paths)
+# if [ "$#" -ne 2 ]; then
+#     echo "Usage: $0 directory1 directory2"
+#     exit 1
+# fi
+# dir1=$1
+# dir2=$2
 
-dir1=$1
-dir2=$2
-
+dir1=fold_a
+dir2=fold_b
 # Check if both arguments are directories
 if [ ! -d "$dir1" ] || [ ! -d "$dir2" ]; then
     echo "Both arguments must be directories."
