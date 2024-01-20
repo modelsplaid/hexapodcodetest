@@ -1,5 +1,7 @@
 __pycache__/
 *.swp
 *.pyc
+.DS_Store
+*.DS_Store
 build
 

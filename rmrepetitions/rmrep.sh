@@ -16,19 +16,50 @@ if [ ! -d "$dir1" ] || [ ! -d "$dir2" ]; then
     exit 1
 fi
 
+
 # Find files in both directories (only base names)
-files1=$(find "$dir1" -type f -exec basename {} \;)
-files2=$(find "$dir2" -type f -exec basename {} \;)
+files1=$(find "$dir1" -maxdepth 1  -not -name ".*" -exec basename {} \;)
+files2=$(find "$dir2" -maxdepth 1  -not -name ".*"  -exec basename {} \;)
+
 
 # Find duplicates
 duplicates=$(echo "$files1"$'\n'"$files2" | sort | uniq -d)
 
 if [ -z "$duplicates" ]; then
-    echo "No duplicate file names found between $dir1 and $dir2."
+    #echo "No duplicate file names found between $dir1 and $dir2."
+    pass=''
 else
     echo "Duplicate file names found:"
-    echo "$duplicates"
+    #echo "$duplicates"
+    for str_prc in ${duplicates}; do
+        echo ${dir1}/"$str_prc"":" 
+        du -h -d 0 ${dir1}/"$str_prc" 
+        du -h -d 0 ${dir2}/"$str_prc"
+    done
+
+    echo "Choose which to delete (1/2), or no action (n) ?:"
+    read user_input
+
+    if [ $user_input == 1 ]; then
+        echo Delete first file
+        rm -rf ${dir1}/"$str_prc"
+
+    elif [ $user_input == 2 ]; then
+        echo Delete second file
+        rm -rf ${dir2}/"$str_prc"
+    else
+        echo No action.
+    fi
+
 fi
+
+
+
+
+
+
+
+
 
 
 # """
