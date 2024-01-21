@@ -16,11 +16,9 @@ if [ ! -d "$dir1" ] || [ ! -d "$dir2" ]; then
     exit 1
 fi
 
-
 # Find files in both directories (only base names)
 files1=$(find "$dir1" -maxdepth 1  -not -name ".*" -exec basename {} \;)
 files2=$(find "$dir2" -maxdepth 1  -not -name ".*"  -exec basename {} \;)
-
 
 # Find duplicates
 duplicates=$(echo "$files1"$'\n'"$files2" | sort | uniq -d)

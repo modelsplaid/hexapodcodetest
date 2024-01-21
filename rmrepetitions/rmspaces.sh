@@ -19,7 +19,10 @@ fi
 find . -maxdepth 1  -not -name ".*"  | while IFS= read -r file; do
     # Replace spaces with underscores (or any other character)
     new_name=$(echo "$file" | tr ' ' '_')
-    mv "$file" "$new_name"
+    echo "moving " "$file" to "$new_name"
+    mv -n -f  "$file" "$new_name"
+
+
 done
 
 echo "Spaces in filenames have been replaced with underscores."
