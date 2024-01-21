@@ -39,12 +39,12 @@ loop_folder_lst() {
     array_length=${#dirs_arr[@]}
     echo Found number of directories: $array_length
 
-    # loop over remain 
-    for one_dir in ${dirs_arr[@]}; do
-        # replace spaces 
-        echo "replace spaces for: "$one_dir 
-        bash rmspaces.sh $one_dir
-    done
+    # # loop over remain 
+    # for one_dir in ${dirs_arr[@]}; do
+    #     # replace spaces 
+    #     echo "replace spaces for: "$one_dir 
+    #     bash rmspaces.sh $one_dir
+    # done
 
     # Iterate over the array
     for (( i=0; i<array_length; i++ )); do
