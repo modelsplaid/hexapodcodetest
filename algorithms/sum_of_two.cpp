@@ -14,6 +14,7 @@
 //https://leetcode.cn/problems/two-sum/description/?envType=study-plan-v2&envId=top-100-liked
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 class Solution {
 public:
@@ -34,7 +35,7 @@ int main()
 {
     //ssh a@tzqmjh.ddns.net -p 9875
     //Solution so;
-    vector<int> nums(3);
+    std::vector<int> nums;
     //int targ= 5;
     // so.twoSum(nums,targ);
 
