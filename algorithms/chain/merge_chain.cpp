@@ -30,7 +30,7 @@ public:
 };
 
 
-// todo: test here
+// https://leetcode.cn/problems/merge-two-sorted-lists/?envType=study-plan-v2&envId=top-interview-150
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -44,7 +44,7 @@ public:
             } else {
                 prev->next = l2;
                 l2 = l2->next;
-            }
+            }                                    
             prev = prev->next;
         }
 
@@ -54,3 +54,4 @@ public:
         return preHead->next;
     }
 };
+
