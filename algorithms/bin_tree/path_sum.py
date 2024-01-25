@@ -1,3 +1,4 @@
+#https://leetcode.cn/problems/path-sum/solutions/318487/lu-jing-zong-he-by-leetcode-solution/?envType=study-plan-v2&envId=top-interview-150
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int targetSum) {
