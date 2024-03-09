@@ -19,8 +19,12 @@ counter one_cntr;
 
 void thd(){
     std::mutex mtx;
+    std::timed_mutex tmtx;
 
+    chrono::milliseconds t(10);
+    tmtx.try_lock_for(t);
     mtx.lock();
+    
 
     for(int a=0;a<10;a++){
         one_cntr.increament();

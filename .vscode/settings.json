@@ -63,6 +63,12 @@
         "chrono": "cpp",
         "compare": "cpp",
         "concepts": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "condition_variable": "cpp",
+        "deque": "cpp",
+        "stack": "cpp",
+        "thread": "cpp",
+        "unordered_set": "cpp",
+        "__memory": "cpp"
     }
 }

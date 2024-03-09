@@ -15,9 +15,12 @@ public:
 
 int main()
 {
-   Solution so;
-   //int a = so.climbStairs(1);
 
-   cout<<"stages: "<<endl;
+vector<int> vec={3,5,2};
 
+auto f=[=](int x,int y){return x>y;};
+sort(vec.begin(),vec.end(),f);
+for(auto one:vec){
+    cout<<"one: "<<one<<endl;
+}
 }

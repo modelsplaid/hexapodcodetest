@@ -32,6 +32,7 @@ void thd(){
 }
 
 int main(){
+    condition_variable a;
     vector<thread> thd_vec;
     for(int i=0;i<2;i++){
         thd_vec.push_back(thread(thd));

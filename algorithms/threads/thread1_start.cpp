@@ -2,16 +2,24 @@
 #include<iostream>
 #include<thread>
 #include<unistd.h>
-
+#include<condition_variable>
 using namespace std;
 
+
 void thd1(){
+    condition_variable cv;
+
+    mutex mtx;
+    lock_guard<mutex> lk(mtx);
+    
+    //mtx.lock();
     cout<<"thread id: "<<std::this_thread::get_id()<<endl;
     cout<<"running thd1"<<endl;
     sleep(1);
     cout<<"running thd2"<<endl;
     usleep(1000);
     cout<<"running thd3"<<endl;
+    //mtx.unlock();
 
 }
 

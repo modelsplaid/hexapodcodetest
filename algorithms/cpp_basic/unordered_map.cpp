@@ -1,6 +1,9 @@
 #include<unordered_map>
 #include<iostream>
 #include<vector>
+
+using namespace std;
+
 int main(void){
     std::unordered_map<std::string,std::string> cor={{"red","yes"},{"black","no"}};
     std::vector<int> a={1,2,3};
@@ -25,8 +28,16 @@ int main(void){
 
     std::cout<<"fnd red: "<<fst_fnd->first<<fst_fnd->second<<std::endl;
 
-    ///////////////////////////////////
-    ////////////////////////////////// when to use -> when to use . and *.
-    //////////////////////////////////
     auto ab=fst_fnd->first; 
+
+    unordered_map<string,string>::iterator itr;
+
+    itr = cor.find("yellor");
+    if(itr==cor.end()){
+        cout<<"cannot find"<<endl;
+    }else{
+        cout<<"yellor: "<<itr->first<<endl;
+    }
+
+
 }
