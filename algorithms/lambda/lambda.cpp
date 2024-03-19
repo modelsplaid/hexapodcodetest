@@ -31,12 +31,21 @@ void value_imp_params(){
 
 }
 
+
+void lmbda(){
+    auto f=[](){return 33;};
+    cout<<"f:"<<f()<<endl;
+
+}
+
 int main()
 {
-    cout<<"test value transfer"<<endl;
-    value_params();
+    // cout<<"test value transfer"<<endl;
+    // value_params();
 
-    cout<<"test value implicit transfer"<<endl;
-    value_imp_params();
+    // cout<<"test value implicit transfer"<<endl;
+    // value_imp_params();
+
+    lmbda();
     return 0;
 }

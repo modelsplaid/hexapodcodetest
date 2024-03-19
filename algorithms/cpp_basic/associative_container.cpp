@@ -1,6 +1,7 @@
 #include<map>
 #include<set>
 #include<iostream>
+#include<queue>
 using namespace std;
 
 void test_map(){
@@ -57,13 +58,64 @@ void test_map_set(){
             cout<<"name: "<<itr->first<<" count: "<<itr->second<<endl;
         }
     }
+}
 
+void test_pair(){
+    pair<string,string> ssp;
+    ssp.first="hi";
+    ssp.second="world";
+    cout<<"pair: "<<ssp.first<<ssp.second<<endl;
 
+}
 
+void test_multi_sets(){
+    vector<int> ivec;
+    for(auto i=10;i>0;i--){
+        ivec.push_back(i);
+        ivec.push_back(i);
+    }
 
+    for(vector<int>::iterator itr=ivec.begin();itr<ivec.end();itr++){
+        cout<<"ivec: "<<*itr<<endl;
+    }
+
+    set<int> iset(ivec.begin(),ivec.end());
+    for(set<int>::iterator itr=iset.begin();itr!=iset.end();itr++){
+        cout<<"iset: "<<*itr<<endl;
+    }
+
+    //multiset<int,less<int>> mset(ivec.begin(),ivec.end());
+    multiset<int,greater<int>> mset(ivec.begin(),ivec.end());
+    for(set<int>::iterator itr=mset.begin();itr!=mset.end();itr++){
+        cout<<"mset: "<<*itr<<endl;
+    }
+
+    // for(set<int>::iterator itr=--mset.end();itr!=--mset.begin();itr--){
+    //     cout<<"ascend mset: "<<*itr<<endl;
+    // }
+
+}
+
+void test_priority_q(){
+
+    priority_queue< int, vector<int>, greater<int> > pq;
+    pq.push(12);
+    pq.push(24);
+    pq.push(12);
+    pq.push(3);
+    pq.push(24);
+    cout << "priority_queue (using vector) listing" << endl;
+    while(!pq.empty())
+    {
+        cout << pq.top() << endl;
+        pq.pop();
+    }
 }
 int main(){
     //test_map();
-    test_map_set();
+    //test_map_set();
+    //test_pair();
+    //test_multi_sets();
+    test_priority_q();
 
 }
