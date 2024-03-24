@@ -36,6 +36,22 @@ void tstack(){
      }
 }
 
+void test_stack(){
+    stack<int> a;
+    queue<int> b;
+    a.push(3); a.push(6);a.push(9);
+    cout<<"a.top: "<<a.top()<<endl;
+    a.pop();
+    cout<<"a.top: "<<a.top()<<endl;
+    a.pop();
+
+    b.push(1);b.push(2);b.push(3);
+    cout<<"b.front: "<<b.front()<<endl;
+    b.pop();
+    cout<<"b.pop: "<<b.front()<<endl;
+    b.pop();
+}
+
 void tvector(){
 
     vector<int> stk;
