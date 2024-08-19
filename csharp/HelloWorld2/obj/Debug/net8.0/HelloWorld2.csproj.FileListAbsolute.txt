@@ -1,0 +1,15 @@
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/bin/Debug/net8.0/HelloWorld2
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/bin/Debug/net8.0/HelloWorld2.deps.json
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/bin/Debug/net8.0/HelloWorld2.runtimeconfig.json
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/bin/Debug/net8.0/HelloWorld2.dll
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/bin/Debug/net8.0/HelloWorld2.pdb
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.AssemblyInfoInputs.cache
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.AssemblyInfo.cs
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.csproj.CoreCompileInputs.cache
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.sourcelink.json
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.dll
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/refint/HelloWorld2.dll
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.pdb
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/HelloWorld2.genruntimeconfig.cache
+/Users/tzj/HexaClean/hexapodcodetest/csharp/HelloWorld2/obj/Debug/net8.0/ref/HelloWorld2.dll
