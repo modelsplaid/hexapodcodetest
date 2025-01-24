@@ -6,12 +6,21 @@ import dash_html_components as html
 import plotly.express as px
 import plotly.graph_objects as go
 
+# df = pd.DataFrame({
+#   "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+#   "Contestant": ["Alex", "Alex", "Alex", "Jordan", "Jordan", "Jordan"],
+#   "Number Eaten": [20, 1, 3, 1, 3, 2],
+# })
+
+
 df = pd.DataFrame({
-  "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+  "Fruit": ["Apples", "Oranges", "Bananas"],
   "Contestant": ["Alex", "Alex", "Alex", "Jordan", "Jordan", "Jordan"],
-  "Number Eaten": [2, 1, 3, 1, 3, 2],
+  "Number Eaten": [20, 1, 3],
 })
 
+for contestant, group in df.groupby("Contestant"):
+    print(contestant)
 
 # Plotly Express
 
@@ -19,7 +28,6 @@ df = pd.DataFrame({
 
 fig2 = px.bar(df, x="Fruit", y="Number Eaten", color="Contestant", barmode="group")
 #fig2.show()
-
 
 # Graph Objects
 
@@ -34,14 +42,10 @@ fig.update_xaxes(title_text="Fruit")
 fig.update_yaxes(title_text="Number Eaten")
 fig.show()
 
-
-
-
-
-
 app = dash.Dash()
 app.layout = html.Div([
     dcc.Graph(figure=fig2)
 ])
 
 app.run_server(debug=True, use_reloader=False)  # Turn off reloader if inside Jupyter
+
