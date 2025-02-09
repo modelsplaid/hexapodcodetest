@@ -29,7 +29,7 @@ def generate_frames():
     # FFmpeg command to convert RTSP to MJPEG
     ffmpeg_cmd = [
         'ffmpeg',
-        '-rtsp_transport', 'tcp',  # Force TCP transport
+        '-rtsp_transport', 'udp',  # Force TCP transport
         '-i', rtsp_url,
         '-q:v', '2',              # Quality setting
         '-f', 'mjpeg',
@@ -46,7 +46,7 @@ def generate_frames():
     
     try:
         while True:
-            time.sleep(3)
+            #time.sleep(0.3)
             frame = process.stdout.read(1024 * 1024)  # Read frame data
             if not frame:
                 break
@@ -72,7 +72,7 @@ def index():
     </head>
     <body>
         <h1>Camera Live Stream</h1>
-        <img src="/video_feed" style="max-width: 100%; height: auto;">
+        <img src="/video_feed" style="max-width: 70%; height: auto;">
     </body>
     </html>
     """
@@ -89,4 +89,4 @@ if __name__ == '__main__':
     print(f"RTSP Stream URL: {rtsp_url}")
     
     # Start Flask server
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+    app.run(host='0.0.0.0', port=5760, threaded=True)

@@ -43,11 +43,14 @@ def capture_onvif_snapshot(ip, port, username, password, save_path='snapshot.jpg
 # Usage example
 if __name__ == "__main__":
     # Camera credentials
-    CAMERA_IP = '192.168.1.14'
+    # CAMERA_IP = '192.168.1.14'
+    # CAMERA_PORT = 8899
+    # USERNAME = 'admin'
+    # PASSWORD = 'admin'
+    CAMERA_IP = '192.168.1.168'
     CAMERA_PORT = 8899
     USERNAME = 'admin'
-    PASSWORD = 'admin'
-    
+    PASSWORD = 'admin'    
     try:
         capture_onvif_snapshot(CAMERA_IP, CAMERA_PORT, USERNAME, PASSWORD)
     except Exception as e:
