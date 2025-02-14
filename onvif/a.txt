@@ -1,0 +1,559 @@
+profiles:  [{
+    'Name': 'MainStreamProfile',
+    'VideoSourceConfiguration': {
+        'Name': 'VideoIPCamera',
+        'UseCount': 2,
+        'SourceToken': 'VideoIPCameraSourceToken',
+        'Bounds': {
+            'x': 0,
+            'y': 0,
+            'width': 2048,
+            'height': 1536
+        },
+        '_value_1': None,
+        'Extension': None,
+        'token': 'VideoIPCameraToken',
+        '_attr_1': {
+    }
+    },
+    'AudioSourceConfiguration': {
+        'Name': 'AudioIPCamera',
+        'UseCount': 2,
+        'SourceToken': 'AudioIPCameraSourceToken',
+        '_value_1': None,
+        'token': 'AudioIPCameraToken',
+        '_attr_1': {
+    }
+    },
+    'VideoEncoderConfiguration': {
+        'Name': 'VideoStream0',
+        'UseCount': 1,
+        'Encoding': 'H264',
+        'Resolution': {
+            'Width': 1920,
+            'Height': 1080
+        },
+        'Quality': 6.0,
+        'RateControl': {
+            'FrameRateLimit': 25,
+            'EncodingInterval': 100,
+            'BitrateLimit': 1536
+        },
+        'MPEG4': None,
+        'H264': {
+            'GovLength': 50,
+            'H264Profile': 'High'
+        },
+        'Multicast': {
+            'Address': {
+                'Type': 'IPv4',
+                'IPv4Address': '239.1.0.0',
+                'IPv6Address': None
+            },
+            'Port': 1000,
+            'TTL': 64,
+            'AutoStart': True,
+            '_value_1': None,
+            '_attr_1': None
+        },
+        'SessionTimeout': datetime.timedelta(0, 60),
+        '_value_1': None,
+        'token': 'VideoStream0Token',
+        '_attr_1': {
+    }
+    },
+    'AudioEncoderConfiguration': {
+        'Name': 'AudioStream0',
+        'UseCount': 2,
+        'Encoding': 'G711',
+        'Bitrate': 16000,
+        'SampleRate': 8000,
+        'Multicast': {
+            'Address': {
+                'Type': 'IPv4',
+                'IPv4Address': '239.2.0.0',
+                'IPv6Address': None
+            },
+            'Port': 5000,
+            'TTL': 64,
+            'AutoStart': True,
+            '_value_1': None,
+            '_attr_1': None
+        },
+        'SessionTimeout': datetime.timedelta(0, 60),
+        '_value_1': None,
+        'token': 'AudioStream0Token',
+        '_attr_1': {
+    }
+    },
+    'VideoAnalyticsConfiguration': {
+        'Name': 'VideoAnalyticsName',
+        'UseCount': 3,
+        'AnalyticsEngineConfiguration': {
+            'AnalyticsModule': [
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'Sensitivity',
+                                'Value': '50'
+                            }
+                        ],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}CellLayout at 0x7f82d77488>,
+                                'Name': 'Layout'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyCellMotion',
+                    'Type': 'tt:CellMotionEngine'
+                },
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'Sensitivity',
+                                'Value': '80'
+                            }
+                        ],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}PolygonConfiguration at 0x7f82d77d88>,
+                                'Name': 'Field'
+                            },
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}Transformation at 0x7f82d77d08>,
+                                'Name': 'Transformation'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyTamper',
+                    'Type': 'tt:TamperEngine'
+                },
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'Enable',
+                                'Value': 'false'
+                            },
+                            {
+                                'Name': 'Sensitivity',
+                                'Value': '80'
+                            }
+                        ],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}Transformation at 0x7f82cf53c8>,
+                                'Name': 'Layout'
+                            },
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}PolygonConfiguration at 0x7f82cf5288>,
+                                'Name': 'Field'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyGlobalSceneChangeModule',
+                    'Type': 'tt:GlobalSceneChangeEngine'
+                }
+            ],
+            'Extension': None,
+            '_attr_1': None
+        },
+        'RuleEngineConfiguration': {
+            'Rule': [
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'MinCount',
+                                'Value': '5'
+                            },
+                            {
+                                'Name': 'AlarmOnDelay',
+                                'Value': '100'
+                            },
+                            {
+                                'Name': 'AlarmOffDelay',
+                                'Value': '100'
+                            },
+                            {
+                                'Name': 'ActiveCells',
+                                'Value': 'AIA='
+                            }
+                        ],
+                        'ElementItem': [],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyMotionDetectorRule',
+                    'Type': 'tt:CellMotionDetector'
+                },
+                {
+                    'Parameters': {
+                        'SimpleItem': [],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}PolygonConfiguration at 0x7f82cf9688>,
+                                'Name': 'Field'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyTamperDetectorRule',
+                    'Type': 'tt:TamperDetector'
+                }
+            ],
+            'Extension': None,
+            '_attr_1': None
+        },
+        '_value_1': None,
+        'token': 'VideoAnalyticsToken',
+        '_attr_1': {
+    }
+    },
+    'PTZConfiguration': {
+        'Name': 'Config0',
+        'UseCount': 2,
+        'NodeToken': 'PTZ-GPIO-Token',
+        'DefaultAbsolutePantTiltPositionSpace': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace',
+        'DefaultAbsoluteZoomPositionSpace': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace',
+        'DefaultRelativePanTiltTranslationSpace': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace',
+        'DefaultRelativeZoomTranslationSpace': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace',
+        'DefaultContinuousPanTiltVelocitySpace': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace',
+        'DefaultContinuousZoomVelocitySpace': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace',
+        'DefaultPTZSpeed': {
+            'PanTilt': {
+                'x': 0.8,
+                'y': 0.8,
+                'space': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace'
+            },
+            'Zoom': {
+                'x': 0.8,
+                'space': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace'
+            }
+        },
+        'DefaultPTZTimeout': datetime.timedelta(0, 10),
+        'PanTiltLimits': {
+            'Range': {
+                'URI': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace',
+                'XRange': {
+                    'Min': -1.0,
+                    'Max': 1.0
+                },
+                'YRange': {
+                    'Min': -1.0,
+                    'Max': 1.0
+                }
+            }
+        },
+        'ZoomLimits': {
+            'Range': {
+                'URI': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace',
+                'XRange': {
+                    'Min': -1.0,
+                    'Max': 1.0
+                }
+            }
+        },
+        'Extension': None,
+        'token': 'PTZConfig0Token',
+        '_attr_1': {
+    }
+    },
+    'MetadataConfiguration': None,
+    'Extension': None,
+    'token': 'MainStreamProfileToken',
+    'fixed': True,
+    '_attr_1': {
+}
+}, {
+    'Name': 'SecondStreamProfile',
+    'VideoSourceConfiguration': {
+        'Name': 'VideoIPCamera',
+        'UseCount': 2,
+        'SourceToken': 'VideoIPCameraSourceToken',
+        'Bounds': {
+            'x': 0,
+            'y': 0,
+            'width': 2048,
+            'height': 1536
+        },
+        '_value_1': None,
+        'Extension': None,
+        'token': 'VideoIPCameraToken',
+        '_attr_1': {
+    }
+    },
+    'AudioSourceConfiguration': {
+        'Name': 'AudioIPCamera',
+        'UseCount': 2,
+        'SourceToken': 'AudioIPCameraSourceToken',
+        '_value_1': None,
+        'token': 'AudioIPCameraToken',
+        '_attr_1': {
+    }
+    },
+    'VideoEncoderConfiguration': {
+        'Name': 'VideoStream1',
+        'UseCount': 1,
+        'Encoding': 'H264',
+        'Resolution': {
+            'Width': 640,
+            'Height': 352
+        },
+        'Quality': 6.0,
+        'RateControl': {
+            'FrameRateLimit': 25,
+            'EncodingInterval': 100,
+            'BitrateLimit': 512
+        },
+        'MPEG4': None,
+        'H264': {
+            'GovLength': 50,
+            'H264Profile': 'High'
+        },
+        'Multicast': {
+            'Address': {
+                'Type': 'IPv4',
+                'IPv4Address': '239.1.0.1',
+                'IPv6Address': None
+            },
+            'Port': 1001,
+            'TTL': 64,
+            'AutoStart': True,
+            '_value_1': None,
+            '_attr_1': None
+        },
+        'SessionTimeout': datetime.timedelta(0, 60),
+        '_value_1': None,
+        'token': 'VideoStream1Token',
+        '_attr_1': {
+    }
+    },
+    'AudioEncoderConfiguration': {
+        'Name': 'AudioStream0',
+        'UseCount': 2,
+        'Encoding': 'G711',
+        'Bitrate': 16000,
+        'SampleRate': 8000,
+        'Multicast': {
+            'Address': {
+                'Type': 'IPv4',
+                'IPv4Address': '239.2.0.0',
+                'IPv6Address': None
+            },
+            'Port': 5000,
+            'TTL': 64,
+            'AutoStart': True,
+            '_value_1': None,
+            '_attr_1': None
+        },
+        'SessionTimeout': datetime.timedelta(0, 60),
+        '_value_1': None,
+        'token': 'AudioStream0Token',
+        '_attr_1': {
+    }
+    },
+    'VideoAnalyticsConfiguration': {
+        'Name': 'VideoAnalyticsName',
+        'UseCount': 3,
+        'AnalyticsEngineConfiguration': {
+            'AnalyticsModule': [
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'Sensitivity',
+                                'Value': '50'
+                            }
+                        ],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}CellLayout at 0x7f82cff9c8>,
+                                'Name': 'Layout'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyCellMotion',
+                    'Type': 'tt:CellMotionEngine'
+                },
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'Sensitivity',
+                                'Value': '80'
+                            }
+                        ],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}PolygonConfiguration at 0x7f82d05288>,
+                                'Name': 'Field'
+                            },
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}Transformation at 0x7f82d05208>,
+                                'Name': 'Transformation'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyTamper',
+                    'Type': 'tt:TamperEngine'
+                },
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'Enable',
+                                'Value': 'false'
+                            },
+                            {
+                                'Name': 'Sensitivity',
+                                'Value': '80'
+                            }
+                        ],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}Transformation at 0x7f82cff248>,
+                                'Name': 'Layout'
+                            },
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}PolygonConfiguration at 0x7f82cffdc8>,
+                                'Name': 'Field'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyGlobalSceneChangeModule',
+                    'Type': 'tt:GlobalSceneChangeEngine'
+                }
+            ],
+            'Extension': None,
+            '_attr_1': None
+        },
+        'RuleEngineConfiguration': {
+            'Rule': [
+                {
+                    'Parameters': {
+                        'SimpleItem': [
+                            {
+                                'Name': 'MinCount',
+                                'Value': '5'
+                            },
+                            {
+                                'Name': 'AlarmOnDelay',
+                                'Value': '100'
+                            },
+                            {
+                                'Name': 'AlarmOffDelay',
+                                'Value': '100'
+                            },
+                            {
+                                'Name': 'ActiveCells',
+                                'Value': 'AIA='
+                            }
+                        ],
+                        'ElementItem': [],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyMotionDetectorRule',
+                    'Type': 'tt:CellMotionDetector'
+                },
+                {
+                    'Parameters': {
+                        'SimpleItem': [],
+                        'ElementItem': [
+                            {
+                                '_value_1': <Element {http://www.onvif.org/ver10/schema}PolygonConfiguration at 0x7f82cf5b08>,
+                                'Name': 'Field'
+                            }
+                        ],
+                        'Extension': None,
+                        '_attr_1': None
+                    },
+                    'Name': 'MyTamperDetectorRule',
+                    'Type': 'tt:TamperDetector'
+                }
+            ],
+            'Extension': None,
+            '_attr_1': None
+        },
+        '_value_1': None,
+        'token': 'VideoAnalyticsToken',
+        '_attr_1': {
+    }
+    },
+    'PTZConfiguration': {
+        'Name': 'Config0',
+        'UseCount': 2,
+        'NodeToken': 'PTZ-GPIO-Token',
+        'DefaultAbsolutePantTiltPositionSpace': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace',
+        'DefaultAbsoluteZoomPositionSpace': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace',
+        'DefaultRelativePanTiltTranslationSpace': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace',
+        'DefaultRelativeZoomTranslationSpace': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace',
+        'DefaultContinuousPanTiltVelocitySpace': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace',
+        'DefaultContinuousZoomVelocitySpace': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace',
+        'DefaultPTZSpeed': {
+            'PanTilt': {
+                'x': 0.8,
+                'y': 0.8,
+                'space': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace'
+            },
+            'Zoom': {
+                'x': 0.8,
+                'space': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace'
+            }
+        },
+        'DefaultPTZTimeout': datetime.timedelta(0, 10),
+        'PanTiltLimits': {
+            'Range': {
+                'URI': 'http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace',
+                'XRange': {
+                    'Min': -1.0,
+                    'Max': 1.0
+                },
+                'YRange': {
+                    'Min': -1.0,
+                    'Max': 1.0
+                }
+            }
+        },
+        'ZoomLimits': {
+            'Range': {
+                'URI': 'http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace',
+                'XRange': {
+                    'Min': -1.0,
+                    'Max': 1.0
+                }
+            }
+        },
+        'Extension': None,
+        'token': 'PTZConfig0Token',
+        '_attr_1': {
+    }
+    },
+    'MetadataConfiguration': None,
+    'Extension': None,
+    'token': 'SecondStreamProfileToken',
+    'fixed': True,
+    '_attr_1': {
+}
+}]
+Snapshot URI: http://192.168.1.8:80/tmpfs/auto.jpg
+1111111111
+222222222
+Error: Failed to fetch snapshot. Status code: 401

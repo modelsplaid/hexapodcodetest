@@ -1,3 +1,5 @@
+#ffmpeg -i rtsp://admin:admin@192.168.1.14:554/user=admin_password=6QNMIQGe_channel=0_stream=0&onvif=0.sdp?real_stream -vframes  1 a.jpg 
+
 from onvif import ONVIFCamera
 import subprocess
 from flask import Flask, Response
@@ -8,7 +10,8 @@ app = Flask(__name__)
 
 def get_rtsp_url(ip, port, username, password):
     # Connect to ONVIF camera
-    cam = ONVIFCamera(ip, port, username, password,wsdl_dir='/home/pi/HexaClean/python-onvif-zeep/wsdl/')
+    #cam = ONVIFCamera(ip, port, username, password,wsdl_dir='/home/pi/HexaClean/python-onvif-zeep/wsdl/')
+    cam = ONVIFCamera(ip, port, username, password)
     media_service = cam.create_media_service()
     profiles = media_service.GetProfiles()
     
@@ -83,10 +86,15 @@ if __name__ == '__main__':
     CAMERA_PORT = 8899
     USERNAME = 'admin'
     PASSWORD = 'admin'
+
+    # CAMERA_IP = '192.168.1.8'
+    # CAMERA_PORT = 8899
+    # USERNAME = 'admin'
+    # PASSWORD = 'admin'   
     
     # Get RTSP URL
     rtsp_url = get_rtsp_url(CAMERA_IP, CAMERA_PORT, USERNAME, PASSWORD)
     print(f"RTSP Stream URL: {rtsp_url}")
     
     # Start Flask server
-    app.run(host='0.0.0.0', port=5760, threaded=True)
+    app.run(host='0.0.0.0', port=5761, threaded=True)
